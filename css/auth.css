@@ -1,0 +1,59 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+.page{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    height: 100vh;
+}
+
+.image{
+    background-image: url("../assets/image/auth.jpg");
+    background-size: cover;
+}
+
+.auth{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    padding-bottom: 30px;
+    font-weight: 600;
+    font-size: 32px;
+}
+
+p{
+    font-size: 12px;
+    color: #565555;
+    padding-bottom: 9px;
+}
+
+input{
+    border-radius: 7px;
+    border: 1px solid #D2D3D7;
+    height: 41px;
+    width: 340px;
+    outline: none;
+    margin-bottom: 26px;
+    padding-left: 20px;
+}
+
+button{
+    display: block;
+    background-color: #59B077;
+    width: 340px;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 100px;
+    border: 0;
+    outline: none;
+    padding: 14px 0;
+    cursor: pointer;
+}
