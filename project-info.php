@@ -97,55 +97,153 @@ if ($result->num_rows > 0) {
                 </div>
                 <div class="info-project">
 
-                    <?php 
-                    if (isset($_GET['PNUMB'])) {
-                        // Получаем значение параметра
-                        $projectNumber = $_GET['PNUMB'];
+                    <?php
+                    $host = $pathDB;
+                    $username = 'SYSDBA';
+                    $password = 'masterkey';
+
+                    
+
+                    header('Content-Type: text/html; charset=WIN1251');
+                    
+                    
+                    try{
+                        $dbh = new PDO("firebird:dbname=$host;charset=WIN1251", $username, $password);
+                        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                        header('Content-Type: text/html; charset=WIN1251');
+
+                        if (isset($_GET['PNUMB'])) {
+                            // Получаем значение параметра
+                            $projectNumber = $_GET['PNUMB'];
+                        } else {
+                            // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
+                            echo "Ошибка: Не передан номер проекта";
+                        }
+
+                        $sql = "SELECT * FROM LISTPRJ WHERE PNUMB = $projectNumber";
+                        $sth = $dbh->query($sql);
                         
-                        // Далее можно использовать значение $projectNumber для запроса нужных данных из базы данных
-                        // Например:
-                        // $sql = "SELECT * FROM LISTPRJ WHERE PNUMB = '$projectNumber'";
-                        // Выполнение запроса и вывод данных
-                    } else {
-                        // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
-                        echo "Ошибка: Не передан номер проекта";
+                        while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+                            $MNAME = $row['MNAME'];
+                            $ZNUMB = $row['ZNUMB'];
+                            $PSTAT = $row['PSTAT'];
+                            $PPREF = $row['PPREF'];
+                            $POBJA = $row['POBJA'];
+                            $KNAME = $row['KNAME'];
+                            $PDATE = $row['PDATE'];
+                            $POBJL = $row['POBJL'];
+                            $INUMB = $row['INUMB'];
+                            $CNAME = $row['CNAME'];
+                            $PNAME = $row['PNAME'];
+                            $KDESC = $row['KDESC'];
+                            $ADESC = $row['ADESC'];
+                            $WDESC = $row['WDESC'];
+                            $PDESC = $row['PDESC'];
+                            $DESC1 = $row['DESC1'];
+                            $DESC2 = $row['DESC2'];
+                            $DESC3 = $row['DESC3'];
+                            $DESC5 = $row['DESC5'];
+                            $XDESC = $row['XDESC'];
+                            $KPRIC = $row['KPRIC'];
+                            $APRIC = $row['APRIC'];
+                            $WPRIC = $row['WPRIC'];
+                            $PPRIC = $row['PPRIC'];
+                            $KPRCD = $row['KPRCD'];
+                            $APRCD = $row['APRCD'];
+                            $WPRCD = $row['WPRCD'];
+                            $PPRCD = $row['PPRCD'];
+                        }
+
+                        $formattedDate = date("d-m-Y", strtotime($PDATE));
+
+                    } catch (PDOException $e) {
+                        echo "Ошибка соединения: " . $e->getMessage();
                     }
                     ?>
 
-                    <table>
-                        <tr>
-                            <td>Проект № </td>
-                            <td><?php echo $projectNumber; ?></td>
-                            <td>Заказ №</td>
-                            <td>6</td>
-                            <td>Статус проекта</td>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <td>Менеджер</td>
-                            <td>6</td>
-                            <td>Конструктор</td>
-                            <td>6</td>
-                            <td>Категория</td>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <td>Объект</td>
-                            <td>6</td>
-                            <td>Счет №</td>
-                            <td>6</td>
-                            <td>Контрагент</td>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <td>Описание</td>
-                            <td>6</td>
-                            <td>Регистрация</td>
-                            <td>6</td>
-                            <td>Продавец</td>
-                            <td>6</td>
-                        </tr>
-                    </table>
+                    <p>Проект № </p>
+                    <p class="edit"><?php echo $projectNumber; ?></p>
+                    <p>Заказ №</p>
+                    <p class="edit"><?php echo $ZNUMB; ?></p>
+                    <p>Статус проекта</p>
+                    <p class="edit"><?php echo $ZNUMB; ?></p>
+                    <p>Менеджер</p>
+                    <p class="edit"><?php echo $MNAME; ?></p>
+                    <p>Конструктор</p>
+                    <p class="edit"><?php echo $CNAME; ?></p>
+                    <p>Категория</p>
+                    <p class="edit"><?php echo $PPREF; ?></p>
+                    <p>Объект</p>
+                    <p class="edit"><?php echo $POBJA; ?></p>
+                    <p>Счет №</p>
+                    <p class="edit"><?php echo $INUMB; ?></p>
+                    <p>Контрагент</p>
+                    <p class="edit"><?php echo $KNAME; ?></p>
+                    <p>Описание</p>
+                    <p class="edit"><?php echo $POBJL; ?></p>
+                    <p>Регистрация</p>
+                    <p class="edit"><?php echo $formattedDate; ?></p>
+                    <p>Продавец</p>
+                    <p class="edit"><?php echo $PNAME; ?></p>
+                </div>
+
+                <div class="prices">
+                    <div class="discount">
+                        <p class="title">Скидка, %</p>
+                        <div class="discount-data">
+                            <p>Конструкции</p>
+                            <p class="edit"><?php echo number_format($KDESC, 2, '.', ''); ?></p>
+                            <p>Профили</p>
+                            <p class="edit"><?php echo number_format($DESC1, 2, '.', ''); ?></p>
+                            <p>Комплектация</p>
+                            <p class="edit"><?php echo number_format($ADESC, 2, '.', '') ?></p>
+                            <p>Аксессуары</p>
+                            <p class="edit"><?php echo number_format($DESC2, 2, '.', ''); ?></p>
+                            <p>Работы</p>
+                            <p class="edit"><?php echo number_format($WDESC, 2, '.', ''); ?></p>
+                            <p>Погонаж</p>
+                            <p class="edit"><?php echo number_format($DESC3, 2, '.', ''); ?></p>
+                            <p>Общая</p>
+                            <p class="edit"><?php echo number_format($PDESC, 2, '.', ''); ?></p>
+                            <p>Заполнения</p>
+                            <p class="edit"><?php echo number_format($DESC5, 2, '.', ''); ?></p>
+                            <p>Дополнительная</p>
+                            <p class="edit"><?php echo number_format($XDESC, 2, '.', ''); ?></p>
+                        </div>
+                    </div>
+
+                    <div class="price-without-discount">
+                        <p class="title">Стоимость без скидок</p>
+                        <div class="price-without-discount-data">
+                            <p>Конструкции</p>
+                            <p class="edit"><?php echo number_format($KPRIC, 2, '.', ' ') . " руб"; ?></p>
+                            <p>Комплектация</p>
+                            <p class="edit"><?php echo number_format($APRIC, 2, '.', ' ') . " руб"; ?></p>
+                            <p>Работы</p>
+                            <p class="edit"><?php echo number_format($WPRIC, 2, '.', ' ') . " руб"; ?></p>
+                            <p>Общая</p>
+                            <p class="edit"><?php echo number_format($PPRIC, 2, '.', ' ') . " руб"; ?></p>
+                            <p>Проекта</p>
+                            <p class="edit"><?php echo number_format($PPRIC, 2, '.', ' ') . " руб"; ?></p>
+                        </div>
+                    </div>
+
+                    <div class="to-paid">
+                        <p class="title">К оплате</p>
+                        <div class="to-paid-data">
+                            <p>Конструкции</p>
+                            <p class="edit"><?php echo number_format($KPRCD, 2, '.', ' ') . " руб"; ?></p>
+                            <p>Комплектация</p>
+                            <p class="edit"><?php echo number_format($APRCD, 2, '.', ' ') . " руб"; ?></p>
+                            <p>Работы</p>
+                            <p class="edit"><?php echo number_format($WPRCD, 2, '.', ' ') . " руб"; ?></p>
+                            <p>Общая</p>
+                            <p class="edit"><?php echo number_format($PPRCD, 2, '.', ' ') . " руб"; ?></p>
+                            <p>Проекта</p>
+                            <p class="edit"><?php echo number_format($PPRCD, 2, '.', ' ') . " руб"; ?></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
