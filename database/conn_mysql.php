@@ -2,7 +2,7 @@
 include 'db_mysql.php';
 
 $conn = new mysqli($host, $username, $password, $dbname);
-// $conn->set_charset("cp1251");
+$conn->set_charset("cp1251");
 
 // Проверка соединения
 if ($conn->connect_error) {

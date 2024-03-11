@@ -33,13 +33,13 @@ session_start();
                     
                         // Проверка на совпадение паролей
                         if ($password !== $repeatPassword) {
-                            echo "Пароли не совпадают";
+                            echo "<button class='auth-error'>Пароли не совпадают</button>";
                         } else {
                             // Проверка на существующий логин
                             $check_query = "SELECT * FROM user WHERE login='$login'";
                             $check_result = $conn->query($check_query);
                             if ($check_result->num_rows > 0) {
-                                echo "Пользователь с таким логином уже зарегистрирован";
+                                echo "<button class='auth-error'>Пользователь с таким логином уже зарегистрирован</button>";
                             } else {
                                 // Вставка данных в таблицу
                                 $insert_query = "INSERT INTO user (name, surname, login, password, roleId) VALUES ('$name', '$surname', '$login', '$password', 1)";
@@ -48,7 +48,8 @@ session_start();
                                     header("Location: auth.php");
                                     exit();
                                 } else {
-                                    echo "Ошибка: " . $insert_query . "<br>" . $conn->error;
+                                    echo "<button class='auth-error'>Ошибка:" . $insert_query . "</button>";
+                                    $conn->error;
                                 }
                             }
                         }

@@ -1,4 +1,15 @@
-<?php header('Content-Type: text/html; charset=WIN1251'); ?>
+<?php 
+header('Content-Type: text/html; charset=WIN1251'); 
+
+session_start();
+
+if (!isset($_SESSION['userId'])) {
+    // Если сессия не установлена, перенаправляем пользователя на страницу входа
+    header("Location: auth.php");
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -39,9 +50,15 @@
                 <div class="profile">
                     <img src="/assets/icons/avatar.svg" class="avatar">
                     <div class="information">
-                        <p class="name">Степан Степанов</p>
+                        <p class="name"><?php echo $_SESSION['name'] . " " . $_SESSION['surname'];?></p>
                         <p class="role">
-                        Администратор
+                        <?php
+                        if($_SESSION['roleId'] = 2){
+                            echo 'Администратор';
+                        } else {
+                            echo 'Пользователь';
+                        }
+                        ?>
                         </p>
                     </div>
                 </div>
