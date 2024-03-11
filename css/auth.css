@@ -57,3 +57,26 @@ button{
     padding: 14px 0;
     cursor: pointer;
 }
+
+p.under-text{
+    text-align: center;
+}
+
+p.under-text a{
+    text-decoration: none;
+    outline: none;
+    color: #565555;
+    transition: .2s all;
+}
+
+p.under-text a:hover{
+    text-decoration: none;
+    outline: none;
+    color: #303030;
+}
+
+.auth-error{
+    background-color: #F95B5E;
+    margin-bottom: 20px;
+    cursor: auto;
+}
