@@ -28,7 +28,6 @@ if ($result->num_rows > 0) {
 } else {
     echo "0 results";
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -227,6 +226,14 @@ if ($result->num_rows > 0) {
             </div>
         </div>
     </div>
+
+    <div class="exitblock">
+    <div class="fon"></div>    
+    <div class="modaltext">    
+        Текст, который по вашему мнению должен увидеть посетитель перед уходом.
+    </div>
+    <div class="closeblock">+</div>
+</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
     <script src="/js/jquery.js"></script>

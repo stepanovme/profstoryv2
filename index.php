@@ -9,6 +9,26 @@ if (!isset($_SESSION['userId'])) {
     exit;
 }
 
+$userId = $_SESSION['userId'];
+
+$sql = "SELECT user.*, role.roleName 
+        FROM user 
+        INNER JOIN role ON user.roleId = role.roleId 
+        WHERE user.userId = '$userId'";
+
+@include './database/conn_mysql.php';
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // Получаем данные из результата запроса
+    $row = $result->fetch_assoc();
+    // Извлекаем значение столбца pathBD и сохраняем его в глобальной переменной $pathDB
+    $pathDB = $row['pathBD'];
+} else {
+    echo "0 results";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -69,6 +89,56 @@ if (!isset($_SESSION['userId'])) {
                     <h1>Список  проектов</h1>
                     <div></div>
                 </div>
+                <?php
+
+                $host = $pathDB;
+                $username = 'SYSDBA';
+                $password = 'masterkey';
+
+                try {
+                    $dbh = new PDO("firebird:dbname=$host;charset=WIN1251", $username, $password);
+                    
+                    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                    header('Content-Type: text/html; charset=WIN1251');
+
+                    $sql = 'SELECT PNUMB, ZNUMB, KNAME, PDATE, POBJA, PSTAT, MNAME FROM LISTPRJ ORDER BY PNUMB';
+
+                    $sth = $dbh->query($sql);
+
+                    echo "<table>";
+                    echo "<thead>
+                            <tr>
+                                <th><a href='#' id='sort-anumb'>№</a></th>
+                                <th><a href='#' id='sort-name'>Заказ</th>
+                                <th><a href='#' id='sort-color'>Контрагент</th>
+                                <th><a href='#' id='sort-price'>Регистрация</th>
+                                <th><a href='#' id='sort-iternal-price'>Описания</th>
+                                <th><a href='#' id='sort-external-price'>Статус</th>
+                                <th><a href='#' id='sort-external-price'>Менеджер</th>
+                            </tr>
+                        </thead>";
+                    echo "<tbody>";
+                    
+                    while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<tr>";
+                        echo "<td>".$row['PNUMB']."</td>";
+                        echo "<td>".$row['ZNUMB']."</td>";
+                        echo "<td>".$row['KNAME']."</td>";
+                        echo "<td>".$row['PDATE']."</td>";
+                        echo "<td>".$row['POBJA']."</td>";
+                        echo "<td>".$row['PSTAT']."</td>";
+                        echo "<td>".$row['MNAME']."</td>";
+                        echo "</tr>";
+                    }
+
+                    echo "</tbody>";
+                    echo "</table>";
+
+                } catch (PDOException $e) {
+                    echo "Ошибка соединения: " . $e->getMessage();
+                }
+                ?>
             </div>
         </div>
     </div>

@@ -131,3 +131,68 @@ header{
     align-items: center;
     padding-bottom: 10px;
 }
+
+table{
+    width: 100%;
+}
+
+tr{
+    border: 1px solid #E0E4E8;
+    background-color: #FFFFFF;
+}
+
+tbody>tr{
+    transition: .1s all;
+}
+
+tbody>tr:hover{
+    background-color: #F6F6F6;
+    box-shadow: 0 7px 10px #cecece;
+    cursor: pointer;
+}
+
+thead>tr>th{
+    transition: .1s all;
+}
+
+thead>tr>th:hover{
+    background-color: #F6F6F6;
+    box-shadow: 0 7px 10px #cecece;
+    cursor: pointer;
+}
+
+thead>tr{
+    border-radius: 12px 12px 0 0;
+}
+
+th{
+    padding: 8px 8px;
+    color: #6A6A6A;
+    font-weight: 600;
+    font-size: 14px;
+    max-width: 260px;
+}
+
+th>a{
+    text-decoration: none;
+    color: #6A6A6A;
+    font-weight: 600;
+}
+
+td{
+    padding: 8px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #6A6A6A;
+}
+
+td:focus{
+    outline: 2px solid #59B077;
+    border-radius: 3px;
+}
+
+tr:last-child td:first-child { border-bottom-left-radius: 10px; }
+tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+
+tr:last-child th:first-child { border-top-left-radius: 10px; }
+tr:last-child th:last-child { border-top-right-radius: 10px; }
