@@ -30,6 +30,72 @@ if ($result->num_rows > 0) {
 }
 
 ?>
+
+<?php
+                    $host = $pathDB;
+                    $username = 'SYSDBA';
+                    $password = 'masterkey';
+
+                    
+
+                    header('Content-Type: text/html; charset=WIN1251');
+                    
+                    
+                    try{
+                        $dbh = new PDO("firebird:dbname=$host;charset=WIN1251", $username, $password);
+                        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                        header('Content-Type: text/html; charset=WIN1251');
+
+                        if (isset($_GET['PNUMB'])) {
+                            // Получаем значение параметра
+                            $projectNumber = $_GET['PNUMB'];
+                        } else {
+                            // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
+                            echo "Ошибка: Не передан номер проекта";
+                        }
+
+                        $sql = "SELECT * FROM LISTPRJ WHERE PNUMB = $projectNumber";
+                        $sth = $dbh->query($sql);
+                        
+                        while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+                            $MNAME = $row['MNAME'];
+                            $ZNUMB = $row['ZNUMB'];
+                            $PSTAT = $row['PSTAT'];
+                            $PPREF = $row['PPREF'];
+                            $POBJA = $row['POBJA'];
+                            $KNAME = $row['KNAME'];
+                            $PDATE = $row['PDATE'];
+                            $POBJL = $row['POBJL'];
+                            $INUMB = $row['INUMB'];
+                            $CNAME = $row['CNAME'];
+                            $PNAME = $row['PNAME'];
+                            $KDESC = $row['KDESC'];
+                            $ADESC = $row['ADESC'];
+                            $WDESC = $row['WDESC'];
+                            $PDESC = $row['PDESC'];
+                            $DESC1 = $row['DESC1'];
+                            $DESC2 = $row['DESC2'];
+                            $DESC3 = $row['DESC3'];
+                            $DESC5 = $row['DESC5'];
+                            $XDESC = $row['XDESC'];
+                            $KPRIC = $row['KPRIC'];
+                            $APRIC = $row['APRIC'];
+                            $WPRIC = $row['WPRIC'];
+                            $PPRIC = $row['PPRIC'];
+                            $KPRCD = $row['KPRCD'];
+                            $APRCD = $row['APRCD'];
+                            $WPRCD = $row['WPRCD'];
+                            $PPRCD = $row['PPRCD'];
+                            $PUNIC = $row['PUNIC'];
+                        }
+
+                        $formattedDate = date("d-m-Y", strtotime($PDATE));
+
+                    } catch (PDOException $e) {
+                        echo "Ошибка соединения: " . $e->getMessage();
+                    }
+                    ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -89,79 +155,13 @@ if ($result->num_rows > 0) {
                 <div class="wrapper-head">
                     <div class="menu">
                         <a class="active">Главная</a>
-                        <a>Изделия</a>
+                        <a href="project-info-product.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Изделия</a>
                         <a>Комлектация</a>
                         <a>Работы</a>
                     </div>
                     <div></div>
                 </div>
                 <div class="info-project">
-
-                    <?php
-                    $host = $pathDB;
-                    $username = 'SYSDBA';
-                    $password = 'masterkey';
-
-                    
-
-                    header('Content-Type: text/html; charset=WIN1251');
-                    
-                    
-                    try{
-                        $dbh = new PDO("firebird:dbname=$host;charset=WIN1251", $username, $password);
-                        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                        header('Content-Type: text/html; charset=WIN1251');
-
-                        if (isset($_GET['PNUMB'])) {
-                            // Получаем значение параметра
-                            $projectNumber = $_GET['PNUMB'];
-                        } else {
-                            // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
-                            echo "Ошибка: Не передан номер проекта";
-                        }
-
-                        $sql = "SELECT * FROM LISTPRJ WHERE PNUMB = $projectNumber";
-                        $sth = $dbh->query($sql);
-                        
-                        while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-                            $MNAME = $row['MNAME'];
-                            $ZNUMB = $row['ZNUMB'];
-                            $PSTAT = $row['PSTAT'];
-                            $PPREF = $row['PPREF'];
-                            $POBJA = $row['POBJA'];
-                            $KNAME = $row['KNAME'];
-                            $PDATE = $row['PDATE'];
-                            $POBJL = $row['POBJL'];
-                            $INUMB = $row['INUMB'];
-                            $CNAME = $row['CNAME'];
-                            $PNAME = $row['PNAME'];
-                            $KDESC = $row['KDESC'];
-                            $ADESC = $row['ADESC'];
-                            $WDESC = $row['WDESC'];
-                            $PDESC = $row['PDESC'];
-                            $DESC1 = $row['DESC1'];
-                            $DESC2 = $row['DESC2'];
-                            $DESC3 = $row['DESC3'];
-                            $DESC5 = $row['DESC5'];
-                            $XDESC = $row['XDESC'];
-                            $KPRIC = $row['KPRIC'];
-                            $APRIC = $row['APRIC'];
-                            $WPRIC = $row['WPRIC'];
-                            $PPRIC = $row['PPRIC'];
-                            $KPRCD = $row['KPRCD'];
-                            $APRCD = $row['APRCD'];
-                            $WPRCD = $row['WPRCD'];
-                            $PPRCD = $row['PPRCD'];
-                        }
-
-                        $formattedDate = date("d-m-Y", strtotime($PDATE));
-
-                    } catch (PDOException $e) {
-                        echo "Ошибка соединения: " . $e->getMessage();
-                    }
-                    ?>
-
                     <p>Проект № </p>
                     <p class="edit"><?php echo $projectNumber; ?></p>
                     <p>Заказ №</p>
