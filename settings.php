@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/favicon/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/index.css">
-    <title>Проекты</title>
+    <link rel="stylesheet" href="css/settings.css">
+    <title>Настройки</title>
 </head>
 <body>
     <div class="page">
@@ -23,11 +23,11 @@
                     <img src="/assets/icons/dashbord-icon.svg" alt="">
                     <a href="materialValues.php">МЦ</a>
                 </div>
-                <div class="nav-link active">
+                <div class="nav-link">
                     <img src="/assets/icons/report.svg" alt="">
                     <a href="index.php">Проекты</a>
                 </div>
-                <div class="nav-link">
+                <div class="nav-link active">
                     <img src="/assets/icons/gear.svg" alt="">
                     <a href="settings.php">Настройки</a>
                 </div>
@@ -49,7 +49,7 @@
 
             <div class="wrapper">
                 <div class="wrapper-head">
-                    <h1>Список  проектов</h1>
+                    <h1>Настройки</h1>
                     <div></div>
                 </div>
             </div>
