@@ -14,7 +14,7 @@
 <body>
     <div class="page">
         <div class="side">
-            <button class="logo">
+            <button class="logo" onclick="window.location.href = 'index.php'">
                 PROF-INTEGRATE
             </button>
             <div class="nav">

@@ -1,3 +1,4 @@
+@import url(/css/variables.css);
 *{
     margin: 0;
     padding: 0;
@@ -8,14 +9,14 @@
 .page{
     display: grid;
     grid-template-columns: 1fr 7fr;
-    background-color: #F2F2F3;
+    background-color: var(--var-custom-white);
 }
 
 header{
     display: flex;
     justify-content: end;
     height: 57px;
-    background-color: #FFFFFF;
+    background-color: white;
     padding: 11px 25px;
 }
 
@@ -23,20 +24,21 @@ header{
     min-height: 100vh;
     padding-top: 7px;
     height: 100%;
-    background-color: #FFFFFF;
+    background-color: white;
 }
 
 .side>.logo{
     display: block;
     margin: 0 auto;
     padding: 11px 21px;
-    background-color: #59B077;
+    background-color: var(--var-main-color);
     font-style: 14px;
-    color: #FFFFFF;
+    color: white;
     font-weight: 500;
     border-radius: 34px;
-    border: 2px solid #FFFFFF;
-    outline:solid #59B077 2px;
+    border: 2px solid white;
+    outline:solid var(--var-main-color) 2px;
+    cursor: pointer;
 }
 
 .side>.nav{
@@ -47,7 +49,7 @@ header{
 .side>.nav>.side-title{
     font-size: 14px;
     font-weight: 600;
-    color: #6A6A6A;
+    color: var(--var-grey);
 }
 
 .side>.nav>.nav-link{
@@ -65,15 +67,15 @@ header{
 .side>.nav>.nav-link>a{
     text-decoration: none;
     outline: none;
-    color: #6A6A6A;
+    color: var(--var-grey);
     font-style: 12px;
     font-weight: 500;
     margin-left: 19px;
 }
 
 .side>.nav>.nav-link.active{
-    background-color: #59B077;
-    color: #FFFFFF;
+    background-color: var(--var-main-color);
+    color: white;
     border-radius: 10px;
 }
 
@@ -82,12 +84,12 @@ header{
 }
 
 .side>.nav>.nav-link.active>a{
-    color: #FFFFFF;
+    color: white;
 }
 
 .side>.nav>.nav-link:hover{
-    background-color: #59B077;
-    color: #FFFFFF;
+    background-color: var(--var-main-color);
+    color: white;
     border-radius: 10px;
 }
 
@@ -97,7 +99,7 @@ header{
 }
 
 .side>.nav>.nav-link:hover a {
-    color: #FFFFFF;
+    color: white;
     transition: .2s;
 }
 
@@ -110,13 +112,13 @@ header{
 .profile>.information>.name{
     font-style: 14px;
     font-weight: 600;
-    color: #1E1E1E; 
+    color: var(--var-custom-black); 
 }
 
 .profile>.information>.role{
     font-style: 10px;
     font-weight: 500;
-    color: #6A6A6A;
+    color: var(--var-grey);
 }
 
 .wrapper{
