@@ -39,8 +39,8 @@ if ($result->num_rows > 0) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/favicon/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/index.css">
-    <title>Проекты</title>
+    <link rel="stylesheet" href="css/project-info.css">
+    <title>Проект</title>
 </head>
 <body>
     <div class="page">
@@ -85,60 +85,68 @@ if ($result->num_rows > 0) {
             </header>
 
             <div class="wrapper">
+                <a href="index.php" class="back">< вернутся</a>
                 <div class="wrapper-head">
-                    <h1>Список  проектов</h1>
+                    <div class="menu">
+                        <a class="active">Главная</a>
+                        <a>Изделия</a>
+                        <a>Комлектация</a>
+                        <a>Работы</a>
+                    </div>
                     <div></div>
                 </div>
-                <?php
+                <div class="info-project">
 
-                $host = $pathDB;
-                $username = 'SYSDBA';
-                $password = 'masterkey';
-
-                try {
-                    $dbh = new PDO("firebird:dbname=$host;charset=WIN1251", $username, $password);
-                    
-                    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                    header('Content-Type: text/html; charset=WIN1251');
-
-                    $sql = 'SELECT PNUMB, ZNUMB, KNAME, PDATE, POBJA, PSTAT, MNAME FROM LISTPRJ ORDER BY PNUMB';
-
-                    $sth = $dbh->query($sql);
-
-                    echo "<table>";
-                    echo "<thead>
-                            <tr>
-                                <th><a href='#' id='sort-anumb'>№</a></th>
-                                <th><a href='#' id='sort-name'>Заказ</th>
-                                <th><a href='#' id='sort-color'>Контрагент</th>
-                                <th><a href='#' id='sort-price'>Регистрация</th>
-                                <th><a href='#' id='sort-iternal-price'>Описания</th>
-                                <th><a href='#' id='sort-external-price'>Статус</th>
-                                <th><a href='#' id='sort-external-price'>Менеджер</th>
-                            </tr>
-                        </thead>";
-                    echo "<tbody>";
-                    
-                    while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<tr onclick=\"window.location.href = 'project-info.php?PNUMB=".$row['PNUMB']."'\">";
-                        echo "<td><p>".$row['PNUMB']."</p></td>";
-                        echo "<td><p>".$row['ZNUMB']."</p></td>";
-                        echo "<td><p>".$row['KNAME']."</p></td>";
-                        echo "<td><p>".$row['PDATE']."</p></td>";
-                        echo "<td><p>".$row['POBJA']."</p></td>";
-                        echo "<td><p>".$row['PSTAT']."</p></td>";
-                        echo "<td><p>".$row['MNAME']."</p></td>";
-                        echo "</tr>";
+                    <?php 
+                    if (isset($_GET['PNUMB'])) {
+                        // Получаем значение параметра
+                        $projectNumber = $_GET['PNUMB'];
+                        
+                        // Далее можно использовать значение $projectNumber для запроса нужных данных из базы данных
+                        // Например:
+                        // $sql = "SELECT * FROM LISTPRJ WHERE PNUMB = '$projectNumber'";
+                        // Выполнение запроса и вывод данных
+                    } else {
+                        // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
+                        echo "Ошибка: Не передан номер проекта";
                     }
+                    ?>
 
-                    echo "</tbody>";
-                    echo "</table>";
-
-                } catch (PDOException $e) {
-                    echo "Ошибка соединения: " . $e->getMessage();
-                }
-                ?>
+                    <table>
+                        <tr>
+                            <td>Проект № </td>
+                            <td><?php echo $projectNumber; ?></td>
+                            <td>Заказ №</td>
+                            <td>6</td>
+                            <td>Статус проекта</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>Менеджер</td>
+                            <td>6</td>
+                            <td>Конструктор</td>
+                            <td>6</td>
+                            <td>Категория</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>Объект</td>
+                            <td>6</td>
+                            <td>Счет №</td>
+                            <td>6</td>
+                            <td>Контрагент</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>Описание</td>
+                            <td>6</td>
+                            <td>Регистрация</td>
+                            <td>6</td>
+                            <td>Продавец</td>
+                            <td>6</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

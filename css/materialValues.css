@@ -14,11 +14,11 @@
 }
 
 .wrapper>.wrapper-head>.button-excel>button:hover{
-    background-color: #4D9E69;
+    background-color: var(--var-hover-color);
 }
 
 .wrapper>.wrapper-head>.button-excel>button:active{
-    background-color: #478F60;
+    background-color: var(--var-active-color);
 }
 
 .input-file {

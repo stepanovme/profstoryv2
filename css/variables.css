@@ -1,6 +1,9 @@
 :root{
     --var-main-color: #59B077;
+    --var-hover-color: #4D9E69;
+    --var-active-color: #478F60;
     --var-custom-white: #F2F2F3;
     --var-custom-black: #1E1E1E;
     --var-grey: #6A6A6A;
+    --var-light-grey: #E0E4E8;
 }
