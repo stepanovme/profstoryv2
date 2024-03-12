@@ -13,6 +13,7 @@ a.back{
 }
 
 .menu>a{
+    text-decoration: none;
     background-color: white;
     color: var(--var-grey);
     width: 178px;
@@ -65,6 +66,7 @@ a.back{
     font-weight: 500;
     color: var(--var-grey);
     margin-bottom: 10px;
+    margin-right: 20px;
 }
 
 .product-info>p.edit{

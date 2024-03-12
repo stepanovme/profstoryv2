@@ -13,6 +13,7 @@ a.back{
 }
 
 .menu>a{
+    text-decoration: none;
     background-color: white;
     color: var(--var-grey);
     width: 178px;
