@@ -127,7 +127,7 @@ try{
                     <div class="menu">
                         <a href="project-info.php?PNUMB=<?php echo htmlspecialchars($PNUMB); ?>" >Главная</a>
                         <a href="project-info-product.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>" class="active">Изделия</a>
-                        <a>Комлектация</a>
+                        <a href="project-info-kompl.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Комлектация</a>
                         <a>Работы</a>
                     </div>
                     <div></div>

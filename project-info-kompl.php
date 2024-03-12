@@ -62,7 +62,11 @@ try{
         $PNUMB = $row['PNUMB'];
     }
 
-    $sql = "SELECT * FROM LISTORD WHERE PUNIC = $PUNIC";
+    $sql = "SELECT SPECPAU.*, ARTIKLS.ANAME
+            FROM SPECPAU
+            JOIN ARTIKLS ON SPECPAU.ANUMB = ARTIKLS.ANUMB
+            WHERE SPECPAU.PUNIC = $PUNIC AND SPECPAU.CLKK = 0
+            ORDER BY SPECPAU.ANUMB;";
     $sth = $dbh->query($sql);
 
 ?>
@@ -96,10 +100,6 @@ try{
                     <a href="index.php">Проекты</a>
                 </div>
                 <div class="nav-link">
-                    <img src="/assets/icons/report.svg" alt="">
-                    <a href="kompl-list.php">Комплекты</a>
-                </div>
-                <div class="nav-link">
                     <img src="/assets/icons/gear.svg" alt="">
                     <a href="settings.php">Настройки</a>
                 </div>
@@ -130,8 +130,8 @@ try{
                 <div class="wrapper-head">
                     <div class="menu">
                         <a href="project-info.php?PNUMB=<?php echo htmlspecialchars($PNUMB); ?>" >Главная</a>
-                        <a href="project-info-product.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>" class="active">Изделия</a>
-                        <a href="project-info-kompl.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Комлектация</a>
+                        <a href="project-info-product.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Изделия</a>
+                        <a href="project-info-kompl.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>" class="active">Комлектация</a>
                         <a>Работы</a>
                     </div>
                     <div></div>
@@ -139,63 +139,33 @@ try{
                 <div class="info-project-product">
 
                     <?php
-                        while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-                            $imageData = base64_encode($row['BPICT']);
-                            // Формируем URL изображения с префиксом data:image и типом MIME
-                            $imageUrl = 'data:image/jpeg;base64,' . $imageData;
-                            echo '<div class="product">
-                            <div class="product-info">
-                                <p>Номер</p>
-                                <p class="edit">' . $row['ONUMB'] . '</p>
-                                <p>Название</p>
-                                <p class="edit">' . $row['ONAME'] . '</p>
-                                <p>Основная</p>
-                                <p class="edit">6</p>
-                                <p>Внутряняя</p>
-                                <p class="edit">6</p>
-                                <p>Внешняя</p>
-                                <p class="edit">6</p>
-                            </div>
-    
-                            <div class="product-dimensions">
-                                <p>Количества</p>
-                                <p class="edit">' . number_format($row['OQTYI'], 0, '.', '')  . '</p>
-                                <p>Габариты</p>
-                                <div class="size">
-                                    <p class="edit">' . number_format($row['OLENG'], 0, '.', '')  . '</p>
-                                    <p>x</p>
-                                    <p class="edit">' . number_format($row['OHEIG'], 0, '.', '')  . '</p>
-                                </div>
-                                <p>Периметр изделия</p>
-                                <div class="size">
-                                    <p class="edit">' . number_format($row['OPERI'], 0, '.', '')  . '</p>
-                                    <p>/</p>
-                                    <p class="edit">' . number_format($row['OPERI'] * $row['OQTYI'], 0, '.', '')  . '</p>
-                                </div>
-                                <p>Площадь изделия</p>
-                                <div class="size">
-                                    <p class="edit">' . number_format($row['OSQRK'], 2, '.', '')  . '</p>
-                                    <p>/</p>
-                                    <p class="edit">' . number_format($row['OSQRK'] * $row['OQTYI'], 2, '.', '')  . '</p>
-                                </div>
-                                <p>Площадь заполнения</p>
-                                <div class="size">
-                                    <p class="edit">' . number_format($row['OSQRG'], 2, '.', '')  . '</p>
-                                    <p>/</p>
-                                    <p class="edit">' . number_format($row['OSQRG'] * $row['OQTYI'], 2, '.', '')  . '</p>
-                                </div>
-                            </div>
-    
-                            <div class="product-image">
-                                <img src="' . $imageUrl . '">
-                            </div>
-    
-                            <div class="product-descr">
-                                <p>Примечание к изделию</p>
-                                <p class="edit">' . $row['OPRIM'] . '</p>
-                            </div>
-                        </div>';
-                        }
+                        
+                    echo "<table>";
+                    echo "<thead>
+                            <tr>
+                                <th><a href='#' id='sort-anumb'>Изд. №</a></th>
+                                <th><a href='#' id='sort-name'>Артикул</th>
+                                <th><a href='#' id='sort-color'>Название</th>
+                                <th><a href='#' id='sort-price'>Кол-во</th>
+                                <th><a href='#' id='sort-iternal-price'>Погонаж</th>
+                                <th><a href='#' id='sort-external-price'>Скидка</th>
+                            </tr>
+                        </thead>";
+                    echo "<tbody>";
+                    
+                    while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+                        echo "<tr>";
+                        echo "<td><p>".$row['ONUMB']."</p></td>";
+                        echo "<td><p>".$row['ANUMB']."</p></td>";
+                        echo "<td><p>".$row['ANAME']."</p></td>";
+                        echo "<td><p>". number_format($row['AQTYP'], 0, '.', '') ."</p></td>";
+                        echo "<td><p>". number_format($row['AQTYA'], 1, '.', '') ."</p></td>";
+                        echo "<td><p>". number_format($row['ADESC'], 0, '.', '') ."</p></td>";
+                        echo "</tr>";
+                    }
+
+                    echo "</tbody>";
+                    echo "</table>";
 
                 ?>
             </div>
