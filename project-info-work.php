@@ -62,11 +62,11 @@ try{
         $PNUMB = $row['PNUMB'];
     }
 
-    $sql = "SELECT SPECPAU.*, ARTIKLS.ANAME
-            FROM SPECPAU
-            JOIN ARTIKLS ON SPECPAU.ANUMB = ARTIKLS.ANUMB
-            WHERE SPECPAU.PUNIC = $PUNIC AND SPECPAU.CLKK = 0
-            ORDER BY SPECPAU.ANUMB;";
+    $sql = "SELECT WORKPRJ.*, WORKLST.WNAME
+            FROM WORKPRJ
+            JOIN WORKLST ON WORKPRJ.WNUMB = WORKLST.WNUMB
+            WHERE WORKPRJ.PUNIC = $PUNIC
+            ORDER BY WORKLST.WNUMB;";
     $sth = $dbh->query($sql);
 
 ?>
@@ -133,10 +133,10 @@ try{
                 <a href="index.php" class="back">< вернутся</a>
                 <div class="wrapper-head">
                     <div class="menu">
-                        <a href="project-info.php?PNUMB=<?php echo htmlspecialchars($PNUMB); ?>" >Главная</a>
+                        <a href="project-info.php?PNUMB=<?php echo htmlspecialchars($PNUMB); ?>">Главная</a>
                         <a href="project-info-product.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Изделия</a>
-                        <a href="project-info-kompl.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>" class="active">Комлектация</a>
-                        <a href="project-info-work.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Работы</a>
+                        <a href="project-info-kompl.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Комлектация</a>
+                        <a href="project-info-work.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>" class="active">Работы</a>
                     </div>
                     <div></div>
                 </div>
@@ -147,24 +147,24 @@ try{
                     echo "<table>";
                     echo "<thead>
                             <tr>
-                                <th><a href='#' id='sort-anumb'>Изд. №</a></th>
-                                <th><a href='#' id='sort-name'>Артикул</th>
-                                <th><a href='#' id='sort-color'>Название</th>
-                                <th><a href='#' id='sort-price'>Кол-во</th>
-                                <th><a href='#' id='sort-iternal-price'>Погонаж</th>
-                                <th><a href='#' id='sort-external-price'>Скидка</th>
+                                <th><a href='#' id='sort-anumb'>№</a></th>
+                                <th><a href='#' id='sort-color'>Наименование</th>
+                                <th><a href='#' id='sort-price'>Объем</th>
+                                <th><a href='#' id='sort-iternal-price'>Значение</th>
+                                <th><a href='#' id='sort-external-price'>Цена</th>
+                                <th><a href='#' id='sort-external-price'>Сумма</th>
                             </tr>
                         </thead>";
                     echo "<tbody>";
                     
                     while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
                         echo "<tr>";
-                        echo "<td><p>".$row['ONUMB']."</p></td>";
-                        echo "<td><p>".$row['ANUMB']."</p></td>";
-                        echo "<td><p>".$row['ANAME']."</p></td>";
-                        echo "<td><p>". number_format($row['AQTYP'], 0, '.', '') ."</p></td>";
-                        echo "<td><p>". number_format($row['AQTYA'], 1, '.', '') ."</p></td>";
-                        echo "<td><p>". number_format($row['ADESC'], 0, '.', '') ."</p></td>";
+                        echo "<td><p>".$row['WNUMB']."</p></td>";
+                        echo "<td><p>".$row['WNAME']."</p></td>";
+                        echo "<td><p>".number_format($row['WDIME'], 2, '.', '') ."</p></td>";
+                        echo "<td><p>".number_format($row['WVALU'], 0, '.', '') ."</p></td>";
+                        echo "<td><p>".number_format($row['WPRCW'], 0, '.', '') ."</p></td>";
+                        echo "<td><p>".number_format($row['WPRIC'], 1, '.', '') ."</p></td>";
                         echo "</tr>";
                     }
 

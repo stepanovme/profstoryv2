@@ -161,7 +161,7 @@ try{
                         <a class="active">Главная</a>
                         <a href="project-info-product.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Изделия</a>
                         <a href="project-info-kompl.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Комлектация</a>
-                        <a>Работы</a>
+                        <a href="project-info-work.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Работы</a>
                     </div>
                     <div></div>
                 </div>
