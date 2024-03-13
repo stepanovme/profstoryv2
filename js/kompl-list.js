@@ -115,3 +115,30 @@ rows.forEach(function(row) {
         xhttp.send();
     });
 });
+
+
+// Находим родительский элемент, который существует на момент загрузки страницы
+var parentElement = document.querySelector('.komp-content');
+
+// Добавляем обработчик события на клик на родительский элемент
+parentElement.addEventListener('click', function(event) {
+    // Проверяем, был ли клик на кнопке "Добавить"
+    if (event.target.classList.contains('addButton')) {
+        // Получаем значение kompListId из атрибута data-kompListId кнопки "Добавить"
+        var kompListId = event.target.getAttribute('data-kompListId');
+        console.log('Clicked on addButton with kompListId:', kompListId);
+
+        // Отправляем AJAX-запрос на сервер для выполнения INSERT INTO
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Обновляем содержимое второй таблицы после успешного выполнения запроса
+                document.querySelector('.komp-content').innerHTML = this.responseText;
+            }
+        };
+        xhttp.open('GET', '../function/add_kompContent.php?kompListId=' + encodeURIComponent(kompListId), true);
+        xhttp.send();
+    }
+});
+
+

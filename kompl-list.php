@@ -169,13 +169,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
                 </div>
 
                 <div class="komp-content">
-                    <div class="wrapper-head">
-                        <p class="title">Содержимое комплекта</p>
-                        <div class="buttons">
-                            <button class="addButton">Добавить</button>
-                            <button class="deleteButton">Удалить</button>
-                        </div>
-                    </div>
                 <?php                
 
                 $sql = "SELECT * FROM kompContent WHERE kompListId = 19";
@@ -255,6 +248,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
+    <script src="/js/jquery.js"></script>
     <script src="/js/kompl-list.js"></script>
 </body>
 </html>

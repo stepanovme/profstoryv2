@@ -21,7 +21,7 @@ if(isset($_GET['kompListId'])) {
             <div class='wrapper-head'>
                 <p class='title'>Содержимое комплекта</p>
                 <div class='buttons'>
-                    <button class='addButton'>Добавить</button>
+                    <button class='addButton' data-kompListId=". htmlspecialchars($kompListId).">Добавить</button>
                     <button class='deleteButton'>Удалить</button>
                 </div>
             </div>
@@ -53,3 +53,8 @@ if(isset($_GET['kompListId'])) {
     mysqli_close($conn);
 }
 ?>
+
+<script>
+
+
+</script>
