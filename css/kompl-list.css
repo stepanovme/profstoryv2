@@ -1,0 +1,46 @@
+@import url(/css/style.css);
+
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+button.create-kompl{
+    background-color: var(--var-main-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+}
+
+button.create-kompl:hover{
+    background-color: var(--var-hover-color);
+}
+
+button.create-kompl:active{
+    background-color: var(--var-active-color);
+}
+
+button.delete-kompl{
+    background-color: var(--var-red-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+}
+
+button.delete-kompl:hover{
+    background-color: var(--var-red-hover-color);
+}
+
+button.delete-kompl:active{
+    background-color: var(--var-red-active-color);
+}

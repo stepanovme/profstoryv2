@@ -29,6 +29,34 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
+
+// Если форма была отправлена, обрабатываем её данные
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
+    // Подключаемся к базе данных
+    include './database/conn_mysql.php';
+
+    // Проверяем наличие соединения
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    // Экранируем специальные символы в строке пути
+    $pathDB_escaped = mysqli_real_escape_string($conn, $pathDB);
+
+    // SQL-запрос для добавления данных в таблицу kompList
+    $sql = "INSERT INTO kompList (pathBD) VALUES ('$pathDB_escaped')";
+
+    // Выполнение запроса
+    if (mysqli_query($conn, $sql)) {
+        echo "Данные успешно добавлены";
+    } else {
+        echo "Ошибка: " . $sql . "<br>" . mysqli_error($conn);
+    }
+
+    // Закрытие соединения
+    mysqli_close($conn);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -39,7 +67,7 @@ if ($result->num_rows > 0) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/favicon/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/kompl-list.css">
     <title>Комплекты</title>
 </head>
 <body>
@@ -91,57 +119,100 @@ if ($result->num_rows > 0) {
             <div class="wrapper">
                 <div class="wrapper-head">
                     <h1>Список комплектов</h1>
-                    <div></div>
+                    <div>
+                        <div class="buttons">
+                            <form method="post">
+                                <button class="create-kompl" name="create-kompl">
+                                    Создать
+                                </button>
+                            </form>
+                            <button class="delete-kompl">
+                                Удалить
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <?php
 
-                $host = $pathDB;
-                $username = 'SYSDBA';
-                $password = 'masterkey';
+                $pathDB_escaped = mysqli_real_escape_string($conn, $pathDB);
 
-                try {
-                    $dbh = new PDO("firebird:dbname=$host;charset=WIN1251", $username, $password);
-                    
-                    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $sql = "SELECT * FROM kompList WHERE pathBD = '$pathDB_escaped'";
 
-                    header('Content-Type: text/html; charset=WIN1251');
+                $result = $conn->query($sql);
 
-                    $sql = 'SELECT * FROM KOMPLST ORDER BY KNAME';
+                echo "<table>";
+                echo "<thead>
+                        <tr>
+                            <th><a href='#'>№</a></th>
+                            <th><a href='#'>Название</th>
+                            <th><a href='#'>Категория</th>
+                        </tr>
+                    </thead>";
+                echo "<tbody>";
 
-                    $sth = $dbh->query($sql);
+                $NUM = 0;
 
-                    echo "<table>";
-                    echo "<thead>
-                            <tr>
-                                <th><a href='#' id='sort-anumb'>№</a></th>
-                                <th><a href='#' id='sort-name'>Название</th>
-                                <th><a href='#' id='sort-color'>Категория</th>
-                                <th><a href='#' id='sort-price'>Формула</th>
-                            </tr>
-                        </thead>";
-                    echo "<tbody>";
-                    
-                    $NUM = 0;
-
-                    while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-                        $NUM = $NUM + 1;
-                        echo "<tr>";
-                        echo "<td><p>".$NUM."</p></td>";
-                        echo "<td><p>".$row['KNAME']."</p></td>";
-                        echo "<td><p>".$row['KPREF']."</p></td>";
-                        echo "<td><p></p></td>";
-                        echo "</tr>";
-                    }
-
-                    echo "</tbody>";
-                    echo "</table>";
-
-                } catch (PDOException $e) {
-                    echo "Ошибка соединения: " . $e->getMessage();
+                while ($row = $result->fetch_assoc()){
+                    $NUM = $NUM + 1;
+                    echo "<tr>";
+                    echo "<td>".$NUM."</td>";
+                    echo "<td class='editable-name' contenteditable='true' data-id='" . $row['kompListId'] . "'>".$row['kompListName']."</td>";
+                    echo "<td class='editable-category' contenteditable='true' data-id='" . $row['kompListId'] . "'>".$row['kompListCategory']."</td>";
+                    echo "</tr>";
                 }
+
+                echo "</table>";
+                
+
+                // $host = $pathDB;
+                // $username = 'SYSDBA';
+                // $password = 'masterkey';
+
+                // try {
+                //     $dbh = new PDO("firebird:dbname=$host;charset=WIN1251", $username, $password);
+                    
+                //     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                //     header('Content-Type: text/html; charset=WIN1251');
+
+                //     $sql = 'SELECT * FROM KOMPLST ORDER BY KNAME';
+
+                //     $sth = $dbh->query($sql);
+
+                //     echo "<table>";
+                //     echo "<thead>
+                //             <tr>
+                //                 <th><a href='#'>№</a></th>
+                //                 <th><a href='#'>Название</th>
+                //                 <th><a href='#'>Категория</th>
+                //                 <th><a href='#'>Формула</th>
+                //             </tr>
+                //         </thead>";
+                //     echo "<tbody>";
+                    
+                //     $NUM = 0;
+
+                //     while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+                //         $NUM = $NUM + 1;
+                //         echo "<tr>";
+                //         echo "<td><p>".$NUM."</p></td>";
+                //         echo "<td><p>".$row['KNAME']."</p></td>";
+                //         echo "<td><p>".$row['KPREF']."</p></td>";
+                //         echo "<td><p></p></td>";
+                //         echo "</tr>";
+                //     }
+
+                //     echo "</tbody>";
+                //     echo "</table>";
+
+                // } catch (PDOException $e) {
+                //     echo "Ошибка соединения: " . $e->getMessage();
+                // }
                 ?>
             </div>
         </div>
     </div>
+
+    <script src="/js/kompl-list.js"></script>
 </body>
 </html>
