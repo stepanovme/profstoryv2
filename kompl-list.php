@@ -132,6 +132,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
                         </div>
                     </div>
                 </div>
+
+                <div class="komp-list">
                 <?php
 
                 $pathDB_escaped = mysqli_real_escape_string($conn, $pathDB);
@@ -154,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
 
                 while ($row = $result->fetch_assoc()){
                     $NUM = $NUM + 1;
-                    echo "<tr>";
+                    echo "<tr data-id='" . $row['kompListId'] . "'>";
                     echo "<td>".$NUM."</td>";
                     echo "<td class='editable-name' contenteditable='true' data-id='" . $row['kompListId'] . "'>".$row['kompListName']."</td>";
                     echo "<td class='editable-category' contenteditable='true' data-id='" . $row['kompListId'] . "'>".$row['kompListCategory']."</td>";
@@ -162,7 +164,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
                 }
 
                 echo "</table>";
-                
+
+                ?>
+                </div>
+
+                <div class="komp-content">
+                    <div class="wrapper-head">
+                        <p class="title">Содержимое комплекта</p>
+                        <div class="buttons">
+                            <button class="addButton">Добавить</button>
+                            <button class="deleteButton">Удалить</button>
+                        </div>
+                    </div>
+                <?php                
+
+                $sql = "SELECT * FROM kompContent WHERE kompListId = 19";
+
+                $result = $conn->query($sql);
+
+                // echo "<table>";
+                // echo "<thead>
+                //         <tr>
+                //             <th><a href='#'>Артикул</a></th>
+                //             <th><a href='#'>Название</th>
+                //             <th><a href='#'>Цвет</th>
+                //             <th><a href='#'>Формула</th>
+                //         </tr>
+                //     </thead>";
+                // echo "<tbody>";
+
+                // while ($row = $result->fetch_assoc()){
+                //     echo "<tr>";
+                //     echo "<td>".$row['anumb']."</td>";
+                //     echo "<td>Название</td>";
+                //     echo "<td>".$row['clnum']."</td>";
+                //     echo "<td>".$row['formula']."</td>";
+                //     echo "</tr>";
+                // }
+
+                // echo "</table>";
 
                 // $host = $pathDB;
                 // $username = 'SYSDBA';
@@ -173,18 +213,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
                     
                 //     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                //     header('Content-Type: text/html; charset=WIN1251');
 
                 //     $sql = 'SELECT * FROM KOMPLST ORDER BY KNAME';
 
                 //     $sth = $dbh->query($sql);
 
-                //     echo "<table>";
+                //     echo "<table class='komp-content-table'>";
                 //     echo "<thead>
                 //             <tr>
-                //                 <th><a href='#'>№</a></th>
+                //                 <th><a href='#'>Артикул</a></th>
                 //                 <th><a href='#'>Название</th>
-                //                 <th><a href='#'>Категория</th>
+                //                 <th><a href='#'>Текстура</th>
                 //                 <th><a href='#'>Формула</th>
                 //             </tr>
                 //         </thead>";
@@ -209,6 +248,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
                 //     echo "Ошибка соединения: " . $e->getMessage();
                 // }
                 ?>
+
+                </div>
+
             </div>
         </div>
     </div>

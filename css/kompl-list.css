@@ -16,6 +16,7 @@ button.create-kompl{
     min-width: 205px;
     padding: 12px 42px;
     cursor: pointer;
+    transition: .3s all;
 }
 
 button.create-kompl:hover{
@@ -35,6 +36,7 @@ button.delete-kompl{
     min-width: 205px;
     padding: 12px 42px;
     cursor: pointer;
+    transition: .3s all;
 }
 
 button.delete-kompl:hover{
@@ -43,4 +45,79 @@ button.delete-kompl:hover{
 
 button.delete-kompl:active{
     background-color: var(--var-red-active-color);
+}
+
+.komp-list{
+    /* background-color: aqua; */
+    height: 440px;
+    overflow-y: auto;
+    margin-bottom: 60px;
+}
+
+.komp-content{
+    /* background-color: red; */
+
+    height: 320px;
+    overflow-y: auto; 
+}
+
+
+
+.komp-content>table{
+    /* padding-top: 30px; */
+}
+
+.komp-content>.wrapper-head{
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 570px;
+    width: 86%;
+}
+
+.komp-content>.wrapper-head>.buttons>button.addButton{
+    background-color: var(--var-main-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.komp-content>.wrapper-head>.buttons>button.addButton:hover{
+    background-color: var(--var-hover-color);
+}
+
+.komp-content>.wrapper-head>.buttons>button.addButton:active{
+    background-color: var(--var-active-color);
+}
+
+.komp-content>.wrapper-head>.buttons>button.deleteButton{
+    background-color: var(--var-red-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.komp-content>.wrapper-head>.buttons>button.deleteButton:hover{
+    background-color: var(--var-red-hover-color);
+}
+
+.komp-content>.wrapper-head>.buttons>button.deleteButton:active{
+    background-color: var(--var-red-active-color);
+}
+
+
+.komp-content>.wrapper-head>p.title{
+    font-size: 32px;
+    font-weight: 700;
 }

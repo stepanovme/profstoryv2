@@ -93,3 +93,25 @@ document.addEventListener('DOMContentLoaded', function() {
         xhr.send('anumb=' + encodeURIComponent(anumb) + '&newValue=' + encodeURIComponent(newValue));
     }
     });
+
+// Получение всех строк таблицы
+var rows = document.querySelectorAll(".komp-list tr");
+
+// Добавление обработчика события для каждой строки
+rows.forEach(function(row) {
+    row.addEventListener("click", function() {
+        // Получение значения kompListId из атрибута data-id
+        var kompListId = row.getAttribute("data-id");
+
+        // Формирование запроса к базе данных для второй таблицы
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Обновление содержимого второй таблицы после получения данных
+                document.querySelector(".komp-content").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "../function/get_kompContent.php?kompListId=" + kompListId, true);
+        xhttp.send();
+    });
+});
