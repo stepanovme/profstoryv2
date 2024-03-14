@@ -38,35 +38,6 @@ if (isset($_GET['kompListId'])) {
     echo "Ошибка: Не передан номер комплекта";
     exit; // Выход из скрипта, чтобы избежать дальнейшей обработки
 }
-
-// Если форма была отправлена, обрабатываем её данные
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl-content'])) {
-    header('Content-Type: text/html; charset=windows-1251');
-    // Подключаемся к базе данных
-    include './database/conn_mysql.php';
-
-    // Проверяем наличие соединения
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-
-    // Экранируем специальные символы в строке пути
-    $pathDB_escaped = mysqli_real_escape_string($conn, $pathDB);
-
-    // SQL-запрос для добавления данных в таблицу kompList
-    $sql = "INSERT INTO kompContent (kompListId) VALUES ($kompListId);";
-
-    // Выполнение запроса
-    if (mysqli_query($conn, $sql)) {
-        echo "Данные успешно добавлены";
-    } else {
-        echo $kompListId;
-        echo "Ошибка: " . $sql . "<br>" . mysqli_error($conn);
-    }
-
-    // Закрытие соединения
-    mysqli_close($conn);
-}
 ?>
 
 <!DOCTYPE html>
@@ -142,17 +113,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl-content']
                     $KonplName = $row['kompListName'];
                 }
 
+                // Если форма была отправлена, обрабатываем её данные
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl-content'])) {
+                    // Подключаемся к базе данных
+                    include './database/conn_mysql.php';
+
+                    // Проверяем наличие соединения
+                    if (!$conn) {
+                        die("Connection failed: " . mysqli_connect_error());
+                    }
+
+                    // Экранируем идентификатор комплекта
+                    $kompListId = mysqli_real_escape_string($conn, $kompListId);
+
+                    // SQL-запрос для добавления данных в таблицу kompContent
+                    $sql = "INSERT INTO kompContent (kompListId) VALUES ('$kompListId')";
+
+                    // Выполнение запроса
+                    if (mysqli_query($conn, $sql)) {
+                        // После успешного добавления строки, перенаправляем пользователя на текущую страницу без POST-данных
+                        header("Location: " . $_SERVER['REQUEST_URI']);
+                        exit; // Выход из скрипта после перенаправления
+                    } else {
+                        echo "Ошибка: " . $sql . "<br>" . mysqli_error($conn);
+                    }
+
+                }
+
+
                 ?>
 
                     <h1>Содержимое комплекта <?php echo $KonplName; ?></h1>
                     <div>
                         <div class="buttons">
                             <form method="post">
+                                <input type="hidden" name="kompListId" value="<?php echo $kompListId; ?>">
                                 <button class="create-kompl-content" name="create-kompl-content">
                                     Добавить
                                 </button>
                             </form>
-                            <button class="delete-kompl">
+                            <button class="delete-kompl-content">
                                 Удалить
                             </button>
                         </div>
@@ -170,6 +170,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl-content']
                 echo "<table>";
                 echo "<thead>
                         <tr>
+                            <th><th>
                             <th><a href='#'>№</a></th>
                             <th><a href='#'>Артикул</th>
                             <th><a href='#'>Название</th>
@@ -183,6 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl-content']
                 while ($row = $result->fetch_assoc()){
                     $NUM = $NUM + 1;
                     echo "<tr>";
+                    echo "<td><input type='checkbox' class='row-checkbox' data-id='".$row['kompListId']."'></td>";
                     echo "<td>".$NUM."</td>";
                     echo "<td>".$row['anumb']."</td>";
                     echo "<td>Название</td>";

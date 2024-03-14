@@ -145,9 +145,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
                 echo "<table>";
                 echo "<thead>
                         <tr>
-                            <th><a href='#'>№</a></th>
+                            <th><a href='#'></a></th>
+                            <th><a href='#'>№</th>
                             <th><a href='#'>Название</th>
-                            <th><a href='#'>Категория</th>
                             <th><a href='#'>Категория</th>
                         </tr>
                     </thead>";
