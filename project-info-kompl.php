@@ -185,7 +185,7 @@ try{
         }
         ?>
     </div>
-    <div id="addKomplModal" class="modal" >
+    <div id="addKomplModal" class="modal" style="display:none;">
         <div class="table-data">
         <?php
 
@@ -209,7 +209,7 @@ try{
 
         while ($row = $result->fetch_assoc()){
             $NUM = $NUM + 1;
-            echo "<tr>";
+            echo "<tr data-id='".$row['kompListId']."'>";
             echo "<td>".$NUM."</td>";
             echo "<td>".$row['kompListName']."</td>";
             echo "<td>".$row['kompListCategory']."</td>";
