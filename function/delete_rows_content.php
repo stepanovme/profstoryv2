@@ -16,7 +16,7 @@ $escaped_ids = array_map(function($id) use ($conn) {
 }, $ids);
 
 // Собираем SQL-запрос для удаления строк
-$sql = "DELETE FROM kompContent WHERE kompListId IN ('" . implode("','", $escaped_ids) . "')";
+$sql = "DELETE FROM kompContent WHERE kompContentId IN ('" . implode("','", $escaped_ids) . "')";
 
 // Выполнение запроса
 if (mysqli_query($conn, $sql)) {

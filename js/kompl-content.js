@@ -18,7 +18,11 @@ document.querySelector('.delete-kompl-content').addEventListener('click', functi
             }
         };
         xhr.send('ids=' + JSON.stringify(ids));
+    location.reload();
+
     } else {
         alert('Выберите строки для удаления.');
     }
 });
+
+

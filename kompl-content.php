@@ -139,8 +139,6 @@ if (isset($_GET['kompListId'])) {
                     }
 
                 }
-
-
                 ?>
 
                     <h1>Содержимое комплекта <?php echo $KonplName; ?></h1>
@@ -185,7 +183,7 @@ if (isset($_GET['kompListId'])) {
                 while ($row = $result->fetch_assoc()){
                     $NUM = $NUM + 1;
                     echo "<tr>";
-                    echo "<td><input type='checkbox' class='row-checkbox' data-id='".$row['kompListId']."'></td>";
+                    echo "<td><input type='checkbox' class='row-checkbox' data-id='".$row['kompContentId']."'></td>";
                     echo "<td>".$NUM."</td>";
                     echo "<td>".$row['anumb']."</td>";
                     echo "<td>Название</td>";
