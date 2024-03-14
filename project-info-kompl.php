@@ -88,7 +88,7 @@ try{
         <div class="side">
             <button class="logo" onclick="window.location.href = 'index.php'">
                 PROF-INTEGRATE
-            </button>
+            </button> 
             <div class="nav">
                 <p class="side-title">ГЛАВНОЕ МЕНЮ</p>
                 <div class="nav-link">
@@ -138,7 +138,10 @@ try{
                         <a href="project-info-kompl.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>" class="active">Комлектация</a>
                         <a href="project-info-work.php?PUNIC=<?php echo htmlspecialchars($PUNIC); ?>">Работы</a>
                     </div>
-                    <div></div>
+                    <div>
+                        <button id="addKomplButton" class="addKompl">Добавить</button>
+                        <button class="deleteKompl">Удалить</button>
+                    </div>
                 </div>
                 <div class="info-project-product">
 
@@ -147,6 +150,7 @@ try{
                     echo "<table>";
                     echo "<thead>
                             <tr>
+                                <th></th>
                                 <th><a href='#' id='sort-anumb'>Изд. №</a></th>
                                 <th><a href='#' id='sort-name'>Артикул</th>
                                 <th><a href='#' id='sort-color'>Название</th>
@@ -159,6 +163,7 @@ try{
                     
                     while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
                         echo "<tr>";
+                        echo "<td><input type='checkbox'></td>";
                         echo "<td><p>".$row['ONUMB']."</p></td>";
                         echo "<td><p>".$row['ANUMB']."</p></td>";
                         echo "<td><p>".$row['ANAME']."</p></td>";
@@ -180,5 +185,43 @@ try{
         }
         ?>
     </div>
+    <div id="addKomplModal" class="modal" >
+        <div class="table-data">
+        <?php
+
+        $pathDB_escaped = mysqli_real_escape_string($conn, $pathDB);
+
+        $sql = "SELECT * FROM kompList WHERE pathBD = '$pathDB_escaped'";
+
+        $result = $conn->query($sql);
+
+        echo "<table>";
+        echo "<thead>
+                <tr>
+                    <th><a href='#'>№</th>
+                    <th><a href='#'>Название</th>
+                    <th><a href='#'>Категория</th>
+                </tr>
+            </thead>";
+        echo "<tbody>";
+
+        $NUM = 0;
+
+        while ($row = $result->fetch_assoc()){
+            $NUM = $NUM + 1;
+            echo "<tr>";
+            echo "<td>".$NUM."</td>";
+            echo "<td>".$row['kompListName']."</td>";
+            echo "<td>".$row['kompListCategory']."</td>";
+            echo "</tr>";
+        }
+
+        echo "</table>";
+
+        ?>
+        </div>
+    </div>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/project-info-kompl.js"></script>
 </body>
 </html>

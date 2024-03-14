@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: text/html; charset=WIN1251'); 
 
-// Ïîäêëþ÷åíèå ê áàçå äàííûõ
+// ÐŸÐ¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ Ðº Ð±Ð°Ð·Ðµ Ð´Ð°Ð½Ð½Ñ‹Ñ…
 include '../database/conn_mysql.php';
 
 $anumb = $_POST['anumb'];
@@ -11,13 +11,13 @@ $newValue_cp1251 = iconv("UTF-8", "CP1251", $newValue);
 $anumb_cp1251 = iconv("UTF-8", "CP1251", $anumb);
 
 try {
-    $sql = "UPDATE kompContent SET anumb = ? WHERE kompContentId = ?";
+    $sql = "UPDATE kompContent SET formula = ? WHERE kompContentId = ?";
     $update = $conn->prepare($sql);
     $update->bind_param("si", $newValue_cp1251, $anumb_cp1251);
     $update->execute();
     $update->close();
-    echo "Äàííûå îáíîâëåíû";
+    echo "Ð”Ð°Ð½Ð½Ñ‹Ðµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ñ‹";
 } catch (PDOException $e) {
-    echo "Îøèáêà âûïîëíåíèÿ çàïðîñà: " . $e->getMessage();
+    echo "ÐžÑˆÐ¸Ð±ÐºÐ° Ð²Ñ‹Ð¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ Ð·Ð°Ð¿Ñ€Ð¾ÑÐ°: " . $e->getMessage();
 }
 ?>

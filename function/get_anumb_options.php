@@ -29,6 +29,7 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
+// Подключение к базе данных Firebird
 $host = $pathDB;
 $username = 'SYSDBA';
 $password = 'masterkey';
@@ -36,13 +37,15 @@ $password = 'masterkey';
 try {
     $dbh = new PDO("firebird:dbname=$host;charset=WIN1251", $username, $password);
     $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
     $sql = 'SELECT ANUMB FROM ARTSVST ORDER BY ANUMB';
     $sth = $dbh->query($sql);
+    
     $options = array();
     while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $options[] = $row['ANUMB'];
     }
-    echo implode(', ', $options);   
+    echo json_encode($options); // Отправляем список значений в формате JSON
 } catch (PDOException $e) {
     echo "Ошибка соединения: " . $e->getMessage();
 }

@@ -188,7 +188,7 @@ if (isset($_GET['kompListId'])) {
                     echo "<td class='editable-name' contenteditable='true' data-id='".$row['kompContentId']."'>".$row['anumb']."</td>";
                     echo "<td>Название</td>";
                     echo "<td>".$row['clnum']."</td>";
-                    echo "<td>".$row['formula']."</td>";
+                    echo "<td class='editable-formula' contenteditable='true' data-id='".$row['kompContentId']."'>".$row['formula']."</td>";
                     echo "</tr>";
                 }
 

@@ -137,3 +137,66 @@ a.back{
 .product-image>img{
     height: 80%;
 }
+
+button.addKompl{
+    background-color: var(--var-main-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+button.addKompl:hover{
+    background-color: var(--var-hover-color);
+}
+
+button.addKompl:active{
+    background-color: var(--var-active-color);
+}
+
+button.deleteKompl{
+    background-color: var(--var-red-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+button.deleteKompl:hover{
+    background-color: var(--var-red-hover-color);
+}
+
+button.deleteKompl:active{
+    background-color: var(--var-red-active-color);
+}
+
+.modal{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(217, 217, 217, 0.6);
+}
+
+.modal>.table-data{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+}
+
+.modal>.table-data>table{
+    min-width: 800px;
+}
