@@ -170,10 +170,11 @@ if (isset($_GET['kompListId'])) {
                 echo "<table>";
                 echo "<thead>
                         <tr>
-                            <th><th>
+                            <th></th>
                             <th><a href='#'>№</a></th>
                             <th><a href='#'>Артикул</th>
                             <th><a href='#'>Название</th>
+                            <th><a href='#'>Цвет</th>
                             <th><a href='#'>Формула</th>
                         </tr>
                     </thead>";

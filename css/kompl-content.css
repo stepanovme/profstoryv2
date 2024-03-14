@@ -7,7 +7,7 @@
     gap: 10px;
 }
 
-button.create-kompl{
+button.create-kompl-content{
     background-color: var(--var-main-color);
     border: 0;
     border-radius: 10px;
@@ -19,15 +19,15 @@ button.create-kompl{
     transition: .3s all;
 }
 
-button.create-kompl:hover{
+button.create-kompl-content:hover{
     background-color: var(--var-hover-color);
 }
 
-button.create-kompl:active{
+button.create-kompl-content:active{
     background-color: var(--var-active-color);
 }
 
-button.delete-kompl{
+button.delete-kompl-content{
     background-color: var(--var-red-color);
     border: 0;
     border-radius: 10px;
@@ -39,11 +39,11 @@ button.delete-kompl{
     transition: .3s all;
 }
 
-button.delete-kompl:hover{
+button.delete-kompl-content:hover{
     background-color: var(--var-red-hover-color);
 }
 
-button.delete-kompl:active{
+button.delete-kompl-content:active{
     background-color: var(--var-red-active-color);
 }
 

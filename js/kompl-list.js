@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.reload();
             } else {
                 // РћР±СЂР°Р±РѕС‚РєР° РѕС€РёР±РєРё
-                console.log('РћС€РёР±РєР°: ' + xhr.status);
+                console.log('Передано: ' + xhr.status);
             }
         };
         xhr.send('create-kompl=true');
@@ -118,6 +118,6 @@ document.querySelector('.delete-kompl').addEventListener('click', function() {
         xhr.send('ids=' + JSON.stringify(ids));
         location.reload();   
     } else {
-        alert('Р’С‹Р±РµСЂРёС‚Рµ СЃС‚СЂРѕРєРё РґР»СЏ СѓРґР°Р»РµРЅРёСЏ.');
+        alert('Выберите строки для удаления.');
     }
 });
