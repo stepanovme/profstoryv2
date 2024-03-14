@@ -185,7 +185,7 @@ if (isset($_GET['kompListId'])) {
                     echo "<tr>";
                     echo "<td><input type='checkbox' class='row-checkbox' data-id='".$row['kompContentId']."'></td>";
                     echo "<td>".$NUM."</td>";
-                    echo "<td>".$row['anumb']."</td>";
+                    echo "<td class='editable-name' contenteditable='true' data-id='".$row['kompContentId']."'>".$row['anumb']."</td>";
                     echo "<td>Название</td>";
                     echo "<td>".$row['clnum']."</td>";
                     echo "<td>".$row['formula']."</td>";
@@ -193,7 +193,6 @@ if (isset($_GET['kompListId'])) {
                 }
 
                 echo "</table>";
-
                 ?>
 
             </div>
