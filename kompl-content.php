@@ -29,34 +29,6 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
-
-// Если форма была отправлена, обрабатываем её данные
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
-    // Подключаемся к базе данных
-    include './database/conn_mysql.php';
-
-    // Проверяем наличие соединения
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
-
-    // Экранируем специальные символы в строке пути
-    $pathDB_escaped = mysqli_real_escape_string($conn, $pathDB);
-
-    // SQL-запрос для добавления данных в таблицу kompList
-    $sql = "INSERT INTO kompList (pathBD) VALUES ('$pathDB_escaped')";
-
-    // Выполнение запроса
-    if (mysqli_query($conn, $sql)) {
-        echo "Данные успешно добавлены";
-    } else {
-        echo "Ошибка: " . $sql . "<br>" . mysqli_error($conn);
-    }
-
-    // Закрытие соединения
-    mysqli_close($conn);
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -67,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/favicon/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/kompl-list.css">
+    <link rel="stylesheet" href="css/kompl-content.css">
     <title>Комплекты</title>
 </head>
 <body>
@@ -118,12 +90,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
 
             <div class="wrapper">
                 <div class="wrapper-head">
-                    <h1>Список комплектов</h1>
+
+                <?php
+
+                if (isset($_GET['kompListId'])) {
+                    // Получаем значение параметра
+                    $kompListId = $_GET['kompListId'];
+                } else {
+                    // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
+                    echo "Ошибка: Не передан номер проекта";
+                }
+
+                $pathDB_escaped = mysqli_real_escape_string($conn, $pathDB);
+
+                $sql = "SELECT * FROM kompList WHERE kompListId = $kompListId";
+
+                $result = $conn->query($sql);
+
+                while ($row = $result->fetch_assoc()){
+                    $KonplName = $row['kompListName'];
+                }
+
+                ?>
+
+                    <h1>Содержимое комплекта <?php echo $KonplName; ?></h1>
                     <div>
                         <div class="buttons">
                             <form method="post">
                                 <button class="create-kompl" name="create-kompl">
-                                    Создать
+                                    Добавить
                                 </button>
                             </form>
                             <button class="delete-kompl">
@@ -132,13 +127,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
                         </div>
                     </div>
                 </div>
-
-                <div class="komp-list">
+                <a href="kompl-list.php" class="back-button">< вернутся</a>
                 <?php
 
                 $pathDB_escaped = mysqli_real_escape_string($conn, $pathDB);
 
-                $sql = "SELECT * FROM kompList WHERE pathBD = '$pathDB_escaped'";
+                $sql = "SELECT * FROM kompContent WHERE kompListId = $kompListId";
 
                 $result = $conn->query($sql);
 
@@ -146,8 +140,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
                 echo "<thead>
                         <tr>
                             <th><a href='#'>№</a></th>
+                            <th><a href='#'>Артикул</th>
                             <th><a href='#'>Название</th>
-                            <th><a href='#'>Категория</th>
+                            <th><a href='#'>Формула</th>
                         </tr>
                     </thead>";
                 echo "<tbody>";
@@ -156,17 +151,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
 
                 while ($row = $result->fetch_assoc()){
                     $NUM = $NUM + 1;
-                    echo "<tr data-id='" . $row['kompListId'] . "' onclick=\"window.location.href = 'kompl-content.php?kompListId=".$row['kompListId']."'\">";
+                    echo "<tr>";
                     echo "<td>".$NUM."</td>";
-                    echo "<td class='editable-name' contenteditable='true' data-id='" . $row['kompListId'] . "'>".$row['kompListName']."</td>";
-                    echo "<td class='editable-category' contenteditable='true' data-id='" . $row['kompListId'] . "'>".$row['kompListCategory']."</td>";
+                    echo "<td>".$row['anumb']."</td>";
+                    echo "<td>Название</td>";
+                    echo "<td>".$row['clnum']."</td>";
+                    echo "<td>".$row['formula']."</td>";
                     echo "</tr>";
                 }
 
                 echo "</table>";
 
                 ?>
-                </div>
+
             </div>
         </div>
     </div>

@@ -1,11 +1,18 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+</head>
+<body>
 <?php
+header('Content-Type: text/html; charset=WIN1251'); 
 if(isset($_GET['kompListId'])) {
     $kompListId = $_GET['kompListId'];
     
-    // РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С… Рё РІС‹РїРѕР»РЅРµРЅРёРµ SQL-Р·Р°РїСЂРѕСЃР°
+    // Подключение к базе данных и выполнение SQL-запроса
     include '../database/conn_mysql.php';
 
-    // РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ СЃРѕРµРґРёРЅРµРЅРёСЏ
+    // Проверка наличия соединения
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
@@ -16,32 +23,32 @@ if(isset($_GET['kompListId'])) {
 
     $result = $conn->query($sql);
 
-    // Р“РµРЅРµСЂР°С†РёСЏ HTML РґР»СЏ РІС‚РѕСЂРѕР№ С‚Р°Р±Р»РёС†С‹
+    // Генерация HTML для второй таблицы
     $output = "
             <div class='wrapper-head'>
-                <p class='title'>РЎРѕРґРµСЂР¶РёРјРѕРµ РєРѕРјРїР»РµРєС‚Р°</p>
-                <div class='buttons'>
-                    <button class='addButton' data-kompListId=". htmlspecialchars($kompListId).">Р”РѕР±Р°РІРёС‚СЊ</button>
-                    <button class='deleteButton'>РЈРґР°Р»РёС‚СЊ</button>
+                <p class='title'>Содержимое</p>
+                <div class='buttons'>+
+                    <button class='addButton' data-kompListId=". htmlspecialchars($kompListId).">Добавить</button>
+                    <button class='deleteButton'>Удалить</button>
                 </div>
             </div>
-            <table>
+            <table id='contentTable'>
                 <thead>
                     <tr>
-                        <th><a href='#'>РђСЂС‚РёРєСѓР»</a></th>
-                        <th><a href='#'>РќР°Р·РІР°РЅРёРµ</th>
-                        <th><a href='#'>Р¦РІРµС‚</th>
-                        <th><a href='#'>Р¤РѕСЂРјСѓР»Р°</th>
+                        <th><a href='#'>Артикул</a></th>
+                        <th><a href='#'>Название</th>
+                        <th><a href='#'>Цвет</th>
+                        <th><a href='#'>Формула</th>
                     </tr>
                 </thead>
                 <tbody>";
 
     while ($row = $result->fetch_assoc()){
         $output .= "<tr>";
-        $output .= "<td>".$row['anumb']."</td>";
-        $output .= "<td>РќР°Р·РІР°РЅРёРµ</td>"; // Р—Р°РјРµРЅРёС‚Рµ СЌС‚Рѕ Р·РЅР°С‡РµРЅРёРµ РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРµ РїРѕР»Рµ РІР°С€РµР№ С‚Р°Р±Р»РёС†С‹
-        $output .= "<td>".$row['clnum']."</td>";
-        $output .= "<td>".$row['formula']."</td>";
+        $output .= "<td class='editable' data-id='".$row['kompListId']."'>".$row['anumb']."</td>";
+        $output .= "<td class='editable' data-id='".$row['kompListId']."'>название</td>";
+        $output .= "<td class='editable' data-id='".$row['kompListId']."'>".$row['clnum']."</td>";
+        $output .= "<td class='editable' data-id='".$row['kompListId']."'>".$row['formula']."</td>";
         $output .= "</tr>";
     }
 
@@ -49,12 +56,9 @@ if(isset($_GET['kompListId'])) {
 
     echo $output;
 
-    // Р—Р°РєСЂС‹С‚РёРµ СЃРѕРµРґРёРЅРµРЅРёСЏ
+    // Закрытие соединения
     mysqli_close($conn);
 }
 ?>
-
-<script>
-
-
-</script>
+</body>
+</html>

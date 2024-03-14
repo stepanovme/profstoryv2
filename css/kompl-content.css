@@ -114,3 +114,11 @@ button.delete-kompl:active{
     font-size: 32px;
     font-weight: 700;
 }
+
+.back-button{
+    text-decoration: none;
+    outline: none;
+    color: var(--var-grey);
+    cursor: pointer;
+    margin-bottom: 10px;
+}

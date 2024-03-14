@@ -1,39 +1,40 @@
 <?php
+header('Content-Type: text/html; charset=WIN1251'); 
 if(isset($_GET['kompListId']) && !empty($_GET['kompListId'])) {
     $kompListId = $_GET['kompListId'];
     
-    // РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє Р±Р°Р·Рµ РґР°РЅРЅС‹С… Рё РІС‹РїРѕР»РЅРµРЅРёРµ SQL-Р·Р°РїСЂРѕСЃР°
+    // Подключение к базе данных и выполнение SQL-запроса
     include '../database/conn_mysql.php';
 
-    // РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ СЃРѕРµРґРёРЅРµРЅРёСЏ
+    // Проверка наличия соединения
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
 
     $kompListId_escaped = mysqli_real_escape_string($conn, $kompListId);
 
-    // SQL-Р·Р°РїСЂРѕСЃ РґР»СЏ РІСЃС‚Р°РІРєРё РЅРѕРІРѕР№ СЃС‚СЂРѕРєРё СЃ СѓРєР°Р·Р°РЅРЅС‹Рј Р·РЅР°С‡РµРЅРёРµРј kompListId
+    // SQL-запрос для вставки новой строки с указанным значением kompListId
     $sql = "INSERT INTO kompContent (kompListId) VALUES ('$kompListId_escaped')";
 
     if (mysqli_query($conn, $sql)) {
         $sql = "SELECT * FROM kompContent WHERE kompListId = '$kompListId_escaped'";
         $result = $conn->query($sql);
-        // Р“РµРЅРµСЂР°С†РёСЏ HTML РґР»СЏ РІС‚РѕСЂРѕР№ С‚Р°Р±Р»РёС†С‹
+        // Генерация HTML для второй таблицы
     $output = "
     <div class='wrapper-head'>
-        <p class='title'>РЎРѕРґРµСЂР¶РёРјРѕРµ РєРѕРјРїР»РµРєС‚Р°</p>
+        <p class='title'>Содержимое комплекта</p>
         <div class='buttons'>
-            <button class='addButton' data-kompListId=". htmlspecialchars($kompListId).">Р”РѕР±Р°РІРёС‚СЊ</button>
-            <button class='deleteButton'>РЈРґР°Р»РёС‚СЊ</button>
+            <button class='addButton' data-kompListId=". htmlspecialchars($kompListId).">Добавить</button>
+            <button class='deleteButton'>Удалить</button>
         </div>
     </div>
     <table>
         <thead>
             <tr>
-                <th><a href='#'>РђСЂС‚РёРєСѓР»</a></th>
-                <th><a href='#'>РќР°Р·РІР°РЅРёРµ</th>
-                <th><a href='#'>Р¦РІРµС‚</th>
-                <th><a href='#'>Р¤РѕСЂРјСѓР»Р°</th>
+                <th><a href='#'>Артикул</a></th>
+                <th><a href='#'>Название</th>
+                <th><a href='#'>Цвет</th>
+                <th><a href='#'>Формула</th>
             </tr>
         </thead>
         <tbody>";
@@ -41,7 +42,7 @@ if(isset($_GET['kompListId']) && !empty($_GET['kompListId'])) {
         while ($row = $result->fetch_assoc()){
         $output .= "<tr>";
         $output .= "<td>".$row['anumb']."</td>";
-        $output .= "<td>РќР°Р·РІР°РЅРёРµ</td>"; // Р—Р°РјРµРЅРёС‚Рµ СЌС‚Рѕ Р·РЅР°С‡РµРЅРёРµ РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РµРµ РїРѕР»Рµ РІР°С€РµР№ С‚Р°Р±Р»РёС†С‹
+        $output .= "<td>Название</td>"; // Замените это значение на соответствующее поле вашей таблицы
         $output .= "<td>".$row['clnum']."</td>";
         $output .= "<td>".$row['formula']."</td>";
         $output .= "</tr>";
@@ -51,13 +52,13 @@ if(isset($_GET['kompListId']) && !empty($_GET['kompListId'])) {
 
         echo $output;
     } else {
-        echo "РћС€РёР±РєР° РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё СЃС‚СЂРѕРєРё: " . mysqli_error($conn);
+        echo "Ошибка при добавлении строки: " . mysqli_error($conn);
     }
 
-    // Р—Р°РєСЂС‹С‚РёРµ СЃРѕРµРґРёРЅРµРЅРёСЏ
+    // Закрытие соединения
     mysqli_close($conn);
 } else {
-    echo "РќРµРґРѕРїСѓСЃС‚РёРјРѕРµ Р·РЅР°С‡РµРЅРёРµ kompListId";
+    echo "Недопустимое значение kompListId";
 }
 ?>
 

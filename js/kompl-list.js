@@ -142,3 +142,48 @@ parentElement.addEventListener('click', function(event) {
 });
 
 
+$(document).ready(function(){
+    // Обработчик клика на редактируемые ячейки
+    $('.komp-content').on('click', '.editable', function(){
+        var td = $(this);
+        var id = td.data('kompListId');
+        var currentValue = td.text();
+        
+        // Получение данных для выпадающего списка из другой БД
+        $.ajax({
+            url: '../function/get_anumb_options.php',
+            method: 'GET',
+            success: function(data) {
+                var options = data.split(',');
+                var select = $('<select>');
+                $.each(options, function(index, value){
+                    var option = $('<option>').text(value.trim()).attr('value', value.trim());
+                    select.append(option);
+                });
+
+                // Установка выпадающего списка в ячейку
+                td.empty().append(select);
+
+                // Установка текущего значения в списке
+                select.val(currentValue);
+
+                // Обработка изменения значения списка
+                select.on('change', function(){
+                    var newValue = $(this).val();
+                    td.text(newValue);
+                    
+                    // Отправка обновленного значения на сервер
+                    $.ajax({
+                        url: '../function/update_cell.php',
+                        method: 'POST',
+                        data: {id: id, column: td.index(), value: newValue},
+                        success: function(response){
+                            console.log(response);
+                        }
+                    });
+                });
+            }
+        });
+    });
+});
+
