@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
     }
 
     // Закрытие соединения
-    mysqli_close($conn);
+    // mysqli_close($conn);
 }
 
 ?>
@@ -148,6 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
                             <th><a href='#'>№</a></th>
                             <th><a href='#'>Название</th>
                             <th><a href='#'>Категория</th>
+                            <th><a href='#'>Категория</th>
                         </tr>
                     </thead>";
                 echo "<tbody>";
@@ -156,8 +157,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl'])) {
 
                 while ($row = $result->fetch_assoc()){
                     $NUM = $NUM + 1;
-                    echo "<tr data-id='" . $row['kompListId'] . "' onclick=\"window.location.href = 'kompl-content.php?kompListId=".$row['kompListId']."'\">";
-                    echo "<td>".$NUM."</td>";
+                    echo "<tr data-id='" . $row['kompListId'] . "'>";
+                    echo "<td><input type='checkbox' class='row-checkbox' data-id='".$row['kompListId']."'></td>";
+                    echo "<td data-id='" . $row['kompListId'] . "'  onclick=\"window.location.href = 'kompl-content.php?kompListId=".$row['kompListId']."'\">".$NUM."</td>";
                     echo "<td class='editable-name' contenteditable='true' data-id='" . $row['kompListId'] . "'>".$row['kompListName']."</td>";
                     echo "<td class='editable-category' contenteditable='true' data-id='" . $row['kompListId'] . "'>".$row['kompListCategory']."</td>";
                     echo "</tr>";

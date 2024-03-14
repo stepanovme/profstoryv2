@@ -29,7 +29,46 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
+// Получаем значение kompListId из GET-запроса
+if (isset($_GET['kompListId'])) {
+    // Получаем значение параметра
+    $kompListId = $_GET['kompListId'];
+} else {
+    // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
+    echo "Ошибка: Не передан номер комплекта";
+    exit; // Выход из скрипта, чтобы избежать дальнейшей обработки
+}
+
+// Если форма была отправлена, обрабатываем её данные
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create-kompl-content'])) {
+    header('Content-Type: text/html; charset=windows-1251');
+    // Подключаемся к базе данных
+    include './database/conn_mysql.php';
+
+    // Проверяем наличие соединения
+    if (!$conn) {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+
+    // Экранируем специальные символы в строке пути
+    $pathDB_escaped = mysqli_real_escape_string($conn, $pathDB);
+
+    // SQL-запрос для добавления данных в таблицу kompList
+    $sql = "INSERT INTO kompContent (kompListId) VALUES ($kompListId);";
+
+    // Выполнение запроса
+    if (mysqli_query($conn, $sql)) {
+        echo "Данные успешно добавлены";
+    } else {
+        echo $kompListId;
+        echo "Ошибка: " . $sql . "<br>" . mysqli_error($conn);
+    }
+
+    // Закрытие соединения
+    mysqli_close($conn);
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -93,14 +132,6 @@ if ($result->num_rows > 0) {
 
                 <?php
 
-                if (isset($_GET['kompListId'])) {
-                    // Получаем значение параметра
-                    $kompListId = $_GET['kompListId'];
-                } else {
-                    // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
-                    echo "Ошибка: Не передан номер проекта";
-                }
-
                 $pathDB_escaped = mysqli_real_escape_string($conn, $pathDB);
 
                 $sql = "SELECT * FROM kompList WHERE kompListId = $kompListId";
@@ -117,7 +148,7 @@ if ($result->num_rows > 0) {
                     <div>
                         <div class="buttons">
                             <form method="post">
-                                <button class="create-kompl" name="create-kompl">
+                                <button class="create-kompl-content" name="create-kompl-content">
                                     Добавить
                                 </button>
                             </form>
@@ -170,6 +201,6 @@ if ($result->num_rows > 0) {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
     <script src="/js/jquery.js"></script>
-    <script src="/js/kompl-list.js"></script>
+    <script src="/js/kompl-content.js"></script>
 </body>
 </html>
