@@ -1,6 +1,4 @@
 <?php
-header('Content-Type: text/html; charset=WIN1251'); 
-
 session_start();
 
 if (!isset($_SESSION['userId'])) {
@@ -17,6 +15,8 @@ $sql = "SELECT user.*, role.roleName
         WHERE user.userId = '$userId'";
 
 @include '../database/conn_mysql.php';
+
+$conn->set_charset("utf8");
 
 $result = $conn->query($sql);
 
@@ -35,14 +35,16 @@ if(isset($_GET['kompListId'])) {
 
     header('Content-Type: text/html; charset=WIN1251'); 
 
-
     $kompListId = $_GET['kompListId'];
+
+    // Получаем значение punic из GET-параметра
+    $punic = isset($_GET['punic']) ? $_GET['punic'] : '';
 
     $sql = "SELECT * FROM kompContent WHERE kompListId = $kompListId";
 
     $result = $conn->query($sql);
 
-    echo "<table>";
+    echo "<table style='width: 60%;' class='second-table'>";
     echo "<thead>
             <tr>
                 <th><a href='#'>№</a></th>
@@ -57,16 +59,21 @@ if(isset($_GET['kompListId'])) {
 
     while ($row = $result->fetch_assoc()){
         $NUM = $NUM + 1;
-        echo "<tr>";
+        echo "<tr data-punic='".$punic."' data-anumb='".$row['anumb']."' data-clnum='".$row['clnum']."' data-formula='".$row['formula']."'>";
         echo "<td>".$NUM."</td>";
         echo "<td>".$row['anumb']."</td>";
         echo "<td>Название</td>";
         echo "<td>".$row['clnum']."</td>";
         echo "</tr>";
     }
+    
 
     echo "</table>";
-
-
 }
 ?>
+
+<script src="../js/jquery.js"></script>
+<script>
+
+</script>
+

@@ -200,3 +200,18 @@ button.deleteKompl:active{
 .modal>.table-data>table{
     min-width: 800px;
 }
+
+
+.second-table-data{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.second-table-data>.second-table{
+    position: relative;
+    width: 100%;
+}

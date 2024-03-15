@@ -209,7 +209,7 @@ try{
 
         while ($row = $result->fetch_assoc()){
             $NUM = $NUM + 1;
-            echo "<tr data-id='".$row['kompListId']."'>";
+            echo "<tr data-id='".$row['kompListId']."' data-punic='".$PUNIC."'>";
             echo "<td>".$NUM."</td>";
             echo "<td>".$row['kompListName']."</td>";
             echo "<td>".$row['kompListCategory']."</td>";
@@ -221,6 +221,7 @@ try{
         ?>
         </div>
     </div>
+    
     <script src="/js/jquery.js"></script>
     <script src="/js/project-info-kompl.js"></script>
 </body>

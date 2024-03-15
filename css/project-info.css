@@ -191,3 +191,12 @@ a.back{
 .discount-data>p.title{
     position: relative;
 } 
+
+.modal{
+    justify-content: center;
+    align-items: center;
+}
+
+.modal>table{
+    width: 60%;
+}
