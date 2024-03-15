@@ -42,6 +42,7 @@ global $ATYPP;
 global $Qty;
 global $APERC;
 global $CLPRC;
+global $Pm;
 
 try {
     $dbh = new PDO("firebird:dbname=$host;charset=WIN1251", $username, $password);
@@ -72,13 +73,22 @@ try {
 
     while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
         $Qty = $Qty + $row['OQTYI'];
+        $P = ($row['OLENG'] * 2 + $row['OHEIG'] * 2) * $row['OQTYI'] / 1000;
+        $Pm = $Pm + $P;
     }
 
     // Заменяем подстроку "$Qty" на значение переменной $Qty в строке $formula
     $formula = str_replace('$Qty', $Qty, $formula);
+    // Заменяем подстроку "$Pm" на значение переменной $Qty в строке $formula
+    $formula = str_replace('$Pm', $Pm, $formula);
+
+    $result = eval("return $formula;");
+
+    echo $result;
+
 
     $sql = "INSERT INTO SPECPAU (PUNIC, ANUMB, CLKK, ONUMB, ATYPM, ATYPP, NEL, CLNUM, CLNU1, CLNU2, GFORM, CLKC, CLKE, AVIEW, ARADI, AUG01, AUG02, ALENG, ATYPR, AQTYP, AQTYA, APERC, ASEB1, APRC1, APRCD, AUGP1, AUGP2, NOPTI, ADESC, NSQ, NHAVE, NRAMA, NUNIC) VALUES ('$punic', '$anumb', '0', '0', '$ATYPM', '$ATYPP', '-1', '$clnum', 
-                                '$clnum', '$clnum', '0', '0', '-1', '0', '0', '0', '0', '0', '0', '$formula', '$formula', '$APERC', '$CLPRC', '$CLPRC', '$CLPRC', '90', '90', '0', '0', '-1', '0', '0', '0')";
+                                '$clnum', '$clnum', '0', '0', '-1', '0', '0', '0', '0', '0', '0', '$result', '$result', '$APERC', '$CLPRC', '$CLPRC', '$CLPRC', '90', '90', '0', '0', '-1', '0', '0', '0')";
 
     // $sql = "SELECT * FROM ARTIKLS WHERE ANUMB='$anumb'";
 
