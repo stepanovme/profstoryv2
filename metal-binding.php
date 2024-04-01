@@ -172,150 +172,58 @@ if ($result->num_rows > 0) {
             </div>
         </div>
     </div>
+
     <script>
-// Переменные для хранения истории рисования
-var drawingHistory = [];
-var isDrawing = false;
-var lastX = 0;
-var lastY = 0;
+    document.addEventListener("DOMContentLoaded", function () {
+        var canvas = document.getElementById('drawingCanvas');
+        var ctx = canvas.getContext('2d');
+        ctx.lineWidth = 5; // Устанавливаем толщину линии
+        ctx.strokeStyle = 'black'; // Цвет линии
 
-// Получаем ссылку на холст
-var canvas = document.getElementById("drawingCanvas");
-var ctx = canvas.getContext("2d");
+        var isDrawing = false;
+        var lines = []; // Массив для хранения линий
 
-// Задаем параметры сетки
-var gridSpacing = 20; // Расстояние между линиями сетки
-var gridColor = "#ccc"; // Цвет линий сетки
+        canvas.addEventListener('mousedown', function (e) {
+            isDrawing = true;
+            var startPoint = { x: e.clientX - canvas.getBoundingClientRect().left, y: e.clientY - canvas.getBoundingClientRect().top };
+            lines.push({ start: startPoint, end: startPoint }); // Добавляем новую линию в массив
+        });
 
-// Функция для рисования фоновой сетки
-function drawGrid() {
-    ctx.beginPath();
-    ctx.strokeStyle = gridColor;
+        canvas.addEventListener('mousemove', function (e) {
+            if (isDrawing) {
+                var currentPoint = { x: e.clientX - canvas.getBoundingClientRect().left, y: e.clientY - canvas.getBoundingClientRect().top };
+                lines[lines.length - 1].end = currentPoint; // Обновляем конечную точку последней линии
+                redraw();
+            }
+        });
 
-    // Рисуем вертикальные линии сетки
-    for (var x = 0; x < canvas.width; x += gridSpacing) {
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-    }
+        canvas.addEventListener('mouseup', function () {
+            isDrawing = false;
+        });
 
-    // Рисуем горизонтальные линии сетки
-    for (var y = 0; y < canvas.height; y += gridSpacing) {
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-    }
-
-    ctx.stroke();
-}
-
-// Переменные для хранения предыдущих координат мыши
-var prevX = 0;
-var prevY = 0;
-
-// Функция для рисования линий
-function drawLine(e) {
-    if (!isDrawing) return;
-
-    // Определяем координаты линии в соответствии с сеткой
-    var mouseX = Math.round(e.offsetX / gridSpacing) * gridSpacing;
-    var mouseY = Math.round(e.offsetY / gridSpacing) * gridSpacing;
-
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-
-    // Проверяем, была ли нажата клавиша Ctrl
-    if (e.ctrlKey) {
-        // Определяем радиус полуокружности
-        var radius = gridSpacing / 2;
-
-        // Определяем координаты центра полуокружности в соседней клетке
-        var centerX = mouseX;
-        var centerY = mouseY - gridSpacing / 2;
-
-        // Определяем начальный и конечный угол полуокружности в зависимости от движения мыши
-        var startAngle, endAngle;
-        if (mouseY > prevY) {
-            startAngle = Math.PI * 1.5; // 270 градусов (вниз)
-            endAngle = Math.PI * 0.5; // 90 градусов (вверх)
-        } else {
-            startAngle = Math.PI * 1.5; // 90 градусов (вверх)
-            endAngle = Math.PI * 0.5; // 270 градусов (вниз)
+        function redraw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Очищаем холст
+            lines.forEach(function(line) {
+                drawLine(line.start.x, line.start.y, line.end.x, line.end.y); // Рисуем все линии из массива
+            });
         }
 
-        // Рисуем полуокружность
-        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-    } else {
-        // Рисуем обычную линию, если не нажата клавиша Ctrl
-        ctx.lineTo(mouseX, mouseY);
-    }
-
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = "#000"; // Устанавливаем цвет линии в черный
-    ctx.stroke();
-
-    [lastX, lastY] = [mouseX, mouseY];
-
-    // Запоминаем предыдущие координаты мыши
-    prevX = mouseX;
-    prevY = mouseY;
-}
-
-
-
-// Функция для начала рисования
-function startDrawing(e) {
-    isDrawing = true;
-    [lastX, lastY] = [Math.round(e.offsetX / gridSpacing) * gridSpacing, Math.round(e.offsetY / gridSpacing) * gridSpacing];
-}
-
-// Функция для завершения рисования
-function endDrawing() {
-    isDrawing = false;
-    saveDrawing(); // Сохраняем текущее состояние рисунка после завершения рисования
-}
-
-// Функция для сохранения текущего состояния рисунка
-function saveDrawing() {
-    var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    drawingHistory.push(imageData);
-}
-
-// Функция для отмены последнего действия
-function undoLastAction(e) {
-    if (e.ctrlKey && e.key === 'z' || (e.ctrlKey && e.code === 'KeyZ')) {
-        e.preventDefault(); // Предотвращаем стандартное действие браузера (например, отмену)
-
-        if (drawingHistory.length > 0) {
-            drawingHistory.pop(); // Удаляем последнее действие из истории
-            redrawCanvas(); // Перерисовываем холст без последнего действия
+        function drawLine(x1, y1, x2, y2) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+            ctx.closePath();
         }
-    }
-}
-
-// Функция для перерисовки холста без последнего действия
-// Функция для перерисовки холста без последнего действия
-function redrawCanvas() {
-    clearCanvas(); // Очищаем холст
-    drawGrid(); // Рисуем фоновую сетку
-    if (drawingHistory.length > 0) {
-        ctx.putImageData(drawingHistory[drawingHistory.length - 1], 0, 0); // Отображаем последнее сохраненное состояние
-    }
-}
+    });
+</script>
 
 
-// Очищаем холст перед отрисовкой
-function clearCanvas() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
 
-// Рисуем сетку при загрузке страницы
-drawGrid();
 
-// Добавляем обработчики событий для рисования и отмены действия
-canvas.addEventListener("mousedown", startDrawing);
-canvas.addEventListener("mousemove", drawLine);
-canvas.addEventListener("mouseup", endDrawing);
-canvas.addEventListener("mouseout", endDrawing);
-window.addEventListener("keydown", undoLastAction); 
-    </script>
+
+
+
+
 </body>
 </html>
