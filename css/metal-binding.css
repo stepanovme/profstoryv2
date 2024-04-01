@@ -309,3 +309,71 @@ td{
     border: 1px solid black;
     cursor: crosshair;
 }
+
+.ctrl-popup {
+    position: absolute;
+    display: none;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    z-index: 9999;
+}
+
+.popup-option {
+    cursor: pointer;
+}
+
+.width-popup {
+    position: absolute;
+    display: none;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    z-index: 9999;
+}
+
+.canvas-panel {
+    position: relative;
+    display: inline-block;
+}
+
+.canvas-panel:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0px; /* Регулируем отступ слева */
+    width: 20px; /* Ширина панели */
+    height: 100%; /* Высота как у canvas */
+    background-color: #ffffff; /* Белый фон */
+    z-index: 1; /* Чтобы панель была под canvas */
+}
+
+#textButton {
+    position: absolute;
+    z-index: 1;
+    left: 4px;
+    margin-top: 5px;
+    background-color: transparent;
+    border: 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#textButton:hover {
+    color: green;
+}
+
+#arrowButton {
+    position: absolute;
+    z-index: 1;
+    left: 4px;
+    margin-top: 20px;
+    background-color: transparent;
+    border: 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#arrowButton:hover {
+    color: green;
+}
