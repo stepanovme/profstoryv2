@@ -55,13 +55,17 @@ if ($result->num_rows > 0) {
                     <img src="/assets/icons/dashbord-icon.svg" alt="">
                     <a href="materialValues.php">МЦ</a>
                 </div>
-                <div class="nav-link active">
+                <div class="nav-link">
                     <img src="/assets/icons/report.svg" alt="">
                     <a href="index.php">Проекты</a>
                 </div>
                 <div class="nav-link">
                     <img src="/assets/icons/report.svg" alt="">
                     <a href="kompl-list.php">Комплекты</a>
+                </div>
+                <div class="nav-link active">
+                    <img src="/assets/icons/pencil.svg" alt="">
+                    <a href="metal-binding-list.php">Гибка металла</a>
                 </div>
                 <div class="nav-link">
                     <img src="/assets/icons/gear.svg" alt="">
@@ -113,9 +117,6 @@ if ($result->num_rows > 0) {
                                 <input type="date" name="data-project">
                             </div>
                         </div>
-
-    
-                        
                         <div class="line">
                             <div class="color">
                                 <p>Цвет/толщина:</p>
@@ -236,27 +237,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Обработчики событий для рисования линий
     canvas.addEventListener('mousedown', function (e) {
-        if (!textEnabled) {
-            isDrawing = true;
-            var startPoint = { x: Math.round((e.clientX - canvas.getBoundingClientRect().left) / gridSize) * gridSize, y: Math.round((e.clientY - canvas.getBoundingClientRect().top) / gridSize) * gridSize };
-            if (e.ctrlKey) { // Если нажата клавиша Ctrl
-                lines.push({ start: startPoint, end: startPoint, isCircle: true }); // Добавляем новый полукруг в массив
-            } else {
-                lines.push({ start: startPoint, end: startPoint }); // Добавляем новую линию в массив
-            }
+    if (!textEnabled && !arrowEnabled) {
+        isDrawing = true;
+        var startPoint = { x: Math.round((e.clientX - canvas.getBoundingClientRect().left) / gridSize) * gridSize, y: Math.round((e.clientY - canvas.getBoundingClientRect().top) / gridSize) * gridSize };
+        if (e.ctrlKey) { // Если нажата клавиша Ctrl
+            lines.push({ start: startPoint, end: startPoint, isCircle: true }); // Добавляем новый полукруг в массив
+        } else {
+            lines.push({ start: startPoint, end: startPoint }); // Добавляем новую линию в массив
         }
-    });
+    }
+    if (arrowEnabled && !isDrawing) {
+        tempArrowStart = { x: e.clientX - canvas.getBoundingClientRect().left, y: e.clientY - canvas.getBoundingClientRect().top };
+        tempArrowEnd = tempArrowStart;
+        isDrawing = true;
+        redraw();
+    }
+});
 
-    canvas.addEventListener('mousemove', function (e) {
-        if (isDrawing && !textEnabled) {
-            var currentPoint = { x: Math.round((e.clientX - canvas.getBoundingClientRect().left) / gridSize) * gridSize, y: Math.round((e.clientY - canvas.getBoundingClientRect().top) / gridSize) * gridSize };
-            lines[lines.length - 1].end = currentPoint; // Обновляем конечную точку последней линии
-            redraw();
-        }
-    });
+canvas.addEventListener('mousemove', function (e) {
+    if (isDrawing && !textEnabled && !arrowEnabled) {
+        var currentPoint = { x: Math.round((e.clientX - canvas.getBoundingClientRect().left) / gridSize) * gridSize, y: Math.round((e.clientY - canvas.getBoundingClientRect().top) / gridSize) * gridSize };
+        lines[lines.length - 1].end = currentPoint; // Обновляем конечную точку последней линии
+        redraw();
+    }
+    if (arrowEnabled && isDrawing) {
+        var currentPoint = { x: e.clientX - canvas.getBoundingClientRect().left, y: e.clientY - canvas.getBoundingClientRect().top };
+        tempArrowEnd = currentPoint;
+        redraw();
+    }
+});
+
 
     canvas.addEventListener('mouseup', function () {
+        if (arrowEnabled && isDrawing) {
         isDrawing = false;
+        arrows.push({ start: tempArrowStart, end: tempArrowEnd });
+        redraw();
+    }
     });
 
     // Обработчик события клика на canvas-panel
@@ -447,8 +464,14 @@ canvas.addEventListener('mouseup', function (e) {
     }
 });
 
+var tempArrowStart = { x: 0, y: 0 };
+var tempArrowEnd = { x: 0, y: 0 };
 
-
+function drawTempArrow() {
+    if (arrowEnabled && isDrawing) {
+        drawArrow(tempArrowStart.x, tempArrowStart.y, tempArrowEnd.x, tempArrowEnd.y);
+    }
+}
 
 
 });

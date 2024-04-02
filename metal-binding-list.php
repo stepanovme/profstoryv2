@@ -29,18 +29,19 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/favicon/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/index.css">
-    <title>Проекты</title>
+    <link rel="stylesheet" href="css/metal-binding-list.css">
+    <title>Гибка метала</title>
 </head>
 <body>
     <div class="page">
@@ -54,7 +55,7 @@ if ($result->num_rows > 0) {
                     <img src="/assets/icons/dashbord-icon.svg" alt="">
                     <a href="materialValues.php">МЦ</a>
                 </div>
-                <div class="nav-link active">
+                <div class="nav-link">
                     <img src="/assets/icons/report.svg" alt="">
                     <a href="index.php">Проекты</a>
                 </div>
@@ -62,7 +63,7 @@ if ($result->num_rows > 0) {
                     <img src="/assets/icons/report.svg" alt="">
                     <a href="kompl-list.php">Комплекты</a>
                 </div>
-                <div class="nav-link">
+                <div class="nav-link active">
                     <img src="/assets/icons/pencil.svg" alt="">
                     <a href="metal-binding-list.php">Гибка металла</a>
                 </div>
@@ -81,7 +82,7 @@ if ($result->num_rows > 0) {
                         <p class="name"><?php echo $_SESSION['name'] . " " . $_SESSION['surname'];?></p>
                         <p class="role">
                         <?php
-                        if($_SESSION['roleId'] = 2){
+                        if($_SESSION['roleId'] === 2){
                             echo 'Администратор';
                         } else {
                             echo 'Пользователь';
@@ -94,61 +95,37 @@ if ($result->num_rows > 0) {
 
             <div class="wrapper">
                 <div class="wrapper-head">
-                    <h1>Список  проектов</h1>
-                    <div></div>
+                    <h1>Список проектов</h1>
+                    <div>
+                        <div class="buttons">
+                            <form method="post">
+                                <button class="create-project" name="create-project">
+                                    Создать
+                                </button>
+                            </form>
+                            <button class="delete-project">
+                                Удалить
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <?php
 
-                $host = $pathDB;
-                $username = 'SYSDBA';
-                $password = 'masterkey';
-
-                try {
-                    $dbh = new PDO("firebird:dbname=$host;charset=WIN1251", $username, $password);
-                    
-                    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                    header('Content-Type: text/html; charset=WIN1251');
-
-                    $sql = 'SELECT PNUMB, ZNUMB, KNAME, PDATE, POBJA, PSTAT, MNAME FROM LISTPRJ ORDER BY PNUMB';
-
-                    $sth = $dbh->query($sql);
-
-                    echo "<table>";
-                    echo "<thead>
-                            <tr>
-                                <th><a href='#' id='sort-anumb'>№</a></th>
-                                <th><a href='#' id='sort-name'>Заказ</th>
-                                <th><a href='#' id='sort-color'>Контрагент</th>
-                                <th><a href='#' id='sort-price'>Регистрация</th>
-                                <th><a href='#' id='sort-iternal-price'>Описания</th>
-                                <th><a href='#' id='sort-external-price'>Статус</th>
-                                <th><a href='#' id='sort-external-price'>Менеджер</th>
-                            </tr>
-                        </thead>";
-                    echo "<tbody>";
-                    
-                    while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<tr onclick=\"window.location.href = 'project-info.php?PNUMB=".$row['PNUMB']."'\">";
-                        echo "<td><p>".$row['PNUMB']."</p></td>";
-                        echo "<td><p>".$row['ZNUMB']."</p></td>";
-                        echo "<td><p>".$row['KNAME']."</p></td>";
-                        echo "<td><p>".$row['PDATE']."</p></td>";
-                        echo "<td><p>".$row['POBJA']."</p></td>";
-                        echo "<td><p>".$row['PSTAT']."</p></td>";
-                        echo "<td><p>".$row['MNAME']."</p></td>";
-                        echo "</tr>";
-                    }
-
-                    echo "</tbody>";
-                    echo "</table>";
-
-                } catch (PDOException $e) {
-                    echo "Ошибка соединения: " . $e->getMessage();
-                }
-                ?>
+                <div class="komp-list">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Наименование объекта</th>
+                                </tr>
+                            </thead>
+                        </table>
+                </div>
             </div>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
+    <script src="/js/jquery.js"></script>
+    <script src="/js/metal-binding-list.js"></script>
 </body>
 </html>

@@ -96,6 +96,10 @@ try{
                     <a href="index.php">Проекты</a>
                 </div>
                 <div class="nav-link">
+                    <img src="/assets/icons/pencil.svg" alt="">
+                    <a href="metal-binding-list.php">Гибка металла</a>
+                </div>
+                <div class="nav-link">
                     <img src="/assets/icons/gear.svg" alt="">
                     <a href="settings.php">Настройки</a>
                 </div>

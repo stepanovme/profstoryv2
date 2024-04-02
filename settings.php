@@ -85,7 +85,11 @@ if ($result->num_rows > 0) {
                 <div class="nav-link">
                     <img src="/assets/icons/report.svg" alt="">
                     <a href="kompl-list.php">Комплекты</a>
-                </div>  
+                </div>
+                <div class="nav-link">
+                    <img src="/assets/icons/pencil.svg" alt="">
+                    <a href="metal-binding-list.php">Гибка металла</a>
+                </div>
                 <div class="nav-link active">
                     <img src="/assets/icons/gear.svg" alt="">
                     <a href="settings.php">Настройки</a>
