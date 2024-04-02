@@ -67,6 +67,10 @@ if ($result->num_rows > 0) {
                     <a href="metal-binding-list.php">Гибка металла</a>
                 </div>
                 <div class="nav-link">
+                    <img src="/assets/icons/lock.svg" alt="">
+                    <a href="administrator.php">Админ</a>
+                </div>
+                <div class="nav-link">
                     <img src="/assets/icons/gear.svg" alt="">
                     <a href="settings.php">Настройки</a>
                 </div>

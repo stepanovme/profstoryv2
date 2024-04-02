@@ -3,11 +3,15 @@ header('Content-Type: text/html; charset=WIN1251');
 
 session_start();
 
+global $pathDB;
+
 if (!isset($_SESSION['userId'])) {
     // Если сессия не установлена, перенаправляем пользователя на страницу входа
     header("Location: auth.php");
     exit;
 }
+
+@include './database/conn_mysql.php';
 
 $userId = $_SESSION['userId'];
 
@@ -29,28 +33,20 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
-// Получаем значение projectListCadId из GET-запроса
-if (isset($_GET['projectListCadId'])) {
-    // Получаем значение параметра
-    $projectListCadId = $_GET['projectListCadId'];
-} else {
-    // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
-    echo "Ошибка: Не передан номер комплекта";
-    exit; // Выход из скрипта, чтобы избежать дальнейшей обработки
-}
+
 
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/favicon/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/metal-binding-product-list.css">
-    <title>Гибка метала</title>
+    <link rel="stylesheet" href="css/administrator.css">
+    <title>Админ панель</title>
 </head>
 <body>
     <div class="page">
@@ -72,9 +68,13 @@ if (isset($_GET['projectListCadId'])) {
                     <img src="/assets/icons/report.svg" alt="">
                     <a href="kompl-list.php">Комплекты</a>
                 </div>
-                <div class="nav-link active">
+                <div class="nav-link">
                     <img src="/assets/icons/pencil.svg" alt="">
                     <a href="metal-binding-list.php">Гибка металла</a>
+                </div>
+                <div class="nav-link active">
+                    <img src="/assets/icons/lock.svg" alt="">
+                    <a href="administrator.php">Админ</a>
                 </div>
                 <div class="nav-link">
                     <img src="/assets/icons/gear.svg" alt="">
@@ -91,7 +91,7 @@ if (isset($_GET['projectListCadId'])) {
                         <p class="name"><?php echo $_SESSION['name'] . " " . $_SESSION['surname'];?></p>
                         <p class="role">
                         <?php
-                        if($_SESSION['roleId'] === 2){
+                        if($_SESSION['roleId'] = 2){
                             echo 'Администратор';
                         } else {
                             echo 'Пользователь';
@@ -103,61 +103,51 @@ if (isset($_GET['projectListCadId'])) {
             </header>
 
             <div class="wrapper">
-                <p class="back" onclick="window.location.href = 'metal-binding-list.php'">< вернутся</p>
                 <div class="wrapper-head">
-                    <h1>Список заявок</h1>
-                    <div>
-                        <div class="buttons">
-                            <form method="post">
-                                <button class="create-ticket" name="create-ticket">
-                                    Создать
-                                </button>
-                            </form>
-                            <button class="delete-ticket">
-                                Удалить
-                            </button>
-                        </div>
-                    </div>
+                    <h1>Список пользователей</h1>
+                    <div></div>
                 </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:100px;">№</th>
+                            <th>Сотрудник</th>
+                            <th style="width:300px;">Дата регистрации</th>
+                            <th style="width:300px;">Роль</th>
+                        </tr>
+                    </thead>
 
-                <div class="komp-list">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>№</th>
-                                    <th>Наименование объекта</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                        <?php
+                    <tbody>
 
-                        $sql = "SELECT * FROM TicketListCad WHERE projectListCadId = $projectListCadId";
+                        <?php 
+                        
+                        $sql = "SELECT u.userId, u.name, u.surname, u.roleId, r.roleName
+                                FROM user u
+                                INNER JOIN role r ON u.roleId = r.roleId";
 
                         $result = $conn->query($sql);
-        
+
                         $NUM = 0;
-        
+
                         while ($row = $result->fetch_assoc()){
                             $NUM = $NUM + 1;
-                            echo "<tr data-id='" . $row['TicketListCadId'] ."' onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">";
-                            echo "<td><input type='checkbox' class='row-checkbox'></td>";
-                            echo "<td>".$NUM."</td>";
-                            echo "<td>".$row['TicketListCadName']."</td>";
-                            echo "</tr>";
+                            echo '<tr>';
+                            echo '<td>'.$NUM.'</td>';
+                            echo '<td>'.$row['name'].' '.$row['surname'].'</td>';
+                            echo '<td>'.$row['userId'].'</td>';
+                            echo '<td>'.$row['roleName'].'</td>';
+                            echo '</tr>';
                         }
-                        echo "<tbody>";
-                        echo "</table>";
-
+                        
                         ?>
 
-                </div>
+                    </tbody>
+
+                </table>
             </div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
     <script src="/js/jquery.js"></script>
-    <script src="/js/metal-binding-list.js"></script>
+    <script src="/js/administrator.js"></script>
 </body>
 </html>

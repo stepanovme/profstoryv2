@@ -108,3 +108,8 @@ button.delete-ticket:active{
     font-size: 32px;
     font-weight: 700;
 }
+
+.back{
+    color: #6A6A6A;
+    cursor: pointer;
+}

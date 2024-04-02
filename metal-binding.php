@@ -29,6 +29,32 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
+
+// Получаем значение TicketListCadId из GET-запроса
+if (isset($_GET['TicketListCadId'])) {
+    // Получаем значение параметра
+    $TicketListCadId = $_GET['TicketListCadId'];
+} else {
+    // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
+    echo "Ошибка: Не передан номер комплекта";
+    exit; // Выход из скрипта, чтобы избежать дальнейшей обработки
+}
+
+$sql = "SELECT * FROM TicketListCad WHERE TicketListCadId = $TicketListCadId";
+
+$result = $conn->query($sql);
+
+while ($row = $result->fetch_assoc()){
+    $projectListCadId = $row['projectListCadId'];
+    $TicketListCadName = $row['TicketListCadName'];
+    $TicketListCadColor = $row['TicketListCadColor'];
+    $TicketListCadBrigade = $row['TicketListCadBrigade'];
+    $TicketListCadAddress = $row['TicketListCadAddress'];
+    $TicketListCadDate = $row['TicketListCadDate'];
+    $TicketListCadQuantity = $row['TicketListCadQuantity'];
+    $TicketListCadMetr = $row['TicketListCadMetr'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -94,10 +120,11 @@ if ($result->num_rows > 0) {
             </header>
 
             <div class="wrapper">
-                <a href="index.php" class="back">< вернутся</a>
+                <a class="back" onclick="window.location.href = 'metal-binding-product-list.php?projectListCadId=<?php echo $projectListCadId;?>'">< вернутся</a>
                 <div class="wrapper-head">
                     <div class="menu">
-                        <a href="project-info.php?PNUMB=<?php echo htmlspecialchars($PNUMB); ?>" class="active">Первое изделие</a>
+                        <a href="project-info.php?PNUMB=<?php echo htmlspecialchars($PNUMB); ?>" class="active">Заявка</a>
+                        <a href="project-info.php?PNUMB=<?php echo htmlspecialchars($PNUMB); ?>">Расчёт</a>
                     </div>
                     <div></div>
                 </div>
@@ -110,39 +137,39 @@ if ($result->num_rows > 0) {
                         <div class="line">
                             <div class="object">
                                 <p>Объект:</p>
-                                <input type="text" name="object">
+                                <input type="text" name="object" value="<?php echo $TicketListCadName; ?>">
                             </div>
                             <div class="date">
                                 <p>Дата:</p>
-                                <input type="date" name="data-project">
+                                <input type="date" name="data-project" value="<?php echo $TicketListCadDate; ?>">
                             </div>
                         </div>
                         <div class="line">
                             <div class="color">
                                 <p>Цвет/толщина:</p>
-                                <input type="text" name="color">
+                                <input type="text" name="color" value="<?php echo $TicketListCadColor; ?>">
                             </div>
                             <div class="izd">
                                 <p>Кол-во изделий:</p>
-                                <input type="text" name="count">
+                                <input type="text" name="count" value="<?php echo $TicketListCadQuantity; ?>">
                             </div>
                         </div>
                         
                         <div class="line">
                             <div class="brigada">
                                 <p>Бригада:</p>
-                                <input type="text" name="brigada">
+                                <input type="text" name="brigada" value="<?php echo $TicketListCadBrigade; ?>">
                             </div>
                             <div class="mterpog">
                                 <p>м.п.</p>
-                                <input type="text" name="metrpog">
+                                <input type="text" name="metrpog" value="<?php echo $TicketListCadMetr; ?>">
                             </div>
                         </div>
 
                         <div class="line">
                             <div class="address">
                                 <p>Адрес доставки:</p>
-                                <input type="text" name="address">
+                                <input type="text" name="address" value="<?php echo $TicketListCadAddress; ?>">
                             </div>
                         </div>
                 </div>
@@ -152,13 +179,41 @@ if ($result->num_rows > 0) {
                         <tr>
                             <th style="width: 100px;">Поз.</th>
                             <th>Изделие</th>
-                            <th style="width: 100px;">кол-во, шт</th>
+                            <th style="width: 100px;">Сумма развёртки</th>
                             <th style="width: 100px;">L, м</th>
+                            <th style="width: 100px;">кол-во, шт</th>
                             <th style="width: 600px;">Место</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+
+                    <?php
+                    
+                    $sql = "SELECT * FROM ProductListCad WHERE TicketListCadId = $TicketListCadId";
+
+                    $result = $conn->query($sql);
+
+                    $num = 0;
+
+                    while ($row = $result->fetch_assoc()){
+                        $num = $num + 1;
+                        echo '<td>'.$num.'</td>';
+                        echo '<td id="drawCell">
+                                <div class="canvas-panel">
+                                    <button id="textButton">T</button>
+                                    <button id="arrowButton">С</button>
+                                    <canvas id="drawingCanvas" width="1000" height="300" willReadFrequently></canvas>
+                                </div>
+                               </td>';
+                        echo '<td></td>';
+                        echo '<td>'.$row['ProductListCadLength'].'</td>';
+                        echo '<td>'.$row['ProductListCadQuantity'].'</td>';
+                        echo '<td>'.$row['ProductListCadPlace'].'</td>';
+                    }
+
+                    ?>
+
+                        <!-- <tr>
                             <td>1</td>
                             <td id="drawCell">
                                 <div class="canvas-panel">
@@ -170,7 +225,7 @@ if ($result->num_rows > 0) {
                             <td>1</td>
                             <td>1</td>
                             <td>1</td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
                 
@@ -328,6 +383,7 @@ canvas.addEventListener('click', function (e) {
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
         ctx.strokeStyle = 'black'; // Устанавливаем черный цвет для линии
+        ctx.lineWidth = 1;
         ctx.stroke();
         ctx.closePath();
     }
@@ -365,11 +421,11 @@ canvas.addEventListener('click', function (e) {
         // Проверяем текущее состояние режима рисования текста
         if (textEnabled) {
             // Если режим рисования текста был включен, отключаем его
-            textButton.style.backgroundColor = ''; // Возвращаем фон кнопки к начальному состоянию
+            textButton.style.color = ''; // Возвращаем фон кнопки к начальному состоянию
             textEnabled = false; // Устанавливаем переменную textEnabled в false
         } else {
             // Если режим рисования текста был выключен, включаем его
-            textButton.style.backgroundColor = '#ccc'; // Меняем фон кнопки на серый
+            textButton.style.color = '#59B077'; // Меняем фон кнопки на серый
             textEnabled = true; // Устанавливаем переменную textEnabled в true
         }
     });
@@ -379,11 +435,11 @@ canvas.addEventListener('click', function (e) {
     // Проверяем текущее состояние режима рисования стрелок
     if (arrowEnabled) {
         // Если режим рисования стрелок был включен, отключаем его
-        arrowButton.style.backgroundColor = ''; // Возвращаем фон кнопки к начальному состоянию
+        arrowButton.style.color = ''; // Возвращаем фон кнопки к начальному состоянию
         arrowEnabled = false; // Устанавливаем переменную arrowEnabled в false
     } else {
         // Если режим рисования стрелок был выключен, включаем его
-        arrowButton.style.backgroundColor = '#ccc'; // Меняем фон кнопки на серый
+        arrowButton.style.color = '#59B077'; // Меняем фон кнопки на серый
         arrowEnabled = true; // Устанавливаем переменную arrowEnabled в true
         textEnabled = false; // Убираем включение режима рисования текста, если он был активирован
     }
