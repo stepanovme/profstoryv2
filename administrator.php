@@ -115,7 +115,7 @@ if ($result->num_rows > 0) {
                             <th style="width:300px;">Дата регистрации</th>
                             <th style="width:300px;">Роль</th>
                         </tr>
-                    </thead>
+                    </thead>  
 
                     <tbody>
 
@@ -135,8 +135,12 @@ if ($result->num_rows > 0) {
                             echo '<td>'.$NUM.'</td>';
                             echo '<td>'.$row['name'].' '.$row['surname'].'</td>';
                             echo '<td>'.$row['userId'].'</td>';
-                            echo '<td>'.$row['roleName'].'</td>';
-                            echo '</tr>';
+                            echo '<td class="styled-select">
+                                    <select onchange="changeRole(this.value, '.$row['userId'].')">
+                                        <option value="1"'.($row['roleId'] == 1 ? ' selected' : '').'>Пользователь</option>
+                                        <option value="2"'.($row['roleId'] == 2 ? ' selected' : '').'>Администратор</option>
+                                    </select>
+                                   </td>';
                         }
                         
                         ?>
