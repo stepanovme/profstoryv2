@@ -29,6 +29,15 @@ if ($result->num_rows > 0) {
     echo "0 results";
 }
 
+// Получаем значение projectListCadId из GET-запроса
+if (isset($_GET['projectListCadId'])) {
+    // Получаем значение параметра
+    $projectListCadId = $_GET['projectListCadId'];
+} else {
+    // Если параметр не был передан, выводим сообщение об ошибке или выполняем другие действия
+    echo "Ошибка: Не передан номер комплекта";
+    exit; // Выход из скрипта, чтобы избежать дальнейшей обработки
+}
 
 ?>
 <!DOCTYPE html>
@@ -40,7 +49,7 @@ if ($result->num_rows > 0) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="assets/favicon/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="css/metal-binding-list.css">
+    <link rel="stylesheet" href="css/metal-binding-product-list.css">
     <title>Гибка метала</title>
 </head>
 <body>
@@ -95,15 +104,15 @@ if ($result->num_rows > 0) {
 
             <div class="wrapper">
                 <div class="wrapper-head">
-                    <h1>Список проектов</h1>
+                    <h1>Список заявок</h1>
                     <div>
                         <div class="buttons">
                             <form method="post">
-                                <button class="create-project" name="create-project">
+                                <button class="create-ticket" name="create-ticket">
                                     Создать
                                 </button>
                             </form>
-                            <button class="delete-project">
+                            <button class="delete-ticket">
                                 Удалить
                             </button>
                         </div>
@@ -122,7 +131,7 @@ if ($result->num_rows > 0) {
                             <tbody>
                         <?php
 
-                        $sql = "SELECT * FROM projectListCad";
+                        $sql = "SELECT * FROM TicketListCad WHERE projectListCadId = $projectListCadId";
 
                         $result = $conn->query($sql);
         
@@ -130,10 +139,10 @@ if ($result->num_rows > 0) {
         
                         while ($row = $result->fetch_assoc()){
                             $NUM = $NUM + 1;
-                            echo "<tr data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">";
+                            echo "<tr >";
                             echo "<td><input type='checkbox' class='row-checkbox'></td>";
                             echo "<td>".$NUM."</td>";
-                            echo "<td>".$row['projectListCadName']."</td>";
+                            echo "<td>".$row['TicketListCadName']."</td>";
                             echo "</tr>";
                         }
                         echo "<tbody>";

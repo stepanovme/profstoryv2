@@ -1,7 +1,7 @@
-//РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕР№ СЃС‚СЂРѕРєРё РІ С‚Р°Р±Р»РёС†Рµ KompList
+//Создание новой строки в таблице KompList
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('.create-kompl').addEventListener('click', function() {
-        // РћС‚РєР»СЋС‡Р°РµРј РєРЅРѕРїРєСѓ РїРѕСЃР»Рµ РїРµСЂРІРѕРіРѕ РєР»РёРєР°
+        // Отключаем кнопку после первого клика
         this.disabled = true;
         
         var xhr = new XMLHttpRequest();
@@ -9,20 +9,20 @@ document.addEventListener('DOMContentLoaded', function() {
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
             if (xhr.status === 200) {
-                // РћР±СЂР°Р±РѕС‚РєР° СѓСЃРїРµС€РЅРѕРіРѕ РѕС‚РІРµС‚Р°
+                // Обработка успешного ответа
                 console.log(xhr.responseText);
-                // РџРµСЂРµР·Р°РіСЂСѓР·РєР° СЃС‚СЂР°РЅРёС†С‹ РїРѕСЃР»Рµ РґРѕР±Р°РІР»РµРЅРёСЏ Р·Р°РїРёСЃРё
+                // Перезагрузка страницы после добавления записи
                 window.location.reload();
             } else {
-                // РћР±СЂР°Р±РѕС‚РєР° РѕС€РёР±РєРё
-                console.log('Передано: ' + xhr.status);
+                // Обработка ошибки
+                console.log(': ' + xhr.status);
             }
         };
         xhr.send('create-kompl=true');
     });
 });
 
-//РћР±РЅРѕРІР»РµРЅРёРµ KomplistName
+//Обновление KomplistName
 document.addEventListener('DOMContentLoaded', function() {
 const editableCells = document.querySelectorAll('.editable-name');
 
@@ -34,9 +34,9 @@ editableCells.forEach(cell => {
     });
     cell.addEventListener('keydown', function(event) {
         if (event.key === 'Enter') {
-            event.preventDefault(); // РџСЂРµРґРѕС‚РІСЂР°С‰Р°РµРј РґРµР№СЃС‚РІРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (РїРµСЂРµС…РѕРґ РЅР° РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ)
+            event.preventDefault(); // Предотвращаем действие по умолчанию (переход на новую строку)
 
-            // Р—Р°РІРµСЂС€Р°РµРј СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‚РµРєСѓС‰РµР№ СЏС‡РµР№РєРё
+            // Завершаем редактирование текущей ячейки
             this.blur();
         }
     });
@@ -44,13 +44,13 @@ editableCells.forEach(cell => {
 
 function updateCellValue(anumb, newValue) {
 
-    // РћС‚РїСЂР°РІРєР° AJAX Р·Р°РїСЂРѕСЃР° РЅР° СЃРµСЂРІРµСЂ
+    // Отправка AJAX запроса на сервер
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/function/save-edit.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            // РћР±СЂР°Р±РѕС‚РєР° РѕС‚РІРµС‚Р° РѕС‚ СЃРµСЂРІРµСЂР°, РµСЃР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ
+            // Обработка ответа от сервера, если необходимо
             console.log(xhr.responseText);
         }
     };
@@ -58,7 +58,7 @@ function updateCellValue(anumb, newValue) {
 }
 });
 
-//РћР±РЅРѕРІР»РµРЅРёРµ KomplistCategory
+//Обновление KomplistCategory
 document.addEventListener('DOMContentLoaded', function() {
     const editableCells = document.querySelectorAll('.editable-category');
     
@@ -70,9 +70,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         cell.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
-                event.preventDefault(); // РџСЂРµРґРѕС‚РІСЂР°С‰Р°РµРј РґРµР№СЃС‚РІРёРµ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ (РїРµСЂРµС…РѕРґ РЅР° РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ)
+                event.preventDefault(); // Предотвращаем действие по умолчанию (переход на новую строку)
     
-                // Р—Р°РІРµСЂС€Р°РµРј СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ С‚РµРєСѓС‰РµР№ СЏС‡РµР№РєРё
+                // Завершаем редактирование текущей ячейки
                 this.blur();
             }
         });
@@ -80,13 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function updateCellValue(anumb, newValue) {
     
-        // РћС‚РїСЂР°РІРєР° AJAX Р·Р°РїСЂРѕСЃР° РЅР° СЃРµСЂРІРµСЂ
+        // Отправка AJAX запроса на сервер
         const xhr = new XMLHttpRequest();
         xhr.open('POST', '/function/save-edit-category.php', true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                // РћР±СЂР°Р±РѕС‚РєР° РѕС‚РІРµС‚Р° РѕС‚ СЃРµСЂРІРµСЂР°, РµСЃР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ
+                // Обработка ответа от сервера, если необходимо
                 console.log(xhr.responseText);
             }
         };
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// РћР±СЂР°Р±РѕС‚РєР° РЅР°Р¶Р°С‚РёСЏ РєРЅРѕРїРєРё СѓРґР°Р»РµРЅРёСЏ
+// Обработка нажатия кнопки удаления
 document.querySelector('.delete-kompl').addEventListener('click', function() {
     var selectedRows = document.querySelectorAll('.row-checkbox:checked');
     var ids = [];
@@ -105,19 +105,19 @@ document.querySelector('.delete-kompl').addEventListener('click', function() {
     });
 
     if (ids.length > 0) {
-        // РћС‚РїСЂР°РІР»СЏРµРј Р·Р°РїСЂРѕСЃ РЅР° СѓРґР°Р»РµРЅРёРµ РІС‹Р±СЂР°РЅРЅС‹С… СЃС‚СЂРѕРє РЅР° СЃРµСЂРІРµСЂ
+        // Отправляем запрос на удаление выбранных строк на сервер
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '../function/delete_rows.php', true);
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                // РћР±СЂР°Р±РѕС‚РєР° РѕС‚РІРµС‚Р° СЃРµСЂРІРµСЂР°, РµСЃР»Рё РЅРµРѕР±С…РѕРґРёРјРѕ
+                // Обработка ответа сервера, если необходимо
                 console.log(xhr.responseText);
             }
         };
         xhr.send('ids=' + JSON.stringify(ids));
         location.reload();   
     } else {
-        alert('Выберите строки для удаления.');
+        alert('   .');
     }
 });

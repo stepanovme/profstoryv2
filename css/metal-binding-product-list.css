@@ -1,0 +1,110 @@
+@import url(/css/style.css);
+
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+button.create-ticket{
+    background-color: var(--var-main-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+button.create-ticket:hover{
+    background-color: var(--var-hover-color);
+}
+
+button.create-ticket:active{
+    background-color: var(--var-active-color);
+}
+
+button.delete-ticket{
+    background-color: var(--var-red-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+button.delete-ticket:hover{
+    background-color: var(--var-red-hover-color);
+}
+
+button.delete-ticket:active{
+    background-color: var(--var-red-active-color);
+}
+
+.komp-content{
+
+
+    height: 320px;
+    overflow-y: auto; 
+}
+
+.komp-content>.wrapper-head{
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 570px;
+    width: 86%;
+}
+
+.komp-content>.wrapper-head>.buttons>button.addButton{
+    background-color: var(--var-main-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.komp-content>.wrapper-head>.buttons>button.addButton:hover{
+    background-color: var(--var-hover-color);
+}
+
+.komp-content>.wrapper-head>.buttons>button.addButton:active{
+    background-color: var(--var-active-color);
+}
+
+.komp-content>.wrapper-head>.buttons>button.deleteButton{
+    background-color: var(--var-red-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.komp-content>.wrapper-head>.buttons>button.deleteButton:hover{
+    background-color: var(--var-red-hover-color);
+}
+
+.komp-content>.wrapper-head>.buttons>button.deleteButton:active{
+    background-color: var(--var-red-active-color);
+}
+
+
+.komp-content>.wrapper-head>p.title{
+    font-size: 32px;
+    font-weight: 700;
+}
