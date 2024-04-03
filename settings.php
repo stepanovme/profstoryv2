@@ -72,29 +72,121 @@ if ($result->num_rows > 0) {
             <button class="logo" onclick="window.location.href = 'index.php'">
                 PROF-INTEGRATE
             </button>
-            <div class="nav">
-                <p class="side-title">ГЛАВНОЕ МЕНЮ</p>
-                <div class="nav-link">
-                    <img src="/assets/icons/dashbord-icon.svg" alt="">
-                    <a href="materialValues.php">МЦ</a>
-                </div>
-                <div class="nav-link">
-                    <img src="/assets/icons/report.svg" alt="">
-                    <a href="index.php">Проекты</a>
-                </div>
-                <div class="nav-link">
-                    <img src="/assets/icons/report.svg" alt="">
-                    <a href="kompl-list.php">Комплекты</a>
-                </div>
-                <div class="nav-link">
-                    <img src="/assets/icons/pencil.svg" alt="">
-                    <a href="metal-binding-list.php">Гибка металла</a>
-                </div>
-                <div class="nav-link active">
-                    <img src="/assets/icons/gear.svg" alt="">
-                    <a href="settings.php">Настройки</a>
-                </div>
-            </div>
+            <?php 
+            $sql = "SELECT user.*, role.roleName 
+            FROM user 
+            INNER JOIN role ON user.roleId = role.roleId 
+            WHERE user.userId = '$userId'";
+
+            $result = $conn->query($sql);
+
+            while($row = $result->fetch_assoc()){
+                $roleName = $row['roleName'];
+            }
+            switch($roleName){
+                case 'Администратор':
+                    echo '<div class="nav">
+                            <p class="side-title">ГЛАВНОЕ МЕНЮ</p>
+                            <div class="nav-link">
+                                <img src="/assets/icons/dashbord-icon.svg" alt="">
+                                <a href="materialValues.php">МЦ</a>
+                            </div>
+                            <div class="nav-link">
+                                <img src="/assets/icons/project.svg" alt="">
+                                <a href="index.php">Проекты</a>
+                            </div>
+                            <div class="nav-link">
+                                <img src="/assets/icons/report.svg" alt="">
+                                <a href="kompl-list.php">Комплекты</a>
+                            </div>
+                            <div class="nav-link">
+                                <img src="/assets/icons/pencil.svg" alt="">
+                                <a href="metal-binding-list.php">Гибка металла</a>
+                            </div>
+                            <div class="nav-link">
+                                <img src="/assets/icons/lock.svg" alt="">
+                                <a href="administrator.php">Сотрудники</a>
+                            </div>
+                            <div class="nav-link active">
+                                <img src="/assets/icons/gear.svg" alt="">
+                                <a href="settings.php">Настройки</a>
+                            </div>
+                        </div>';
+                        break;
+                case 'Директор':
+                    echo '<div class="nav">
+                            <p class="side-title">ГЛАВНОЕ МЕНЮ</p>
+                            <div class="nav-link">
+                                <img src="/assets/icons/dashbord-icon.svg" alt="">
+                                <a href="materialValues.php">МЦ</a>
+                            </div>
+                            <div class="nav-link">
+                                <img src="/assets/icons/project.svg" alt="">
+                                <a href="index.php">Проекты</a>
+                            </div>
+                            <div class="nav-link">
+                                <img src="/assets/icons/report.svg" alt="">
+                                <a href="kompl-list.php">Комплекты</a>
+                            </div>
+                            <div class="nav-link">
+                                <img src="/assets/icons/pencil.svg" alt="">
+                                <a href="metal-binding-list.php">Гибка металла</a>
+                            </div>
+                            <div class="nav-link">
+                                <img src="/assets/icons/lock.svg" alt="">
+                                <a href="administrator.php">Сотрудники</a>
+                            </div>
+                            <div class="nav-link active">
+                                <img src="/assets/icons/gear.svg" alt="">
+                                <a href="settings.php">Настройки</a>
+                            </div>
+                        </div>';
+                        break;
+                case 'Проектировщик':
+                    echo '<div class="nav">
+                            <p class="side-title">ГЛАВНОЕ МЕНЮ</p>
+                            <div class="nav-link">
+                                <img src="/assets/icons/dashbord-icon.svg" alt="">
+                                <a href="materialValues.php">МЦ</a>
+                            </div>
+                            <div class="nav-link">
+                                <img src="/assets/icons/project.svg" alt="">
+                                <a href="index.php">Проекты</a>
+                            </div>
+                            <div class="nav-link">
+                                <img src="/assets/icons/report.svg" alt="">
+                                <a href="kompl-list.php">Комплекты</a>
+                            </div>
+                            <div class="nav-link active">
+                                <img src="/assets/icons/gear.svg" alt="">
+                                <a href="settings.php">Настройки</a>
+                            </div>
+                        </div>';
+                        break;
+                case 'Прораб':
+                    echo '<div class="nav">
+                            <p class="side-title">ГЛАВНОЕ МЕНЮ</p>
+                            <div class="nav-link">
+                                <img src="/assets/icons/pencil.svg" alt="">
+                                <a href="metal-binding-list.php">Гибка металла</a>
+                            </div>
+                        </div>';
+                        break;
+                case 'Бригадир':
+                    echo '<div class="nav">
+                            <p class="side-title">ГЛАВНОЕ МЕНЮ</p>
+                            <div class="nav-link">
+                                <img src="/assets/icons/pencil.svg" alt="">
+                                <a href="metal-binding-list.php">Гибка металла</a>
+                            </div>
+                        </div>';
+                        break;
+                case 'Пользователь':
+                    echo '';
+                    break;
+            }
+            ?>
+            
         </div>
 
         <div class="content">
@@ -105,17 +197,6 @@ if ($result->num_rows > 0) {
                         <p class="name"><?php echo $_SESSION['name'] . " " . $_SESSION['surname'];?></p>
                         <p class="role">
                         <?php
-                        $sql = "SELECT user.*, role.roleName 
-                        FROM user 
-                        INNER JOIN role ON user.roleId = role.roleId 
-                        WHERE user.userId = '$userId'";
-
-                        $result = $conn->query($sql);
-
-                        while($row = $result->fetch_assoc()){
-                            $roleName = $row['roleName'];
-                        }
-
                         echo $roleName;
                         ?>
                         </p>
