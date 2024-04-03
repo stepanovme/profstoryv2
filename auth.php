@@ -38,6 +38,7 @@ session_start();
                             $_SESSION['userId'] = $row['userId'];
                             $_SESSION['name'] = $row['name'];
                             $_SESSION['surname'] = $row['surname'];
+                            $_SESSION['roleId'] = $row['roleId'];
                             header("Location: index.php");
                             exit;
                         } else {

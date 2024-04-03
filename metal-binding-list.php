@@ -11,6 +11,21 @@ if (!isset($_SESSION['userId'])) {
 
 $userId = $_SESSION['userId'];
 
+@include './database/conn_mysql.php';
+
+$sql = "SELECT roleId from user where userId = $userId";
+
+$result = $conn->query($sql);
+
+while($row = $result->fetch_assoc()){
+    $roleId = $row['roleId'];
+}
+
+if($roleId == 3){
+    header("Location: index.php");
+    exit;
+}
+
 $sql = "SELECT user.*, role.roleName 
         FROM user 
         INNER JOIN role ON user.roleId = role.roleId 
@@ -76,7 +91,7 @@ if ($result->num_rows > 0) {
                                 <img src="/assets/icons/report.svg" alt="">
                                 <a href="kompl-list.php">Комплекты</a>
                             </div>
-                            <div class="nav-link">
+                            <div class="nav-link active">
                                 <img src="/assets/icons/pencil.svg" alt="">
                                 <a href="metal-binding-list.php">Гибка металла</a>
                             </div>
@@ -84,7 +99,7 @@ if ($result->num_rows > 0) {
                                 <img src="/assets/icons/lock.svg" alt="">
                                 <a href="administrator.php">Сотрудники</a>
                             </div>
-                            <div class="nav-link active">
+                            <div class="nav-link">
                                 <img src="/assets/icons/gear.svg" alt="">
                                 <a href="settings.php">Настройки</a>
                             </div>
@@ -105,7 +120,7 @@ if ($result->num_rows > 0) {
                                 <img src="/assets/icons/report.svg" alt="">
                                 <a href="kompl-list.php">Комплекты</a>
                             </div>
-                            <div class="nav-link">
+                            <div class="nav-link active">
                                 <img src="/assets/icons/pencil.svg" alt="">
                                 <a href="metal-binding-list.php">Гибка металла</a>
                             </div>
@@ -113,7 +128,7 @@ if ($result->num_rows > 0) {
                                 <img src="/assets/icons/lock.svg" alt="">
                                 <a href="administrator.php">Сотрудники</a>
                             </div>
-                            <div class="nav-link active">
+                            <div class="nav-link">
                                 <img src="/assets/icons/gear.svg" alt="">
                                 <a href="settings.php">Настройки</a>
                             </div>
@@ -134,7 +149,7 @@ if ($result->num_rows > 0) {
                                 <img src="/assets/icons/report.svg" alt="">
                                 <a href="kompl-list.php">Комплекты</a>
                             </div>
-                            <div class="nav-link active">
+                            <div class="nav-link">
                                 <img src="/assets/icons/gear.svg" alt="">
                                 <a href="settings.php">Настройки</a>
                             </div>
@@ -143,7 +158,7 @@ if ($result->num_rows > 0) {
                 case 'Прораб':
                     echo '<div class="nav">
                             <p class="side-title">ГЛАВНОЕ МЕНЮ</p>
-                            <div class="nav-link">
+                            <div class="nav-link active">
                                 <img src="/assets/icons/pencil.svg" alt="">
                                 <a href="metal-binding-list.php">Гибка металла</a>
                             </div>
@@ -152,7 +167,7 @@ if ($result->num_rows > 0) {
                 case 'Бригадир':
                     echo '<div class="nav">
                             <p class="side-title">ГЛАВНОЕ МЕНЮ</p>
-                            <div class="nav-link">
+                            <div class="nav-link active">
                                 <img src="/assets/icons/pencil.svg" alt="">
                                 <a href="metal-binding-list.php">Гибка металла</a>
                             </div>

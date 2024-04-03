@@ -15,6 +15,24 @@ if (!isset($_SESSION['userId'])) {
 
 $userId = $_SESSION['userId'];
 
+
+$sql = "SELECT roleId from user where userId = $userId";
+
+$result = $conn->query($sql);
+
+while($row = $result->fetch_assoc()){
+    $roleId = $row['roleId'];
+}
+
+if($roleId == 3){
+    header("Location: index.php");
+    exit;
+} elseif($roleId == 4 || $roleId == 5){
+    header("Location: metal-binding-list.php");
+    exit;
+}
+
+
 // Обработка загрузки файла
 if(isset($_FILES['file']) && !empty($_FILES['file']['name'])) {
     $file_name = $_FILES['file']['name'];
@@ -37,8 +55,6 @@ $sql = "SELECT user.*, role.roleName
         FROM user 
         INNER JOIN role ON user.roleId = role.roleId 
         WHERE user.userId = '$userId'";
-
-@include './database/conn_mysql.php';
 
 $result = $conn->query($sql);
 
