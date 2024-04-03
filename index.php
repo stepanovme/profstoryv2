@@ -244,7 +244,7 @@ if ($result->num_rows > 0) {
                         echo "<td><p>".$row['PNUMB']."</p></td>";
                         echo "<td><p>".$row['ZNUMB']."</p></td>";
                         echo "<td><p>".$row['KNAME']."</p></td>";
-                        echo "<td><p>".$row['PDATE']."</p></td>";
+                        echo "<td><p>".date("d-m-Y", strtotime($row['PDATE']))."</p></td>";
                         echo "<td><p>".$row['POBJA']."</p></td>";
                         echo "<td><p>".$row['PSTAT']."</p></td>";
                         echo "<td><p>".$row['MNAME']."</p></td>";

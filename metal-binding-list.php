@@ -229,13 +229,20 @@ if ($result->num_rows > 0) {
                                 <tr>
                                     <th></th>
                                     <th>№</th>
-                                    <th>Наименование объекта</th>
+                                    <th>Проект</th>
+                                    <th>Дата создания</th>
+                                    <th>Ответственный</th>
+                                    <th>План</th>
+                                    <th>Факт</th>
+                                    <th>Статус</th>
                                 </tr>
                             </thead>
                             <tbody>
                         <?php
 
-                        $sql = "SELECT * FROM projectListCad";
+                        $sql = "SELECT p.projectListCadId, p.projectListCadName, p.projectListCadDate, p.projectListCadPlan, p.projectListCadFact, p.projectListCadResponsible, p.StatusCadId, s.StatusName
+                                FROM projectListCad p
+                                INNER JOIN StatusCad s ON p.StatusCadId = s.StatusCadId";
 
                         $result = $conn->query($sql);
         
@@ -243,10 +250,15 @@ if ($result->num_rows > 0) {
         
                         while ($row = $result->fetch_assoc()){
                             $NUM = $NUM + 1;
-                            echo "<tr data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">";
+                            echo "<tr>";
                             echo "<td><input type='checkbox' class='row-checkbox'></td>";
-                            echo "<td>".$NUM."</td>";
-                            echo "<td>".$row['projectListCadName']."</td>";
+                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$NUM."</td>";
+                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadName']."</td>";
+                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".date("d.m.Y", strtotime($row['projectListCadDate']))."</td>";
+                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadResponsible']."</td>";
+                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadPlan']."</td>";
+                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadFact']."</td>";
+                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['StatusName']."</td>";
                             echo "</tr>";
                         }
                         echo "<tbody>";

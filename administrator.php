@@ -228,7 +228,7 @@ if ($result->num_rows > 0) {
 
                         <?php 
                         
-                        $sql = "SELECT u.userId, u.name, u.surname, u.roleId, r.roleName
+                        $sql = "SELECT u.userId, u.name, u.surname, u.date, u.roleId, r.roleName
                                 FROM user u
                                 INNER JOIN role r ON u.roleId = r.roleId";
 
@@ -241,7 +241,7 @@ if ($result->num_rows > 0) {
                             echo '<tr>';
                             echo '<td>'.$NUM.'</td>';
                             echo '<td>'.$row['name'].' '.$row['surname'].'</td>';
-                            echo '<td>'.$row['userId'].'</td>';
+                            echo '<td>'.date("d-m-Y", strtotime($row['date'])).'</td>';
                             echo '<td class="styled-select">
                                     <select onchange="changeRole(this.value, '.$row['userId'].')">
                                         <option value="1"'.($row['roleId'] == 1 ? ' selected' : '').'>Пользователь</option>

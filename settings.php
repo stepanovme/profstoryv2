@@ -24,10 +24,7 @@ while($row = $result->fetch_assoc()){
     $roleId = $row['roleId'];
 }
 
-if($roleId == 3){
-    header("Location: index.php");
-    exit;
-} elseif($roleId == 4 || $roleId == 5){
+if($roleId == 4 || $roleId == 5){
     header("Location: metal-binding-list.php");
     exit;
 }
