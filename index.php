@@ -85,11 +85,18 @@ if ($result->num_rows > 0) {
                         <p class="name"><?php echo $_SESSION['name'] . " " . $_SESSION['surname'];?></p>
                         <p class="role">
                         <?php
-                        if($_SESSION['roleId'] = 2){
-                            echo 'Администратор';
-                        } else {
-                            echo 'Пользователь';
+                        $sql = "SELECT user.*, role.roleName 
+                        FROM user 
+                        INNER JOIN role ON user.roleId = role.roleId 
+                        WHERE user.userId = '$userId'";
+
+                        $result = $conn->query($sql);
+
+                        while($row = $result->fetch_assoc()){
+                            $roleName = $row['roleName'];
                         }
+
+                        echo $roleName;
                         ?>
                         </p>
                     </div>

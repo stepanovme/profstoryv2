@@ -147,6 +147,10 @@ if ($result->num_rows > 0) {
                                     <select onchange="changeRole(this.value, '.$row['userId'].')">
                                         <option value="1"'.($row['roleId'] == 1 ? ' selected' : '').'>Пользователь</option>
                                         <option value="2"'.($row['roleId'] == 2 ? ' selected' : '').'>Администратор</option>
+                                        <option value="3"'.($row['roleId'] == 3 ? ' selected' : '').'>Проектировщик</option>
+                                        <option value="4"'.($row['roleId'] == 4 ? ' selected' : '').'>Прораб</option>
+                                        <option value="5"'.($row['roleId'] == 5 ? ' selected' : '').'>Бригадир</option>
+                                        <option value="6"'.($row['roleId'] == 6 ? ' selected' : '').'>Директор</option>
                                     </select>
                                    </td>';
                         }
