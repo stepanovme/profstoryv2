@@ -114,3 +114,98 @@ button.delete-project:active{
     font-size: 32px;
     font-weight: 700;
 }
+
+div#myModal{
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(217, 217, 217, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+div#myModal>.modal-content{
+    background-color: white;
+    padding: 20px 50px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 33px;
+}
+
+div#myModal>.modal-content>.modal-title{
+    font-size: 32px;
+    color: black;
+    font-weight: 600;
+}
+
+div#myModal>.modal-content>form{
+    display: flex;
+    flex-direction: column;
+}
+
+div#myModal>.modal-content>form>p{
+    font-size: 12px;
+    color: #565555;
+    font-weight: 600;
+    padding-top: 26px;
+    padding-bottom: 8px;
+}
+
+div#myModal>.modal-content>form>input{
+    padding: 12px 18px;
+    border: 1px solid #D2D3D7;
+    border-radius: 7px;
+    color: #6A6A6A;
+    font-weight: 600;
+    font-size: 14px;
+    outline: none;
+}
+
+div#myModal>.modal-content>form>select{
+    padding: 12px 18px;
+    border: 1px solid #D2D3D7;
+    border-radius: 7px;
+    color: #6A6A6A;
+    font-weight: 600;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+}
+
+div#myModal>.modal-content>form>button{
+    padding: 14px 0;
+    margin-top: 26px;
+    border: 0;
+    border-radius: 100px;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+}
+
+div#myModal>.modal-content>form>button.add{
+    background:#59B077;
+}
+
+div#myModal>.modal-content>form>button.add:hover{
+    background:var(--var-hover-color);
+}
+
+div#myModal>.modal-content>form>button.add:active{
+    background:var(--var-active-color);
+}
+
+div#myModal>.modal-content>form>button.cancel{
+    background:#F95B5E;
+}
+
+div#myModal>.modal-content>form>button.cancel:hover{
+    background:var(--var-red-hover-color);
+}
+
+div#myModal>.modal-content>form>button.cancel:hover{
+    background:var(--var-red-active-color);
+}

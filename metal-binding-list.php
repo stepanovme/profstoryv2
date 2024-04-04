@@ -212,7 +212,7 @@ if ($result->num_rows > 0) {
                     <div>
                         <div class="buttons">
                             <form method="post">
-                                <button class="create-project" name="create-project">
+                                <button class="create-project" id="create-project" name="create-project">
                                     Создать
                                 </button>
                             </form>
@@ -265,9 +265,25 @@ if ($result->num_rows > 0) {
                         echo "</table>";
 
                         ?>
-
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p class="modal-title">Создание проекта</p>
+            <form action="POST">
+                <p>Название проекта</p>
+                <input type="text" name="" id="" placeholder="Катунино">
+                <p>Ответственный</p>
+                <select name="" id="">
+                    <option value="">Евгений Прищеп</option>
+                    <option value="">Степан Степанов</option>
+                </select>
+                <button type="submit" class="add">Добавить</button>
+                <button class="cancel">Отменить</button>
+            </form>
         </div>
     </div>
 
