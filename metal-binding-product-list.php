@@ -215,12 +215,16 @@ if (isset($_GET['projectListCadId'])) {
 
             <div class="wrapper">
                 <p class="back" onclick="window.location.href = 'metal-binding-list.php'">< вернутся</p>
+                <div class="menu">
+                    <a href="#" class="active">Заявки</a>
+                    <a href="#">Аналитика</a>
+                </div>
                 <div class="wrapper-head">
                     <h1>Список заявок</h1>
                     <div>
                         <div class="buttons">
                             <form method="post">
-                                <button class="create-ticket" name="create-ticket">
+                                <button class="create-ticket" id="create-ticket" name="create-ticket">
                                     Создать
                                 </button>
                             </form>
@@ -237,7 +241,12 @@ if (isset($_GET['projectListCadId'])) {
                                 <tr>
                                     <th></th>
                                     <th>№</th>
-                                    <th>Наименование объекта</th>
+                                    <th>Название</th>
+                                    <th>Дата</th>
+                                    <th>Цвет</th>
+                                    <th>Толщина</th>
+                                    <th>пог.м.</th>
+                                    <th>Бригада</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -251,10 +260,15 @@ if (isset($_GET['projectListCadId'])) {
         
                         while ($row = $result->fetch_assoc()){
                             $NUM = $NUM + 1;
-                            echo "<tr data-id='" . $row['TicketListCadId'] ."' onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">";
+                            echo "<tr data-id='" . $row['TicketListCadId'] ."'>";
                             echo "<td><input type='checkbox' class='row-checkbox'></td>";
-                            echo "<td>".$NUM."</td>";
-                            echo "<td>".$row['TicketListCadName']."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$NUM."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadName']."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".date("d.m.Y", strtotime($row['TicketListCadDate']))."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadColor']."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadThickness']."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadMetr']."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadBrigade']."</td>";
                             echo "</tr>";
                         }
                         echo "<tbody>";
@@ -269,6 +283,26 @@ if (isset($_GET['projectListCadId'])) {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
     <script src="/js/jquery.js"></script>
-    <script src="/js/metal-binding-list.js"></script>
+    <script>
+        document.getElementById('create-ticket').addEventListener('click', function() {
+        var projectListCadId = <?php echo $projectListCadId; ?>; // Получаем значение projectListCadId из PHP
+        // Отправляем запрос на создание новой заявки
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // После успешного создания заявки перенаправляем на страницу с новой заявкой
+                    window.location.reload();
+                } else {
+                    alert('Произошла ошибка при создании заявки');
+                }
+            }
+        };
+        xhr.open('POST', 'function/create_ticket.php');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('projectListCadId=' + projectListCadId); // Отправляем projectListCadId на сервер
+    });
+    </script>
+    <script src="/js/metal-binding-product-list.js"></script>
 </body>
 </html>

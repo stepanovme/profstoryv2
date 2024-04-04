@@ -113,3 +113,44 @@ button.delete-ticket:active{
     color: #6A6A6A;
     cursor: pointer;
 }
+
+.menu{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.menu>a{
+    text-decoration: none;
+    background-color: white;
+    color: var(--var-grey);
+    width: 178px;
+    padding: 10px 0;
+    text-align: center;
+    border: 1px solid var(--var-light-grey);
+    cursor: pointer;
+    transition: .2s all;
+}
+
+.menu>a:hover{
+    background-color: var(--var-main-color);
+    color: white;
+    border: 1px solid var(--var-main-color);
+}
+
+.menu>a:active{
+    background-color: var(--var-active-color);
+    color: white;
+    border: 1px solid var(--var-active-color);
+}
+
+.menu>a.active{
+    background-color: var(--var-main-color);
+    color: white;
+    border: 1px solid var(--var-main-color);
+}
+
+.menu>a:first-child{border-bottom-left-radius: 5px;}
+.menu>a:first-child{border-top-left-radius: 5px;}
+.menu>a:last-child{border-bottom-right-radius: 5px;}
+.menu>a:last-child{border-top-right-radius: 5px;}
