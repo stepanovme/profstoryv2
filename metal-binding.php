@@ -321,7 +321,7 @@ while ($row = $result->fetch_assoc()){
                         echo '<td></td>';
                         echo '<td>'.$row['ProductListCadLength'].'</td>';
                         echo '<td>'.$row['ProductListCadQuantity'].'</td>';
-                        echo '<td>'.$row['ProductListCadPlace'].'</td>';
+                        echo '<td>'.$row['ProductListCadAddress'].'</td>';
                     }
 
                     ?>
