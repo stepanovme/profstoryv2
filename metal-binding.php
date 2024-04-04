@@ -60,12 +60,14 @@ $result = $conn->query($sql);
 while ($row = $result->fetch_assoc()){
     $projectListCadId = $row['projectListCadId'];
     $TicketListCadName = $row['TicketListCadName'];
+    $TicketListCadObject = $row['TicketListCadObject'];
     $TicketListCadColor = $row['TicketListCadColor'];
     $TicketListCadBrigade = $row['TicketListCadBrigade'];
     $TicketListCadAddress = $row['TicketListCadAddress'];
     $TicketListCadDate = $row['TicketListCadDate'];
     $TicketListCadQuantity = $row['TicketListCadQuantity'];
     $TicketListCadMetr = $row['TicketListCadMetr'];
+    $TicketListCadNum = $row['TicketListCadNum'];
 }
 
 ?>
@@ -242,13 +244,13 @@ while ($row = $result->fetch_assoc()){
                 <div class="info-project-product">
 
                 <div class="header-ticket" style="text-align:center;">
-                    <h1>Заявка на гибку метала №1</h1>
+                    <h1>Заявка на гибку метала №</h1><input type="text" class="ticket-num" value="<?php echo $TicketListCadNum; ?>">
                 </div>
                 <div class="ticket">
                         <div class="line">
                             <div class="object">
                                 <p>Объект:</p>
-                                <input type="text" name="object" value="<?php echo $TicketListCadName; ?>">
+                                <input type="text" name="object" value="<?php echo $TicketListCadObject; ?>">
                             </div>
                             <div class="date">
                                 <p>Дата:</p>

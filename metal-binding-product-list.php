@@ -242,10 +242,11 @@ if (isset($_GET['projectListCadId'])) {
                                     <th></th>
                                     <th>№</th>
                                     <th>Название</th>
-                                    <th>Дата</th>
+                                    <th>Объект</th>
                                     <th>Цвет</th>
                                     <th>Толщина</th>
                                     <th>пог.м.</th>
+                                    <th>Дата</th>
                                     <th>Бригада</th>
                                 </tr>
                             </thead>
@@ -263,11 +264,12 @@ if (isset($_GET['projectListCadId'])) {
                             echo "<tr data-id='" . $row['TicketListCadId'] ."'>";
                             echo "<td><input type='checkbox' class='row-checkbox'></td>";
                             echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$NUM."</td>";
-                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadName']."</td>";
-                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".date("d.m.Y", strtotime($row['TicketListCadDate']))."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadName'].$row['TicketListCadNum']."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadObject']."</td>";
                             echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadColor']."</td>";
                             echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadThickness']."</td>";
                             echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadMetr']."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".date("d.m.Y", strtotime($row['TicketListCadDate']))."</td>";
                             echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadBrigade']."</td>";
                             echo "</tr>";
                         }

@@ -341,10 +341,10 @@ td{
     content: "";
     position: absolute;
     top: 0;
-    left: 0px; /* Регулируем отступ слева */
-    width: 20px; /* Ширина панели */
-    background-color: #ffffff; /* Белый фон */
-    z-index: 1; /* Чтобы панель была под canvas */
+    left: 0px;
+    width: 20px; 
+    background-color: #ffffff; 
+    z-index: 1; 
 }
 
 #textButton {
@@ -379,4 +379,15 @@ td{
 
 td#drawCell{
     padding: 0;
+}
+
+.header-ticket{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-ticket>.ticket-num{
+    width: 45px;
 }
