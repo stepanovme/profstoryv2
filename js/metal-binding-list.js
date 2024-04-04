@@ -112,3 +112,29 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+document.getElementById('delete-project-btn').addEventListener('click', function() {
+    var checkedRows = document.querySelectorAll('.row-checkbox:checked');
+    var projectIds = [];
+    
+    checkedRows.forEach(function(row) {
+        projectIds.push(row.closest('tr').querySelector('td:nth-child(2)').getAttribute('data-id'));
+    });
+
+    if (projectIds.length > 0) {
+        // Отправляем запрос на сервер для удаления проектов
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Обновляем страницу после успешного удаления проектов
+                    window.location.reload();
+                } else {
+                    alert('Произошла ошибка при удалении проектов');
+                }
+            }
+        };
+        xhr.open('POST', 'function/delete_project.php');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({ projectIds: projectIds }));
+    }
+});

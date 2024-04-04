@@ -219,7 +219,7 @@ if ($result->num_rows > 0) {
                                     Создать
                                 </button>
                             </form>
-                            <button class="delete-project">
+                            <button class="delete-project" id="delete-project-btn">
                                 Удалить
                             </button>
                         </div>
@@ -282,7 +282,15 @@ if ($result->num_rows > 0) {
                                 echo "</td>";
                                 echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadPlan']."</td>";
                                 echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadFact']."</td>";
-                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['StatusName']."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">";
+                                if($row['StatusName'] == "Новая"){
+                                    echo '<div class="new-status">Новая</div>';
+                                } elseif($row['StatusName'] == "В процессе"){
+                                    echo '<div class="process-status">В процессе</div>';
+                                } elseif($row['StatusName'] == "Завершено"){
+                                    echo '<div class="completed-status">Завершено</div>';
+                                }
+                                echo "</td>";
                                 echo "</tr>";
                                 }
                                 echo "<tbody>";
@@ -319,7 +327,11 @@ if ($result->num_rows > 0) {
                                 echo "</td>";
                                 echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadPlan']."</td>";
                                 echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadFact']."</td>";
-                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['StatusName']."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">";
+                                if($row['StatusName'] == "Новая"){
+                                    echo "Новый статус";
+                                } 
+                                echo "</td>";
                                 echo "</tr>";
                                 }
                                 echo "<tbody>";
@@ -376,7 +388,6 @@ if ($result->num_rows > 0) {
         </form>
     </div>
 </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
     <script src="/js/jquery.js"></script>
     <script src="/js/metal-binding-list.js"></script>

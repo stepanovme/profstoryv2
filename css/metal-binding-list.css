@@ -222,3 +222,30 @@ div#myModal>.modal-content>form>button.cancel:hover{
 div#myModal>.modal-content>form>button.cancel:hover{
     background:var(--var-red-active-color);
 }
+
+.new-status{
+    margin: 0 auto;
+    background-color: #45C3CB;
+    padding: 3px 0;
+    border-radius: 10px;
+    color: white;
+    max-width: 160px;
+}
+
+.process-status{
+    margin: 0 auto;
+    background-color: #D5DD75;
+    padding: 3px 0;
+    border-radius: 10px;
+    color: white;
+    max-width: 160px;
+}
+
+.completed-status{
+    margin: 0 auto;
+    background-color: #59B077;
+    padding: 3px 0;
+    border-radius: 10px;
+    color: white;
+    max-width: 160px;
+}
