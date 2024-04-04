@@ -134,6 +134,19 @@ div#myModal>.modal-content{
     border-radius: 33px;
 }
 
+div#errorContainer{
+    display: none;
+    padding: 14px 0;
+    margin-top: 26px;
+    border: 0;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background:#F95B5E;
+    text-align: center;
+}
+
 div#myModal>.modal-content>.modal-title{
     font-size: 32px;
     color: black;

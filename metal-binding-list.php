@@ -9,7 +9,10 @@ if (!isset($_SESSION['userId'])) {
     exit;
 }
 
+global $userId;
+
 $userId = $_SESSION['userId'];
+
 
 @include './database/conn_mysql.php';
 
@@ -239,31 +242,91 @@ if ($result->num_rows > 0) {
                             </thead>
                             <tbody>
                         <?php
+                        
+                            $userId = $_SESSION['userId'];
 
-                        $sql = "SELECT p.projectListCadId, p.projectListCadName, p.projectListCadDate, p.projectListCadPlan, p.projectListCadFact, p.projectListCadResponsible, p.StatusCadId, s.StatusName
+                            $sql = "SELECT roleId FROM user WHERE userId = $userId";
+                            $result = $conn->query($sql);
+                            while ($row = $result->fetch_assoc()) { 
+                                $roleId = $row['roleId'];
+                            }
+
+                            if ($roleId == 2 || $roleId == 6) {
+                                $sql = "SELECT p.projectListCadId, p.projectListCadName, p.projectListCadDate, p.projectListCadPlan, p.projectListCadFact, p.projectListCadResponsible, p.StatusCadId, s.StatusName
                                 FROM projectListCad p
                                 INNER JOIN StatusCad s ON p.StatusCadId = s.StatusCadId";
+    
+                                $result = $conn->query($sql);
+    
+                                $NUM = 0;
+    
+                                while ($row = $result->fetch_assoc()) {
+                                $NUM = $NUM + 1;
+                                echo "<tr>";
+                                echo "<td><input type='checkbox' class='row-checkbox'></td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$NUM."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadName']."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".date("d.m.Y", strtotime($row['projectListCadDate']))."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."'>";
+    
+                                // Выводим имя и фамилию ответственного
+                                $userId = $row['projectListCadResponsible'];
+                                $userSql = "SELECT name, surname FROM user WHERE userId = $userId";
+                                $userResult = $conn->query($userSql);
+                                if ($userRow = $userResult->fetch_assoc()) {
+                                echo $userRow['name'] . " " . $userRow['surname'];
+                                } else {
+                                echo "Unknown";
+                                }
+    
+                                echo "</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadPlan']."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadFact']."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['StatusName']."</td>";
+                                echo "</tr>";
+                                }
+                                echo "<tbody>";
+                                echo "</table>";
+                            }else{
+                                $sql = "SELECT p.projectListCadId, p.projectListCadName, p.projectListCadDate, p.projectListCadPlan, p.projectListCadFact, p.projectListCadResponsible, p.StatusCadId, s.StatusName
+                                FROM projectListCad p
+                                INNER JOIN StatusCad s ON p.StatusCadId = s.StatusCadId 
+                                WHERE p.projectListCadResponsible = $userId";
+    
+                                $result = $conn->query($sql);
+    
+                                $NUM = 0;
+    
+                                while ($row = $result->fetch_assoc()) {
+                                $NUM = $NUM + 1;
+                                echo "<tr>";
+                                echo "<td><input type='checkbox' class='row-checkbox'></td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$NUM."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadName']."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".date("d.m.Y", strtotime($row['projectListCadDate']))."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."'>";
+    
+                                // Выводим имя и фамилию ответственного
+                                $userId = $row['projectListCadResponsible'];
+                                $userSql = "SELECT name, surname FROM user WHERE userId = $userId";
+                                $userResult = $conn->query($userSql);
+                                if ($userRow = $userResult->fetch_assoc()) {
+                                echo $userRow['name'] . " " . $userRow['surname'];
+                                } else {
+                                echo "Unknown";
+                                }
+    
+                                echo "</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadPlan']."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadFact']."</td>";
+                                echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['StatusName']."</td>";
+                                echo "</tr>";
+                                }
+                                echo "<tbody>";
+                                echo "</table>";
+                            }
 
-                        $result = $conn->query($sql);
-        
-                        $NUM = 0;
-        
-                        while ($row = $result->fetch_assoc()){
-                            $NUM = $NUM + 1;
-                            echo "<tr>";
-                            echo "<td><input type='checkbox' class='row-checkbox'></td>";
-                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$NUM."</td>";
-                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadName']."</td>";
-                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".date("d.m.Y", strtotime($row['projectListCadDate']))."</td>";
-                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadResponsible']."</td>";
-                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadPlan']."</td>";
-                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['projectListCadFact']."</td>";
-                            echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">".$row['StatusName']."</td>";
-                            echo "</tr>";
-                        }
-                        echo "<tbody>";
-                        echo "</table>";
-
+                            
                         ?>
                 </div>
             </div>
@@ -271,21 +334,48 @@ if ($result->num_rows > 0) {
     </div>
 
     <div id="myModal" class="modal">
-        <div class="modal-content">
-            <p class="modal-title">Создание проекта</p>
-            <form action="POST">
-                <p>Название проекта</p>
-                <input type="text" name="" id="" placeholder="Катунино">
-                <p>Ответственный</p>
-                <select name="" id="">
-                    <option value="">Евгений Прищеп</option>
-                    <option value="">Степан Степанов</option>
-                </select>
-                <button type="submit" class="add">Добавить</button>
-                <button class="cancel">Отменить</button>
-            </form>
-        </div>
+    <div class="modal-content">
+        <p class="modal-title">Создание проекта</p>
+        <div id="errorContainer"></div>
+        <form action="function/process.php" id="projectForm" method="post">
+            <p>Название проекта</p>
+            <input type="text" name="projectName" id="projectName" required>
+            <?php
+                $userId = $_SESSION['userId'];
+
+                $sql = "SELECT roleId FROM user WHERE userId = $userId";
+                $result = $conn->query($sql);
+                while ($row = $result->fetch_assoc()) { 
+                    $roleId = $row['roleId'];
+                }
+                
+
+                if ($roleId == 2 || $roleId == 6) {
+                    echo '<p>Ответственный</p>';
+                    echo '<select name="responsibleUserId" id="responsibleUserId" required>';
+                    $sql = "SELECT * FROM user WHERE roleId IN (2, 4, 5, 6)";
+                    $result = $conn->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                        $selected = ($row['userId'] == $userId) ? "selected" : "";
+                        echo '<option value="'.$row['userId'].'" '.$selected.'>'.$row['name'].' '.$row['surname'].'</option>';
+                    }
+                    echo '</select>';
+                } else {
+                    echo '<select name="responsibleUserId" id="responsibleUserId" required hidden>';
+                    $sql = "SELECT * FROM user WHERE roleId IN (2, 4, 5, 6)";
+                    $result = $conn->query($sql);
+                    while ($row = $result->fetch_assoc()) {
+                        $selected = ($row['userId'] == $userId) ? "selected" : "";
+                        echo '<option value="'.$row['userId'].'" '.$selected.'>'.$row['name'].' '.$row['surname'].'</option>';
+                    }
+                    echo '</select>';
+                }
+            ?>
+            <button type="submit" class="add">Добавить</button>
+            <button type="button" class="cancel">Отменить</button>
+        </form>
     </div>
+</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
     <script src="/js/jquery.js"></script>
