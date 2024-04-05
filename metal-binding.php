@@ -356,7 +356,7 @@ while ($row = $result->fetch_assoc()){
                         echo "<td><input type='checkbox' data-id='".$row['ProductListCadId']."' class='row-checkbox' data-ticket='".$TicketListCadId."'></td>";
                         echo '<td>'.$num.'</td>';
                         echo '<td id="drawCell">
-                                <input type="text" placeholder="Название изделия" value="'.$row['ProductListCadName'].'">
+                                <input type="text" placeholder="Название изделия" class="editable-ticket-name" id="TicketListCadName" data-id="'. $row['ProductListCadId'] .'" value="'.$row['ProductListCadName'].'">
                                 <canvas></canvas>
                                </td>';
                         echo '<td>'.$row['ProductListCadSum'].'</td>';

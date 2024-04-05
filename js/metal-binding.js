@@ -183,6 +183,30 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
+    $('.editable-ticket-name').on('change keypress', function(event){
+        // Проверяем, была ли нажата клавиша Enter
+        if (event.type === 'change' || event.keyCode === 13) {
+            var ticketId = $(this).data('id');
+            var newValue = $(this).val();
+            
+            // Отправляем данные на сервер
+            $.ajax({
+                url: 'function/update_data_izd_name.php', // Замените на путь к вашему PHP скрипту обновления данных
+                method: 'POST',
+                data: {id: ticketId, value: newValue},
+                success: function(response){
+                    console.log(response); // Для дебага, выводим ответ от сервера в консоль
+                }
+            });
+
+            // Прекращаем редактирование поля ввода
+            $(this).blur(); // Этот метод убирает фокус с поля ввода, прекращая его редактирование
+        }
+    });
+});
+
+
+$(document).ready(function(){
     // Создаем объект, хранящий информацию о порядке следующего поля
     var nextField = {
         "#ticketNum": "#TicketListCadObject",
