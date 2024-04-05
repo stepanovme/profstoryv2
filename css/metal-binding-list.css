@@ -54,12 +54,6 @@ button.delete-project:active{
     overflow-y: auto; 
 }
 
-
-
-.komp-content>table{
-    /* padding-top: 30px; */
-}
-
 .komp-content>.wrapper-head{
     position: fixed;
     display: flex;
@@ -223,6 +217,10 @@ div#myModal>.modal-content>form>button.cancel:hover{
     background:var(--var-red-active-color);
 }
 
+td:last-child{
+    padding: 8px 8px;
+}
+
 .new-status{
     margin: 0 auto;
     background-color: #45C3CB;
@@ -234,7 +232,7 @@ div#myModal>.modal-content>form>button.cancel:hover{
 
 .process-status{
     margin: 0 auto;
-    background-color: #D5DD75;
+    background-color: #EFA94A;
     padding: 3px 0;
     border-radius: 10px;
     color: white;
@@ -244,6 +242,24 @@ div#myModal>.modal-content>form>button.cancel:hover{
 .completed-status{
     margin: 0 auto;
     background-color: #59B077;
+    padding: 3px 0;
+    border-radius: 10px;
+    color: white;
+    max-width: 160px;
+}
+
+.shipped-status{
+    margin: 0 auto;
+    background-color: #DAD871;
+    padding: 3px 0;
+    border-radius: 10px;
+    color: white;
+    max-width: 160px;
+}
+
+.sent-status{
+    margin: 0 auto;
+    background-color: #D8BFD8;
     padding: 3px 0;
     border-radius: 10px;
     color: white;

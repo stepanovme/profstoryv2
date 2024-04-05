@@ -154,3 +154,52 @@ button.delete-ticket:active{
 .menu>a:first-child{border-top-left-radius: 5px;}
 .menu>a:last-child{border-bottom-right-radius: 5px;}
 .menu>a:last-child{border-top-right-radius: 5px;}
+
+td:last-child{
+    padding: 8px 8px;
+}
+
+.new-status{
+    margin: 0 auto;
+    background-color: #45C3CB;
+    padding: 3px 0;
+    border-radius: 10px;
+    color: white;
+    max-width: 160px;
+}
+
+.process-status{
+    margin: 0 auto;
+    background-color: #EFA94A;
+    padding: 3px 0;
+    border-radius: 10px;
+    color: white;
+    max-width: 160px;
+}
+
+.completed-status{
+    margin: 0 auto;
+    background-color: #59B077;
+    padding: 3px 0;
+    border-radius: 10px;
+    color: white;
+    max-width: 160px;
+}
+
+.shipped-status{
+    margin: 0 auto;
+    background-color: #DAD871;
+    padding: 3px 0;
+    border-radius: 10px;
+    color: white;
+    max-width: 160px;
+}
+
+.sent-status{
+    margin: 0 auto;
+    background-color: #D8BFD8;
+    padding: 3px 0;
+    border-radius: 10px;
+    color: white;
+    max-width: 160px;
+}

@@ -53,7 +53,10 @@ if (isset($_GET['TicketListCadId'])) {
     exit; // Выход из скрипта, чтобы избежать дальнейшей обработки
 }
 
-$sql = "SELECT * FROM TicketListCad WHERE TicketListCadId = $TicketListCadId";
+$sql = "SELECT t.TicketListCadId, t.TicketListCadPlace, t.TicketListCadDatePlan, t.TicketListCadName, t.TicketListCadObject, t.TicketListCadColor, t.TicketListCadThickness, t.TicketListCadBrigade, t.TicketListCadAddress, t.TicketListCadDate, t.TicketListCadQuantity, t.TicketListCadMetr, t.TicketListCadNum, t.projectListCadId, t.StatusCadId, s.StatusName
+        FROM TicketListCad t
+        INNER JOIN StatusCad s ON t.StatusCadId = s.StatusCadId
+        WHERE t.TicketListCadId = $TicketListCadId";
 
 $result = $conn->query($sql);
 
@@ -62,12 +65,16 @@ while ($row = $result->fetch_assoc()){
     $TicketListCadName = $row['TicketListCadName'];
     $TicketListCadObject = $row['TicketListCadObject'];
     $TicketListCadColor = $row['TicketListCadColor'];
+    $TicketListCadThickness = $row['TicketListCadThickness'];
     $TicketListCadBrigade = $row['TicketListCadBrigade'];
     $TicketListCadAddress = $row['TicketListCadAddress'];
     $TicketListCadDate = $row['TicketListCadDate'];
     $TicketListCadQuantity = $row['TicketListCadQuantity'];
     $TicketListCadMetr = $row['TicketListCadMetr'];
     $TicketListCadNum = $row['TicketListCadNum'];
+    $StatusName = $row['StatusName'];
+    $TicketListCadDatePlan = $row['TicketListCadDatePlan'];
+    $TicketListCadPlace = $row['TicketListCadPlace'];
 }
 
 ?>
@@ -244,47 +251,80 @@ while ($row = $result->fetch_assoc()){
                 <div class="info-project-product">
 
                 <div class="header-ticket" style="text-align:center;">
-                    <h1>Заявка на гибку метала №</h1><input type="text" class="ticket-num" value="<?php echo $TicketListCadNum; ?>">
+                    <h1>Заявка на гибку метала №</h1>
+                    <input type="text" class="ticket-num" id="ticketNum" data-id="<?php echo $TicketListCadId; ?>" value="<?php echo $TicketListCadNum; ?>">
                 </div>
-                <div class="ticket">
-                        <div class="line">
-                            <div class="object">
-                                <p>Объект:</p>
-                                <input type="text" name="object" value="<?php echo $TicketListCadObject; ?>">
-                            </div>
-                            <div class="date">
-                                <p>Дата:</p>
-                                <input type="date" name="data-project" value="<?php echo $TicketListCadDate; ?>">
-                            </div>
-                        </div>
-                        <div class="line">
-                            <div class="color">
-                                <p>Цвет/толщина:</p>
-                                <input type="text" name="color" value="<?php echo $TicketListCadColor; ?>">
-                            </div>
-                            <div class="izd">
-                                <p>Кол-во изделий:</p>
-                                <input type="text" name="count" value="<?php echo $TicketListCadQuantity; ?>">
-                            </div>
-                        </div>
-                        
-                        <div class="line">
-                            <div class="brigada">
-                                <p>Бригада:</p>
-                                <input type="text" name="brigada" value="<?php echo $TicketListCadBrigade; ?>">
-                            </div>
-                            <div class="mterpog">
-                                <p>м.п.</p>
-                                <input type="text" name="metrpog" value="<?php echo $TicketListCadMetr; ?>">
-                            </div>
-                        </div>
 
-                        <div class="line">
-                            <div class="address">
-                                <p>Адрес доставки:</p>
-                                <input type="text" name="address" value="<?php echo $TicketListCadAddress; ?>">
-                            </div>
+                <div class="ticket">
+                    <div class="line">
+                        <div class="object">
+                            <p>Объект:</p>
+                            <input type="text" id="TicketListCadObject" data-id="<?php echo $TicketListCadId; ?>" name="object" value="<?php echo $TicketListCadObject; ?>">
                         </div>
+                        <div class="status">
+                            <p>Статус:</p>
+                            <input type="status" name="status-project" data-id="<?php echo $TicketListCadId; ?>" value="<?php echo $StatusName; ?>" readonly>
+                        </div>
+                    </div>
+                    <div class="line">
+                        <div class="color">
+                            <p>Цвет:</p>
+                            <input type="text" id="TicketListCadColor" data-id="<?php echo $TicketListCadId; ?>" name="color" value="<?php echo $TicketListCadColor; ?>">
+                        </div>
+                        <div class="date">
+                            <p>Дата план:</p>
+                            <input type="date" id="TicketListCadDatePlan" data-id="<?php echo $TicketListCadId; ?>" name="data-project" value="<?php echo $TicketListCadDatePlan; ?>">
+                        </div>
+                    </div>
+                    
+                    <div class="line">
+                        <div class="tikness">
+                            <p>Толщина:</p>
+                            <input type="text" id="TicketListCadThickness" data-id="<?php echo $TicketListCadId; ?>" name="brigada" value="<?php echo $TicketListCadThickness; ?>">
+                        </div>
+                        <div class="izd">
+                            <p>Кол-во изделий:</p>
+                            <input type="text" id="TicketListCadQuantity" data-id="<?php echo $TicketListCadId; ?>" name="count" value="<?php echo $TicketListCadQuantity; ?>" readonly>
+                        </div>
+                    </div>
+
+                    <div class="line">
+                        <div class="place">
+                            <p>Участок:</p>
+                            <input type="text" id="TicketListCadPlace" data-id="<?php echo $TicketListCadId; ?>" name="place" value="<?php echo $TicketListCadPlace; ?>">
+                        </div>
+                        <div class="mterpog">
+                            <p>м.п.</p>
+                            <input type="text" id="TicketListCadMetr" data-id="<?php echo $TicketListCadId; ?>" name="metrpog" value="<?php echo $TicketListCadMetr; ?>" readonly>
+                        </div>
+                    </div>
+
+                    <div class="line">
+                        <div class="brigada">
+                            <p>Бригада:</p>
+                            <input type="text" id="TicketListCadBrigade" data-id="<?php echo $TicketListCadId; ?>" name="brigada" value="<?php echo $TicketListCadBrigade; ?>">
+                        </div>
+                        <div></div>
+                    </div>
+
+                    <div class="line">
+                        <div class="address">
+                            <p>Адрес доставки:</p>
+                            <input type="text" id="TicketListCadAddress" data-id="<?php echo $TicketListCadId; ?>" name="address" value="<?php echo $TicketListCadAddress; ?>">
+                        </div>
+                        <div></div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <form method="post">
+                        <button class="create-izd" id="create-ticket" data-id="<?php echo $TicketListCadId; ?>" name="create-ticket">
+                            Создать
+                        </button>
+                    </form>
+                    <button class="delete-izd">
+                        Удалить
+                    </button>
                 </div>
 
                 <table>
@@ -346,6 +386,9 @@ while ($row = $result->fetch_assoc()){
         </div>
     </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script> 
+<script src="/js/jquery.js"></script>
+<script src="js/metal-binding.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     var canvas = document.getElementById('drawingCanvas');
@@ -644,9 +687,6 @@ function drawTempArrow() {
 
 
 });
-
-
-
 </script>
 
 </body>

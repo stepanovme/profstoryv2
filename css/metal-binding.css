@@ -251,11 +251,11 @@ input:focus{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 260px;
+    width: 270px;
 }
 
 .date>input{
-    width: 119px;
+    width: 127px;
 }
 
 .color{
@@ -269,11 +269,11 @@ input:focus{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 260px;
+    width: 270px;
 }
 
 .izd>input{
-    width: 119px;
+    width: 127px;
 }
 
 .brigada{
@@ -287,11 +287,11 @@ input:focus{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 260px;
+    width: 270px;
 }
 
 .mterpog>input{
-    width: 119px;
+    width: 127px;
 }
 
 .address{
@@ -390,4 +390,77 @@ td#drawCell{
 
 .header-ticket>.ticket-num{
     width: 45px;
+}
+
+.tikness {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 330px;
+}
+
+.place {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 330px;
+}
+
+.status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 270px;
+}
+
+.status>input{
+    width: 127px;
+}
+
+.buttons{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 20px;
+}
+
+button.create-izd{
+    background-color: var(--var-main-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+button.create-izd:hover{
+    background-color: var(--var-hover-color);
+}
+
+button.create-izd:active{
+    background-color: var(--var-active-color);
+}
+
+button.delete-izd{
+    background-color: var(--var-red-color);
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+button.delete-izd:hover{
+    background-color: var(--var-red-hover-color);
+}
+
+button.delete-izd:active{
+    background-color: var(--var-red-active-color);
 }

@@ -248,12 +248,16 @@ if (isset($_GET['projectListCadId'])) {
                                     <th>пог.м.</th>
                                     <th>Дата</th>
                                     <th>Бригада</th>
+                                    <th>Статус</th>
                                 </tr>
                             </thead>
                             <tbody>
                         <?php
 
-                        $sql = "SELECT * FROM TicketListCad WHERE projectListCadId = $projectListCadId";
+                        $sql = "SELECT t.TicketListCadId, t.TicketListCadName, t.TicketListCadObject, t.TicketListCadColor, t.TicketListCadThickness, t.TicketListCadBrigade, t.TicketListCadAddress, t.TicketListCadDate, t.TicketListCadQuantity, t.TicketListCadMetr, t.TicketListCadNum, t.projectListCadId, t.StatusCadId, s.StatusName
+                        FROM TicketListCad t
+                        INNER JOIN StatusCad s ON t.StatusCadId = s.StatusCadId
+                        WHERE t.projectListCadId = $projectListCadId";
 
                         $result = $conn->query($sql);
         
@@ -271,6 +275,19 @@ if (isset($_GET['projectListCadId'])) {
                             echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadMetr']."</td>";
                             echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".date("d.m.Y", strtotime($row['TicketListCadDate']))."</td>";
                             echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">".$row['TicketListCadBrigade']."</td>";
+                            echo "<td onclick=\"window.location.href = 'metal-binding.php?TicketListCadId=".$row['TicketListCadId']."'\">";
+                            if($row['StatusName'] == "Новая"){
+                                echo '<div class="new-status">Новая</div>';
+                            } elseif($row['StatusName'] == "В производстве"){
+                                echo '<div class="process-status">В производстве</div>';
+                            } elseif($row['StatusName'] == "Завершено"){
+                                echo '<div class="completed-status">Завершено</div>';
+                            } elseif($row['StatusName'] == "Отгружено"){
+                                echo '<div class="shipped-status">Отгружено</div>';
+                            } elseif($row['StatusName'] == "Отправлено"){
+                                echo '<div class="sent-status">Отправлено</div>';
+                            }
+                            echo "</td>";
                             echo "</tr>";
                         }
                         echo "<tbody>";
