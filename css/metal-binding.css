@@ -381,6 +381,12 @@ td#drawCell{
     padding: 0;
 }
 
+td#drawCell>input{
+    width: 100%;
+    border-radius: 0;
+    /* border: 1px solid F2F2F3; */
+}
+
 .header-ticket{
     display: flex;
     justify-content: center;
@@ -463,4 +469,39 @@ button.delete-izd:hover{
 
 button.delete-izd:active{
     background-color: var(--var-red-active-color);
+}
+
+.total{
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total>p{
+    font-size: 24px;
+    color: black;
+    font-weight: 700;
+}
+
+.total>button{
+    background-color: #EFA94A;
+    border: 0;
+    border-radius: 10px;
+    outline: none;
+    color: white;
+    min-width: 205px;
+    padding: 12px 42px;
+    cursor: pointer;
+    transition: .3s all;
+}
+
+.total>button:hover{
+    background-color: #F1BA70;
+    transition: .3s all;
+}
+
+.total>button:active{
+    background-color: #E59322;
+    transition: .3s all;
 }
