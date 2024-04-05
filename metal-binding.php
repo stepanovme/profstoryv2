@@ -357,7 +357,7 @@ while ($row = $result->fetch_assoc()){
                         echo '<td>'.$num.'</td>';
                         echo '<td id="drawCell">
                                 <input type="text" placeholder="Название изделия" class="editable-ticket-name" id="TicketListCadName" data-id="'. $row['ProductListCadId'] .'" value="'.$row['ProductListCadName'].'">
-                                <canvas></canvas>
+                                <canvas class="myCanvas" width="1000" height="300"></canvas>
                                </td>';
                         echo '<td>'.$row['ProductListCadSum'].'</td>';
                         echo "<td class='editable-length' contenteditable='true' data-id='".$row['ProductListCadId']."'>".$row['ProductListCadLength']."</td>";
