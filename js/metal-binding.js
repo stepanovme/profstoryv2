@@ -240,3 +240,134 @@ document.querySelector('.delete-izd').addEventListener('click', function() {
             xhr.send(JSON.stringify({ ticketIds: ticketIds }));
     }
 });
+
+
+
+// Обработчик изминения данных в столбце length
+document.addEventListener('DOMContentLoaded', function() {
+    const editableCells = document.querySelectorAll('.editable-length');
+
+    editableCells.forEach(cell => {
+        cell.addEventListener('blur', function() {
+            const newValue = this.textContent.trim();
+            const anumb = this.getAttribute('data-id');
+            updateCellValue(anumb, newValue);
+        });
+        cell.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Предотвращаем действие по умолчанию (переход на новую строку)
+
+                // Завершаем редактирование текущей ячейки
+                this.blur();
+            }
+        });
+    });
+
+    function updateCellValue(anumb, newValue) {
+        // Заменяем запятую на точку
+        newValue = newValue.replace(',', '.');
+    
+        // Если значение пустое, заменяем его на 0
+        newValue = newValue.trim() === '' ? '0' : newValue.trim();
+    
+        // Отправка AJAX запроса на сервер
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'function/update_izd_length.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Обработка ответа от сервера, если необходимо
+                console.log(xhr.responseText);
+            }
+        };
+        xhr.send('anumb=' + encodeURIComponent(anumb) + '&newValue=' + encodeURIComponent(newValue));
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const editableCells = document.querySelectorAll('.editable-quantity');
+
+    editableCells.forEach(cell => {
+        cell.addEventListener('blur', function() {
+            const newValue = this.textContent.trim();
+            const anumb = this.getAttribute('data-id');
+            const TicketListCadId = this.dataset.ticketlistcadid; // Получаем значение через dataset
+            updateCellValue(anumb, newValue, TicketListCadId);
+        });
+        cell.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Предотвращаем действие по умолчанию (переход на новую строку)
+
+                // Завершаем редактирование текущей ячейки
+                this.blur();
+            }
+        });
+    });
+
+    async function updateCellValue(anumb, newValue, TicketListCadId) {
+        // Если значение пустое, заменяем его на 0
+        newValue = newValue.trim() === '' ? '0' : newValue.trim();
+    
+        try {
+            const response = await fetch('function/update_izd_quantity.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `anumb=${encodeURIComponent(anumb)}&TicketListCadId=${encodeURIComponent(TicketListCadId)}&newValue=${encodeURIComponent(newValue)}`
+            });
+            
+            if (response.ok) {
+                const responseData = await response.text();
+                console.log(responseData);
+                // Перезагрузка страницы
+                window.location.reload();
+            } else {
+                console.error('Ошибка HTTP: ' + response.status);
+            }
+        } catch (error) {
+            console.error('Ошибка fetch:', error);
+        }
+    }
+});
+
+// Обработчик изминения данных в столбце address
+document.addEventListener('DOMContentLoaded', function() {
+    const editableCells = document.querySelectorAll('.editable-address');
+
+    editableCells.forEach(cell => {
+        cell.addEventListener('blur', function() {
+            const newValue = this.textContent.trim();
+            const anumb = this.getAttribute('data-id');
+            updateCellValue(anumb, newValue);
+        });
+        cell.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Предотвращаем действие по умолчанию (переход на новую строку)
+
+                // Завершаем редактирование текущей ячейки
+                this.blur();
+            }
+        });
+    });
+
+    function updateCellValue(anumb, newValue) {
+        // Заменяем запятую на точку
+        newValue = newValue.replace(',', '.');
+    
+        // Если значение пустое, заменяем его на 0
+        newValue = newValue.trim() === '' ? '0' : newValue.trim();
+    
+        // Отправка AJAX запроса на сервер
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'function/update_izd_address.php', true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Обработка ответа от сервера, если необходимо
+                console.log(xhr.responseText);
+            }
+        };
+        xhr.send('anumb=' + encodeURIComponent(anumb) + '&newValue=' + encodeURIComponent(newValue));
+    }
+});

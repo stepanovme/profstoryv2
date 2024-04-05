@@ -360,9 +360,9 @@ while ($row = $result->fetch_assoc()){
                                 <canvas></canvas>
                                </td>';
                         echo '<td>'.$row['ProductListCadSum'].'</td>';
-                        echo '<td>'.$row['ProductListCadLength'].'</td>';
-                        echo '<td>'.$row['ProductListCadQuantity'].'</td>';
-                        echo '<td>'.$row['ProductListCadAddress'].'</td>';
+                        echo "<td class='editable-length' contenteditable='true' data-id='".$row['ProductListCadId']."'>".$row['ProductListCadLength']."</td>";
+                        echo "<td class='editable-quantity' contenteditable='true' data-id='".$row['ProductListCadId']."' data-ticketlistcadid='".$TicketListCadId."'>".$row['ProductListCadQuantity']."</td>";
+                        echo "<td class='editable-address' contenteditable='true' data-id='".$row['ProductListCadId']."'>".$row['ProductListCadAddress']."</td>";
                         echo "</tr>";
                     }
 
@@ -391,10 +391,10 @@ document.getElementById('create-izd').addEventListener('click', function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
                 // ѕосле успешного создани€ за€вки перенаправл€ем на страницу с новой за€вкой
-                window.location.reload();
+                // window.location.reload();
             } else {
                 alert('ѕроизошла ошибка при создании за€вки');
-                window.location.reload();
+                // window.location.reload();
             }
         }
     };
