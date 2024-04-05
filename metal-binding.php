@@ -352,8 +352,8 @@ while ($row = $result->fetch_assoc()){
 
                     while ($row = $result->fetch_assoc()){
                         $num = $num + 1;
-                        echo "<tr data-id='".$row['ProductListCadId']."'>";
-                        echo "<td><input type='checkbox' data-id='".$row['ProductListCadId']."' class='row-checkbox'></td>";
+                        echo "<tr data-id='".$row['ProductListCadId']."' data-ticket='".$TicketListCadId."'>";
+                        echo "<td><input type='checkbox' data-id='".$row['ProductListCadId']."' class='row-checkbox' data-ticket='".$TicketListCadId."'></td>";
                         echo '<td>'.$num.'</td>';
                         echo '<td id="drawCell">
                                 <input type="text" placeholder="Название изделия" value="'.$row['ProductListCadName'].'">
@@ -371,7 +371,7 @@ while ($row = $result->fetch_assoc()){
                 </table>
                 
                 <div class="total">
-                    <p>Итого количество: <?php echo $TicketListCadId;?> м.п.</p>
+                    <p>Итого количество: <?php echo $TicketListCadMetr;?> м.п.</p>
                     <button>Отправить</button>
                 </div>
             </div>
@@ -394,7 +394,7 @@ document.getElementById('create-izd').addEventListener('click', function() {
                 // window.location.reload();
             } else {
                 alert('Произошла ошибка при создании заявки');
-                // window.location.reload();
+                window.location.reload();
             }
         }
     };
