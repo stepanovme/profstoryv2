@@ -15,7 +15,7 @@ $Num = $maxId + 1;
 $ticketName = "Заявка на гибку металла №";
 
 // Вставка новой заявки в базу данных с указанием projectListCadId
-$insertSql = "INSERT INTO TicketListCad (TicketListCadName, TicketListCadNum, projectListCadId) VALUES ('$ticketName', $Num, $projectListCadId)";
+$insertSql = "INSERT INTO TicketListCad (TicketListCadName, TicketListCadNum, projectListCadId, StatusCadId) VALUES ('$ticketName', $Num, $projectListCadId, 1)";
 if ($conn->query($insertSql) === TRUE) {
     // Возвращаем успешный статус
     http_response_code(200);

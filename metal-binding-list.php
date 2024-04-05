@@ -285,10 +285,14 @@ if ($result->num_rows > 0) {
                                 echo "<td data-id='" . $row['projectListCadId'] ."' onclick=\"window.location.href = 'metal-binding-product-list.php?projectListCadId=".$row['projectListCadId']."'\">";
                                 if($row['StatusName'] == "Новая"){
                                     echo '<div class="new-status">Новая</div>';
-                                } elseif($row['StatusName'] == "В процессе"){
-                                    echo '<div class="process-status">В процессе</div>';
+                                } elseif($row['StatusName'] == "В производствее"){
+                                    echo '<div class="process-status">В производстве</div>';
                                 } elseif($row['StatusName'] == "Завершено"){
                                     echo '<div class="completed-status">Завершено</div>';
+                                } elseif($row['StatusName'] == "Отправлено"){
+                                    echo '<div class="sent-status">Отправлено</div>';
+                                } elseif($row['StatusName'] == "Отгружено"){
+                                    echo '<div class="shipped-status">Отгружено</div>';
                                 }
                                 echo "</td>";
                                 echo "</tr>";

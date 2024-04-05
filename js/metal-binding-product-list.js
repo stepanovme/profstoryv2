@@ -1,3 +1,7 @@
+document.querySelector('.create-ticket').addEventListener('click', function() {
+    window.location.reload();
+});
+
 document.querySelector('.delete-ticket').addEventListener('click', function() {
     var checkedRows = document.querySelectorAll('.row-checkbox:checked');
     var ticketIds = [];
