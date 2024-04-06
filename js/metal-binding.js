@@ -460,8 +460,6 @@ Array.from(canvases).forEach(function(canvas) {
             ctx.closePath();
 
             // Вычисляем координаты для числа над линией
-            
-
             if(startX == endX){
                 var numberX = ((startX + endX) / 2) + 20;
                 var numberY = (startY + endY) / 2;
@@ -529,20 +527,50 @@ canvas.addEventListener('mouseup', function(e) {
     }
 });
 
-    // Обработчик события клика по числу
+// Обработчик события клика по числу
 canvas.addEventListener('click', function(e) {
     var mouseX = e.offsetX;
     var mouseY = e.offsetY;
     lines.forEach(function(line) {
-        var numberX = (line.startX + line.endX) / 2;
-        var numberY = (line.startY + line.endY) / 2;
-        ctx.font = '16px Arial'; // установим такой же шрифт, как при рисовании числа
-        var textWidth = ctx.measureText(line.value).width; // получим ширину текста числа
+        var numberX, numberY;
+        // Проверяем направление линии и корректируем координаты текста числа
+        if (line.startX === line.endX) { // вертикальная линия
+            numberX = line.startX + 10; // смещение текста вправо от вертикальной линии
+            numberY = (line.startY + line.endY) / 2;
+        } else if (line.startY === line.endY) { // горизонтальная линия
+            numberX = (line.startX + line.endX) / 2;
+            numberY = line.startY - 10; // смещение текста над горизонтальной линией
+        } else if (line.startX < line.endX && line.startY > line.endY) { // направление вправо вниз
+            numberX = (line.startX + line.endX) / 2 + 10; // смещение текста вправо
+            numberY = (line.startY + line.endY) / 2;
+        } else if (line.startX < line.endX && line.startY < line.endY) { // направление вправо вверх
+            numberX = (line.startX + line.endX) / 2 + 10; // смещение текста вправо
+            numberY = (line.startY + line.endY) / 2;
+        } else if (line.startX > line.endX && line.startY > line.endY) { // направление влево вниз
+            numberX = (line.startX + line.endX) / 2 - 10; // смещение текста влево
+            numberY = (line.startY + line.endY) / 2;
+        } else if (line.startX > line.endX && line.startY < line.endY) { // направление влево вверх
+            numberX = (line.startX + line.endX) / 2 - 10; // смещение текста влево
+            numberY = (line.startY + line.endY) / 2;
+        }
+        // Проверяем, попал ли клик на текст числа
+        ctx.font = '16px Arial'; // устанавливаем такой же шрифт, как при рисовании числа
+        var textWidth = ctx.measureText(line.value).width; // получаем ширину текста числа
         var textHeight = 16; // высота текста числа
-        var startX = numberX - textWidth / 2; // координаты верхнего левого угла области числа
-        var startY = numberY - textHeight;
-        var endX = numberX + textWidth / 2; // координаты нижнего правого угла области числа
-        var endY = numberY;
+        var startX, startY, endX, endY;
+
+        if (line.startX === line.endX) { // вертикальная линия
+            startX = numberX; // добавляем отступ
+            startY = numberY; // выравниваем по вертикали
+            endX = numberX + 20; // добавляем отступ
+            endY = numberY + 20; // выравниваем по вертикали
+        } else { // горизонтальная линия или диагональная
+            startX = numberX - textWidth / 2 - 10; // добавляем отступ
+            startY = numberY - textHeight - 10; // добавляем отступ
+            endX = numberX + textWidth / 2 + 10; // добавляем отступ
+            endY = numberY + 10; // добавляем отступ
+        }
+
         if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY) {
             var newValue = prompt("Введите новое число:", line.value);
             if (newValue !== null) {
@@ -552,6 +580,7 @@ canvas.addEventListener('click', function(e) {
         }
     });
 });
+
 
     // Инициализируем сетку при загрузке страницы
     drawGrid(20);
