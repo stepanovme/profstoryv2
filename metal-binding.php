@@ -360,7 +360,7 @@ while ($row = $result->fetch_assoc()){
                                 <canvas class="myCanvas" width="1000" height="300"></canvas>
                                </td>';
                         echo '<td>'.$row['ProductListCadSum'].'</td>';
-                        echo "<td class='editable-length' contenteditable='true' data-id='".$row['ProductListCadId']."'>".$row['ProductListCadLength']."</td>";
+                        echo "<td class='editable-length' contenteditable='true' data-id='".$row['ProductListCadId']."' data-ticketlistcadid='".$TicketListCadId."'>".$row['ProductListCadLength']."</td>";
                         echo "<td class='editable-quantity' contenteditable='true' data-id='".$row['ProductListCadId']."' data-ticketlistcadid='".$TicketListCadId."'>".$row['ProductListCadQuantity']."</td>";
                         echo "<td class='editable-address' contenteditable='true' data-id='".$row['ProductListCadId']."'>".$row['ProductListCadAddress']."</td>";
                         echo "</tr>";

@@ -285,7 +285,8 @@ document.addEventListener('DOMContentLoaded', function() {
         cell.addEventListener('blur', function() {
             const newValue = this.textContent.trim();
             const anumb = this.getAttribute('data-id');
-            updateCellValue(anumb, newValue);
+            const TicketListCadId = this.dataset.ticketlistcadid; // Получаем значение через dataset
+            updateCellValue(anumb, newValue, TicketListCadId);
         });
         cell.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
@@ -297,24 +298,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    function updateCellValue(anumb, newValue) {
-        // Заменяем запятую на точку
-        newValue = newValue.replace(',', '.');
-    
+    async function updateCellValue(anumb, newValue, TicketListCadId) {
         // Если значение пустое, заменяем его на 0
         newValue = newValue.trim() === '' ? '0' : newValue.trim();
     
-        // Отправка AJAX запроса на сервер
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', 'function/update_izd_length.php', true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4 && xhr.status == 200) {
-                // Обработка ответа от сервера, если необходимо
-                console.log(xhr.responseText);
+        try {
+            const response = await fetch('function/update_izd_length.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `anumb=${encodeURIComponent(anumb)}&TicketListCadId=${encodeURIComponent(TicketListCadId)}&newValue=${encodeURIComponent(newValue)}`
+            });
+            
+            if (response.ok) {
+                const responseData = await response.text();
+                console.log(responseData);
+                // Перезагрузка страницы
+                window.location.reload();
+            } else {
+                console.error('Ошибка HTTP: ' + response.status);
             }
-        };
-        xhr.send('anumb=' + encodeURIComponent(anumb) + '&newValue=' + encodeURIComponent(newValue));
+        } catch (error) {
+            console.error('Ошибка fetch:', error);
+        }
     }
 });
 
