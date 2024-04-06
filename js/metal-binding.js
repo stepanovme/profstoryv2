@@ -460,8 +460,28 @@ Array.from(canvases).forEach(function(canvas) {
             ctx.closePath();
 
             // Вычисляем координаты для числа над линией
-            var numberX = (startX + endX) / 2;
-            var numberY = (startY + endY) / 2;
+            
+
+            if(startX == endX){
+                var numberX = ((startX + endX) / 2) + 20;
+                var numberY = (startY + endY) / 2;
+            } else if (startX<endX && startY>endY){
+                var numberX = ((startX + endX) / 2) - 10;
+                var numberY = (startY + endY) / 2;
+            } else if (startX>endX && startY>endY){
+                var numberX = ((startX + endX) / 2) + 10;
+                var numberY = (startY + endY) / 2;
+            } else if (startX>endX && startY<endY){
+                var numberX = ((startX + endX) / 2) - 10;
+                var numberY = (startY + endY) / 2;
+            } else if (startX<endX && startY<endY){
+                var numberX = ((startX + endX) / 2) + 10;
+                var numberY = (startY + endY) / 2;
+            } else{
+                var numberX = ((startX + endX) / 2);
+                var numberY = (startY + endY) / 2;
+            }
+
             drawNumber(numberX, numberY, line.value); // рисуем число
         });
     }
