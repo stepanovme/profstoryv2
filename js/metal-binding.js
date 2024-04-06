@@ -415,153 +415,124 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // Рисование
-// Получаем ссылки на все элементы canvas
+// Получаем все элементы canvas на странице
 var canvases = document.getElementsByClassName('myCanvas');
 
-// Функция для рисования сетки на каждом canvas
-function drawGrid(ctx, canvas) {
-    var gridSize = 20; // размер сетки
-    for (var x = 0; x <= canvas.width; x += gridSize) {
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-    }
-    for (var y = 0; y <= canvas.height; y += gridSize) {
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-    }
-    ctx.strokeStyle = "#ddd"; // цвет сетки
-    ctx.lineWidth = 1; // толщина линии сетки
-    ctx.stroke();
-}
-
-// Функция для рисования линии на каждом canvas
-function drawLine(ctx, startX, startY, endX, endY) {
-    ctx.beginPath();
-    ctx.moveTo(startX, startY);
-    ctx.lineTo(endX, endY);
-    ctx.strokeStyle = "#000"; // цвет линии
-    ctx.lineWidth = 3; // толщина линии
-    ctx.stroke();
-}
-
-// Функция для рисования числа над линией
-function drawNumber(ctx, x, y, number) {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#000";
-    ctx.fillText(number, x, y);
-}
-
-// Обработчики событий для каждого canvas
-Array.prototype.forEach.call(canvases, function(canvas) {
+// Проходимся по всем canvas и добавляем обработчик события для рисования линий
+Array.from(canvases).forEach(function(canvas) {
     var ctx = canvas.getContext('2d');
-    var lines = []; // массив для хранения нарисованных линий
-    var numbers = []; // массив для хранения чисел над линиями
-    var isDrawing = false;
+    var isDrawingLine = false; // флаг для отслеживания рисования линии
+    var lines = []; // массив для хранения всех нарисованных линий
 
-    // Рисуем сетку при загрузке страницы
-    drawGrid(ctx, canvas);
+    // Функция для рисования сетки
+    function drawGrid(step) {
+        ctx.beginPath();
+        ctx.lineWidth = 1; // толщина линий сетки
+        for (var x = 0; x < canvas.width; x += step) {
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+        }
+        for (var y = 0; y < canvas.height; y += step) {
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+        }
+        ctx.strokeStyle = "#888"; // серый цвет сетки
+        ctx.stroke();
+        ctx.closePath();
+    }
 
-    // Обработчик события щелчка на canvas
-    canvas.addEventListener('click', function(event) {
-        var rect = canvas.getBoundingClientRect();
-        var mouseX = Math.round((event.clientX - rect.left) / 20) * 20;
-        var mouseY = Math.round((event.clientY - rect.top) / 20) * 20;
-        
-        // Проверяем, был ли щелчок на каком-либо числе
-        numbers.forEach(function(number, index) {
-            var distance = Math.sqrt(Math.pow(mouseX - number.x, 2) + Math.pow(mouseY - number.y, 2)); // Вычисляем расстояние между щелчком и числом
-            if (distance < 10) { // Если расстояние меньше 10 пикселей, то щелчок произошел на числе
-                var newValue = prompt("Введите новое значение:");
-                if (!isNaN(newValue)) { // Проверяем, что введено число
-                    numbers[index].value = parseFloat(newValue);
-                    redraw();
-                }
-            }
+    // Функция для рисования всех линий и чисел
+    function redrawLines() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawGrid(20); // рисуем сетку
+        ctx.strokeStyle = "#000"; // черный цвет для всех линий
+        ctx.lineWidth = 3; // толщина черных линий
+        lines.forEach(function(line) {
+            ctx.beginPath();
+            // Коррекция координат для привязки к сетке
+            var startX = Math.round(line.startX / 20) * 20;
+            var startY = Math.round(line.startY / 20) * 20;
+            var endX = Math.round(line.endX / 20) * 20;
+            var endY = Math.round(line.endY / 20) * 20;
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+            ctx.closePath();
+
+            // Вычисляем координаты для числа над линией
+            var numberX = (startX + endX) / 2;
+            var numberY = (startY + endY) / 2;
+            drawNumber(numberX, numberY, line.value); // рисуем число
         });
-    });
+    }
 
-    // Обработчик события нажатия кнопки мыши
-    canvas.addEventListener('mousedown', function(event) {
-        if (event.button === 0) { // Проверка, что нажата левая кнопка мыши
-            var rect = canvas.getBoundingClientRect();
-            var mouseX = Math.round((event.clientX - rect.left) / 20) * 20;
-            var mouseY = Math.round((event.clientY - rect.top) / 20) * 20;
-            var lastLine = lines[lines.length - 1];
-            if (!lastLine || mouseX !== lastLine.startX || mouseY !== lastLine.startY) {
-                var newLine = { startX: mouseX, startY: mouseY, endX: mouseX, endY: mouseY };
-                lines.push(newLine); // добавляем новую линию
-                var numberX = (mouseX + mouseX) / 2;
-                var numberY = (mouseY + mouseY) / 2;
-                numbers.push({ x: numberX, y: numberY, value: 0 }); // добавляем число с начальным значением 0
-                drawLine(ctx, mouseX, mouseY, mouseX, mouseY); // начинаем рисовать новую линию
-                if (newLine.startX !== newLine.endX || newLine.startY !== newLine.endY) {
-                    drawNumber(ctx, numberX, numberY - 20, 0); // отображаем число с большим смещением для вертикальных линий
-                }
-                isDrawing = true;
-            }
+    // Функция для рисования числа
+    function drawNumber(x, y, value) {
+        ctx.fillStyle = '#000'; // черный цвет для текста
+        ctx.font = '16px Arial'; // размер и шрифт текста
+        ctx.textAlign = 'center'; // выравнивание текста по центру
+        ctx.fillText(value, x, y - 10); // рисуем текст над линией
+    }
+
+    // Обработчик события клика по canvas
+    canvas.addEventListener('mousedown', function(e) {
+        if (!isDrawingLine) {
+            isDrawingLine = true;
+            var startX = e.offsetX;
+            var startY = e.offsetY;
+            lines.push({ startX: startX, startY: startY, endX: startX, endY: startY, value: 0 }); // добавляем начальные координаты линии, значение числа 0
         }
     });
 
     // Обработчик события перемещения мыши
-    canvas.addEventListener('mousemove', function(event) {
-        if (isDrawing) {
-            var rect = canvas.getBoundingClientRect();
-            var mouseX = Math.round((event.clientX - rect.left) / 20) * 20;
-            var mouseY = Math.round((event.clientY - rect.top) / 20) * 20;
-            var currentLine = lines[lines.length - 1]; // получаем последнюю нарисованную линию
-            if (currentLine) {
-                currentLine.endX = mouseX;
-                currentLine.endY = mouseY;
-                var numberIndex = numbers.length - 1;
-                var numberX = (currentLine.startX + mouseX) / 2;
-                var numberY = (currentLine.startY + mouseY) / 2;
-                numbers[numberIndex].x = numberX;
-                numbers[numberIndex].y = numberY;
-                redraw(); // обновляем сетку и линии
-            }
+    canvas.addEventListener('mousemove', function(e) {
+        if (isDrawingLine) {
+            var mouseX = Math.round(e.offsetX / 20) * 20;
+            var mouseY = Math.round(e.offsetY / 20) * 20;
+            lines[lines.length - 1].endX = mouseX;
+            lines[lines.length - 1].endY = mouseY;
+            redrawLines();
         }
     });
 
     // Обработчик события отпускания кнопки мыши
-    canvas.addEventListener('mouseup', function(event) {
-        if (isDrawing && event.button === 0) { // Проверка, что отпущена левая кнопка мыши
-            isDrawing = false;
+canvas.addEventListener('mouseup', function(e) {
+    if (isDrawingLine) {
+        isDrawingLine = false;
+        var lastLine = lines[lines.length - 1];
+        if (Math.abs(lastLine.startX - lastLine.endX) > 1 || Math.abs(lastLine.startY - lastLine.endY) > 1) {
+            lastLine.value = 0; // устанавливаем значение линии в 0
+            redrawLines(); // перерисовываем линии после добавления числа
+        } else {
+            lines.pop(); // удалить линию, если она слишком короткая (не нарисована)
         }
-    });
-
-    // Функция для обновления всех нарисованных линий и чисел
-    function redraw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawGrid(ctx, canvas);
-        lines.forEach(function(line, index) {
-            drawLine(ctx, line.startX, line.startY, line.endX, line.endY);
-            // if(line.startX > line.endX && line.startY < line.endY){
-            //     var numberX = ((line.startX + line.endX) / 2) - 10;
-            //     var numberY = ((line.startY + line.endY) / 2) - 10;
-            // } else if((line.startX > line.endX && line.startY == line.endY) || (line.startX < line.endX && line.startY == line.endY)){
-            //     var numberX = ((line.startX + line.endX) / 2) - 10;
-            //     var numberY = ((line.startY + line.endY) / 2) - 10;
-            // } else if(line.startX < line.endX && line.startY < line.endY){
-            //     var numberX = ((line.startX + line.endX) / 2) + 10;
-            //     var numberY = ((line.startY + line.endY) / 2) - 10;
-            // } else if((line.startY > line.endY && line.startX == line.endX) || (line.startY < line.endY && line.startX == line.endX)){
-            //     var numberX = ((line.startX + line.endX) / 2) - 20;
-            //     var numberY = ((line.startY + line.endY) / 2) - 0;
-            // } else if(line.startX < line.endX && line.startY > line.endY){
-            //     var numberX = ((line.startX + line.endX) / 2) - 10;
-            //     var numberY = ((line.startY + line.endY) / 2) - 20;
-            // } else if(line.startX > line.endX && line.startY > line.endY){
-            //     var numberX = ((line.startX + line.endX) / 2) + 0;
-            //     var numberY = ((line.startY + line.endY) / 2) - 20;
-            // }
-            // drawNumber(ctx, numberX, numberY, numbers[index].value); // Отображаем число
-        });
     }
+});
 
-    // Обработчик события нажатия клавиши Enter
-    window.addEventListener('keydown', function(event) {
-        if (event.key === 'Enter') {
-            isDrawing = false; // Прекращаем рисование линий
+    // Обработчик события клика по числу
+canvas.addEventListener('click', function(e) {
+    var mouseX = e.offsetX;
+    var mouseY = e.offsetY;
+    lines.forEach(function(line) {
+        var numberX = (line.startX + line.endX) / 2;
+        var numberY = (line.startY + line.endY) / 2;
+        ctx.font = '16px Arial'; // установим такой же шрифт, как при рисовании числа
+        var textWidth = ctx.measureText(line.value).width; // получим ширину текста числа
+        var textHeight = 16; // высота текста числа
+        var startX = numberX - textWidth / 2; // координаты верхнего левого угла области числа
+        var startY = numberY - textHeight;
+        var endX = numberX + textWidth / 2; // координаты нижнего правого угла области числа
+        var endY = numberY;
+        if (mouseX >= startX && mouseX <= endX && mouseY >= startY && mouseY <= endY) {
+            var newValue = prompt("Введите новое число:", line.value);
+            if (newValue !== null) {
+                line.value = parseFloat(newValue);
+                redrawLines();
+            }
         }
     });
+});
+
+    // Инициализируем сетку при загрузке страницы
+    drawGrid(20);
 });
